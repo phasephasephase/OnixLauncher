@@ -20,7 +20,7 @@ namespace OnixLauncher
             try
             {
                 Process.Start(Environment.GetFolderPath(Environment.SpecialFolder.Windows) + 
-                              "explorer.exe shell:appsFolder\\Microsoft.MinecraftUWP_8wekyb3d8bbwe!App"); // ok
+                              "\\explorer.exe shell:appsFolder\\Microsoft.MinecraftUWP_8wekyb3d8bbwe!App"); // ok
                 
                 Thread.Sleep(TimeSpan.FromSeconds(5));
 
