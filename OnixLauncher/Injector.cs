@@ -19,9 +19,7 @@ namespace OnixLauncher
         {
             try
             {
-                Process.Start(Environment.GetFolderPath(Environment.SpecialFolder.Windows) + 
-                              "\\explorer.exe shell:appsFolder\\Microsoft.MinecraftUWP_8wekyb3d8bbwe!App"); // ok
-                
+                Utils.OpenGame();
                 Thread.Sleep(TimeSpan.FromSeconds(5));
 
                 ApplyAppPackages(path);

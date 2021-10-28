@@ -2,7 +2,7 @@
 using System.ComponentModel;
 using System.IO;
 using System.Management.Automation;
-using System.Net;
+using System.Diagnostics;
 using System.Text;
 using System.Windows.Forms;
 
@@ -38,6 +38,19 @@ namespace OnixLauncher
             }
 
             _fileDialog.ShowDialog();
+        }
+
+        public static void OpenGame()
+        {
+            var process = new Process();
+            var startInfo = new ProcessStartInfo
+            {
+                WindowStyle = ProcessWindowStyle.Normal,
+                FileName = "explorer.exe",
+                Arguments = "shell:appsFolder\\Microsoft.MinecraftUWP_8wekyb3d8bbwe!App"
+            };
+            process.StartInfo = startInfo;
+            process.Start();
         }
 
         private static void FileDialogOnFileOk(object sender, CancelEventArgs e)
