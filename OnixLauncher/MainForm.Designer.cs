@@ -258,6 +258,7 @@ namespace OnixLauncher
             this.MinimizeBox = false;
             this.Name = "MainForm";
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Onix Launcher";
             this.TitleBar.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize) (this.OnixLogo)).EndInit();
