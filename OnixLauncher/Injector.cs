@@ -43,7 +43,7 @@ namespace OnixLauncher
                 
                 InjectionCompleted.Invoke(null, EventArgs.Empty);
                 
-                Utils.ShowMessage("Finished", "Onix Client was successfully launched.");
+                //Utils.ShowMessage("Finished", "Onix Client was successfully launched.");
             }
             catch
             {
