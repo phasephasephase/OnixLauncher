@@ -8,18 +8,26 @@ namespace OnixLauncher
         public MessageForm(string title, string subtitle)
         {
             InitializeComponent();
+
+            MessageTitle.Text = title;
+            MessageSubtitle.Text = subtitle;
+            Hide();
+        }
+
+        public void SetTitleAndSubtitle(string title, string subtitle)
+        {
             MessageTitle.Text = title;
             MessageSubtitle.Text = subtitle;
         }
-
+        
         private void Okay_Click(object sender, EventArgs e)
         {
-            Close();
+            Hide();
         }
 
         private void CloseButton_Click(object sender, EventArgs e)
         {
-            Close();
+            Hide();
         }
 
         private void TitleBar_MouseDown(object sender, MouseEventArgs e)

@@ -19,7 +19,9 @@ namespace OnixLauncher
         {
             try
             {
-                Process.Start("minecraft://");
+                Process.Start(Environment.GetFolderPath(Environment.SpecialFolder.Windows) + 
+                              "explorer.exe shell:appsFolder\\Microsoft.MinecraftUWP_8wekyb3d8bbwe!App"); // ok
+                
                 Thread.Sleep(TimeSpan.FromSeconds(5));
 
                 ApplyAppPackages(path);
@@ -42,10 +44,13 @@ namespace OnixLauncher
                     allocMemAddress, 0, IntPtr.Zero);
                 
                 InjectionCompleted.Invoke(null, EventArgs.Empty);
+                
+                Utils.ShowMessage("Finished", "Onix Client was successfully launched.");
             }
             catch
             {
                 Utils.ShowMessage("Injection Error", "Something weird happened while injecting.");
+                InjectionCompleted.Invoke(null, EventArgs.Empty);
             }
         }
         

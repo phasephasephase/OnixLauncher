@@ -16,12 +16,13 @@ namespace OnixLauncher
         private static OpenFileDialog _fileDialog;
         private static bool _init;
         public static string SelectedPath = "no file";
+        public static MessageForm MessageF = new MessageForm("you shouldn't see this", "how are you reading this");
         
         public static void ShowMessage(string title, string subtitle)
         {
-            var form = new MessageForm(title, subtitle);
-            form.Owner = MainForm.Instance;
-            form.Show();
+            MessageF.SetTitleAndSubtitle(title, subtitle);
+            MessageF.Owner = MainForm.Instance;
+            MessageF.Show();
         }
 
         public static void OpenFile()
