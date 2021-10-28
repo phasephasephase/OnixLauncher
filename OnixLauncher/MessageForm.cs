@@ -18,6 +18,7 @@ namespace OnixLauncher
         {
             MessageTitle.Text = title;
             MessageSubtitle.Text = subtitle;
+            Show();
         }
         
         private void Okay_Click(object sender, EventArgs e)

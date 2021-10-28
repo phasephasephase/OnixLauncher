@@ -43,6 +43,7 @@ namespace OnixLauncher
         private static void FileDialogOnFileOk(object sender, CancelEventArgs e)
         {
             SelectedPath = _fileDialog.FileName;
+            MainForm.Bypassed = true;
         }
 
         public static string GetXboxGamertag()

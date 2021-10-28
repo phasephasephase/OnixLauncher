@@ -12,7 +12,7 @@ namespace OnixLauncher
     {
         public static Form Instance;
         private RichPresence _presence;
-        private bool _bypassed;
+        public static bool Bypassed;
 
         public MainForm()
         {
@@ -23,6 +23,13 @@ namespace OnixLauncher
             CheckForIllegalCrossThreadCalls = false;
 
             Injector.InjectionCompleted += InjectionCompleted;
+
+            if (!File.Exists(Utils.OnixPath + "\\firstTime"))
+            {
+                File.Create(Utils.OnixPath + "\\firstTime");
+                Utils.ShowMessage("Welcome to Onix Client!", 
+                    "Check our Discord's #faq channel if you're having problems.");
+            }
         }
 
         private void CloseButton_Click(object sender, EventArgs e)
@@ -48,7 +55,6 @@ namespace OnixLauncher
 
         private void BigOnixLogo_MouseDoubleClick(object sender, MouseEventArgs e)
         {
-            _bypassed = true;
             Utils.OpenFile();
         }
 
@@ -60,6 +66,8 @@ namespace OnixLauncher
 
         private void LaunchButton_Click(object sender, EventArgs e)
         {
+            Utils.ShowMessage("weird", "bug fix");
+            Utils.MessageF.Hide(); // gotta show this once to make it work
             try
             {
                 // let's go!
@@ -97,7 +105,7 @@ namespace OnixLauncher
                             supported = true;
                     }
 
-                    if (!supported && !_bypassed)
+                    if (!supported && !Bypassed)
                     {
                         LaunchButton.Enabled = true;
                         LaunchProgress.Visible = false;
@@ -123,7 +131,7 @@ namespace OnixLauncher
                                 "https://github.com/bernarddesfosse/onixclientautoupdate/raw/main/OnixClient.dll",
                                 dllPath);
 
-                        if (_bypassed && Utils.SelectedPath != "no file")
+                        if (Bypassed && Utils.SelectedPath != "no file")
                             Injector.Inject(Utils.SelectedPath);
                         else
                             Injector.Inject(dllPath);
