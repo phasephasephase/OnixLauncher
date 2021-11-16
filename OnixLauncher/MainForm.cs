@@ -16,14 +16,24 @@ namespace OnixLauncher
 
         public MainForm()
         {
+            // init
             InitializeComponent();
             Instance = this;
             _presence = new RichPresence();
+            
+            // create directories
             Directory.CreateDirectory(Utils.OnixPath);
+            Directory.CreateDirectory(
+                Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) +
+                @"\Packages\Microsoft.MinecraftUWP_8wekyb3d8bbwe\RoamingState\OnixClient\Launcher");
+            
+            // stupid winforms thing that fixes message boxes
             CheckForIllegalCrossThreadCalls = false;
 
+            // this is a bit useless, might remove soon
             Injector.InjectionCompleted += InjectionCompleted;
 
+            // first time?
             if (!File.Exists(Utils.OnixPath + "\\firstTime"))
             {
                 File.Create(Utils.OnixPath + "\\firstTime");
@@ -82,6 +92,15 @@ namespace OnixLauncher
                     // architecture detection
                     var arch = Utils.GetArchitecture();
 
+                    if (arch == string.Empty)
+                    {
+                        // wtf the game not installed
+                        Utils.ShowMessage("????????", "You don't even have Minecraft Bedrock installed!");
+                        LaunchButton.Enabled = true;
+                        LaunchProgress.Visible = false;
+                        return;
+                    }
+                    
                     if (arch != "X64")
                     {
                         Utils.ShowMessage("Architecture Error", "You have a version of Minecraft that isn't 64-bit.");
@@ -114,15 +133,6 @@ namespace OnixLauncher
                     }
                     else
                     {
-                        // creating server.txt, fixing any 
-                        Directory.CreateDirectory(
-                            Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) +
-                            @"\Packages\Microsoft.MinecraftUWP_8wekyb3d8bbwe\RoamingState\OnixClient\Launcher");
-                        if (!File.Exists(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) +
-                                         @"\Packages\Microsoft.MinecraftUWP_8wekyb3d8bbwe\RoamingState\OnixClient\Launcher\server.txt"))
-                            File.Create(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) +
-                                        @"\Packages\Microsoft.MinecraftUWP_8wekyb3d8bbwe\RoamingState\OnixClient\Launcher\server.txt");
-
                         if (File.Exists(dllPath) && Process.GetProcessesByName("Minecraft.Windows").Length == 0)
                             File.Delete(dllPath);
 
@@ -139,6 +149,8 @@ namespace OnixLauncher
                         _presence.ChangePresence("In the menus", Utils.GetVersion(), Utils.GetXboxGamertag());
                         PresenceTimer.Start();
                     }
+                    
+                    injectClient.Dispose(); // HOLY SHIT!!!!
                 });
                 injectThread.Start();
             }
@@ -148,16 +160,29 @@ namespace OnixLauncher
             }
         }
 
-        private string _previousServer = File.Exists(
-            Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) +
-            @"\Packages\Microsoft.MinecraftUWP_8wekyb3d8bbwe\RoamingState\OnixClient\Launcher\server.txt")
-            ? File.ReadAllText(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)
-                               + @"\Packages\Microsoft.MinecraftUWP_8wekyb3d8bbwe\RoamingState\OnixClient\Launcher\server.txt")
-            : string.Empty;
+        private string _previousServer; // ok
+        private bool _once;
 
         private void ChangeServer()
         {
-            var server = File.ReadAllText(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)
+            try
+            {
+                _previousServer = File.ReadAllText(
+                    Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)
+                    + @"\Packages\Microsoft.MinecraftUWP_8wekyb3d8bbwe\RoamingState\OnixClient\Launcher\server.txt");
+            }
+            catch
+            {
+                if (!_once)
+                {
+                    Utils.ShowMessage("RPC Error", "Discord Rich presence is currently unavailable.");
+                    _once = true;
+                }
+            }
+
+            if (!_once)
+            {
+                var server = File.ReadAllText(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)
                                           + @"\Packages\Microsoft.MinecraftUWP_8wekyb3d8bbwe\RoamingState\OnixClient\Launcher\server.txt");
             if (server == _previousServer) return;
             _previousServer = server;
@@ -203,6 +228,7 @@ namespace OnixLauncher
                         _presence.ChangePresence("Playing on " + server, Utils.GetVersion(), Utils.GetXboxGamertag());
                         break;
                 }
+            }
             }
         }
 

@@ -107,6 +107,7 @@ namespace OnixLauncher
                     stringBuilder2.AppendLine(pSObject.ToString());
 
                 var arch = stringBuilder2.ToString().Replace(Environment.NewLine, "");
+                powerShell.Dispose();
                 return arch;
             }
         }
@@ -122,6 +123,7 @@ namespace OnixLauncher
                 foreach (var pSObject in psOutput)
                     stringBuilder.AppendLine(pSObject.ToString());
                 var version = stringBuilder.ToString().Replace(Environment.NewLine, "");
+                powerShell.Dispose();
                 return version;
             }
         }
