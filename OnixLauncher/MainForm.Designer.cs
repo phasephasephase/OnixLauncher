@@ -31,6 +31,7 @@ namespace OnixLauncher
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.TitleBar = new System.Windows.Forms.Panel();
             this.TitleText = new System.Windows.Forms.Label();
@@ -43,6 +44,7 @@ namespace OnixLauncher
             this.OnixTitle = new System.Windows.Forms.Label();
             this.LaunchProgress = new Guna.UI2.WinForms.Guna2ProgressBar();
             this.PresenceTimer = new System.Timers.Timer();
+            this.TaskbarIcon = new System.Windows.Forms.NotifyIcon(this.components);
             this.TitleBar.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize) (this.OnixLogo)).BeginInit();
             ((System.ComponentModel.ISupportInitialize) (this.BigOnixLogo)).BeginInit();
@@ -236,6 +238,15 @@ namespace OnixLauncher
             this.PresenceTimer.SynchronizingObject = this;
             this.PresenceTimer.Elapsed += new System.Timers.ElapsedEventHandler(this.PresenceTimer_Elapsed);
             // 
+            // TaskbarIcon
+            // 
+            this.TaskbarIcon.BalloonTipIcon = System.Windows.Forms.ToolTipIcon.Info;
+            this.TaskbarIcon.BalloonTipText = "The launcher can be opened again using the Onix icon in the system tray.";
+            this.TaskbarIcon.BalloonTipTitle = "Onix is still open!";
+            this.TaskbarIcon.Icon = ((System.Drawing.Icon) (resources.GetObject("TaskbarIcon.Icon")));
+            this.TaskbarIcon.Text = "Onix Launcher";
+            this.TaskbarIcon.MouseClick += new System.Windows.Forms.MouseEventHandler(this.TaskbarIcon_MouseClick);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -266,6 +277,8 @@ namespace OnixLauncher
             ((System.ComponentModel.ISupportInitialize) (this.PresenceTimer)).EndInit();
             this.ResumeLayout(false);
         }
+
+        private System.Windows.Forms.NotifyIcon TaskbarIcon;
 
         private Guna.UI2.WinForms.Guna2GradientButton CreditsButton;
 

@@ -13,6 +13,7 @@ namespace OnixLauncher
         public static Form Instance;
         private RichPresence _presence;
         public static bool Bypassed;
+        public static bool FirstTime;
 
         public MainForm()
         {
@@ -37,6 +38,7 @@ namespace OnixLauncher
             if (!File.Exists(Utils.OnixPath + "\\firstTime"))
             {
                 File.Create(Utils.OnixPath + "\\firstTime");
+                FirstTime = true;
                 Utils.ShowMessage("Welcome to Onix Client!", 
                     "Check our Discord's #faq channel if you're having problems.");
             }
@@ -148,6 +150,9 @@ namespace OnixLauncher
 
                         _presence.ChangePresence("In the menus", Utils.GetVersion(), Utils.GetXboxGamertag());
                         PresenceTimer.Start();
+
+                        TaskbarIcon.Visible = true;
+                        Hide();
                     }
                     
                     injectClient.Dispose(); // HOLY SHIT!!!!
@@ -180,9 +185,8 @@ namespace OnixLauncher
                 }
             }
 
-            if (!_once)
-            {
-                var server = File.ReadAllText(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)
+            if (_once) return;
+            var server = File.ReadAllText(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)
                                           + @"\Packages\Microsoft.MinecraftUWP_8wekyb3d8bbwe\RoamingState\OnixClient\Launcher\server.txt");
             if (server == _previousServer) return;
             _previousServer = server;
@@ -224,11 +228,24 @@ namespace OnixLauncher
                     case "play.hyperlandsmc.net":
                         _presence.ChangePresence("Playing on HyperLands", Utils.GetVersion(), Utils.GetXboxGamertag());
                         break;
+                    case "zeqa.net":
+                    case "na.zeqa.net":
+                    case "eu.zeqa.net":
+                    case "as.zeqa.net": // just in case
+                    case "51.79.163.78": // weird ips
+                    case "51.79.163.9":
+                        _presence.ChangePresence("Playing on Zeqa", Utils.GetVersion(), Utils.GetXboxGamertag());
+                        break;
+                    case "181.215.37.67": // xXTurtleGaming123Xx
+                        _presence.ChangePresence("Playing on TurtleUHC", Utils.GetVersion(), Utils.GetXboxGamertag());
+                        break;
+                    case "rushnation.net":
+                        _presence.ChangePresence("Playing on RushNation", Utils.GetVersion(), Utils.GetXboxGamertag());
+                        break;
                     default:
                         _presence.ChangePresence("Playing on " + server, Utils.GetVersion(), Utils.GetXboxGamertag());
                         break;
                 }
-            }
             }
         }
 
@@ -239,12 +256,20 @@ namespace OnixLauncher
             if (minecraftIndex.Length == 0)
             {
                 _presence.ResetPresence();
+                // i guess this is a good place to put notify icon so here
+                TaskbarIcon_MouseClick(null, EventArgs.Empty);
                 PresenceTimer.Stop();
             }
             else
             {
                 ChangeServer();
             }
+        }
+
+        private void TaskbarIcon_MouseClick(object sender, EventArgs e)
+        {
+            Show();
+            TaskbarIcon.Visible = false;
         }
     }
 }
