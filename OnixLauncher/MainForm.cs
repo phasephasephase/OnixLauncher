@@ -5,6 +5,7 @@ using System.IO;
 using System.Net;
 using System.Threading;
 using System.Timers;
+using Guna.UI2.AnimatorNS;
 
 namespace OnixLauncher
 {
@@ -18,6 +19,7 @@ namespace OnixLauncher
         public MainForm()
         {
             // init
+            CheckForIllegalCrossThreadCalls = false;
             InitializeComponent();
             Instance = this;
             _presence = new RichPresence();
@@ -27,9 +29,6 @@ namespace OnixLauncher
             Directory.CreateDirectory(
                 Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) +
                 @"\Packages\Microsoft.MinecraftUWP_8wekyb3d8bbwe\RoamingState\OnixClient\Launcher");
-            
-            // stupid winforms thing that fixes message boxes
-            CheckForIllegalCrossThreadCalls = false;
 
             // this is a bit useless, might remove soon
             Injector.InjectionCompleted += InjectionCompleted;
@@ -42,6 +41,9 @@ namespace OnixLauncher
                 Utils.ShowMessage("Welcome to Onix Client!", 
                     "Check our Discord's #faq channel if you're having problems.");
             }
+            
+            // ????????
+            TaskbarIcon.Visible = true;
         }
 
         private void CloseButton_Click(object sender, EventArgs e)
@@ -74,10 +76,15 @@ namespace OnixLauncher
         {
             LaunchButton.Enabled = true;
             LaunchProgress.Visible = false;
+            _working = false;
         }
 
+        private bool _working;
+        
         private void LaunchButton_Click(object sender, EventArgs e)
         {
+            if (_working) return;
+            _working = true;
             Utils.ShowMessage("weird", "bug fix");
             Utils.MessageF.Hide(); // gotta show this once to make it work
             try
@@ -85,6 +92,7 @@ namespace OnixLauncher
                 // let's go!
                 LaunchButton.Enabled = false;
                 LaunchProgress.Visible = true;
+                LaunchProgress.Value = 10;
 
                 var injectThread = new Thread(() =>
                 {
@@ -102,6 +110,7 @@ namespace OnixLauncher
                         LaunchProgress.Visible = false;
                         return;
                     }
+                    LaunchProgress.Value = 25;
                     
                     if (arch != "X64")
                     {
@@ -110,13 +119,16 @@ namespace OnixLauncher
                         LaunchProgress.Visible = false;
                         return;
                     }
+                    LaunchProgress.Value = 35;
 
                     // version detection
                     var version = Utils.GetVersion();
+                    LaunchProgress.Value = 50;
                     var latestSupported = injectClient.DownloadString(
                         "https://raw.githubusercontent.com/bernarddesfosse/onixclientautoupdate/main/LatestSupportedVersion");
                     var stringTable = latestSupported.Split('\n');
                     var supported = false;
+                    LaunchProgress.Value = 60;
 
                     //version = "eaghruyehruger"; // test
 
@@ -135,6 +147,7 @@ namespace OnixLauncher
                     }
                     else
                     {
+                        LaunchProgress.Value = 75;
                         if (File.Exists(dllPath) && Process.GetProcessesByName("Minecraft.Windows").Length == 0)
                             File.Delete(dllPath);
 
@@ -142,27 +155,42 @@ namespace OnixLauncher
                             injectClient.DownloadFile(
                                 "https://github.com/bernarddesfosse/onixclientautoupdate/raw/main/OnixClient.dll",
                                 dllPath);
+                        LaunchProgress.Value = 95;
 
-                        if (Bypassed && Utils.SelectedPath != "no file")
-                            Injector.Inject(Utils.SelectedPath);
-                        else
-                            Injector.Inject(dllPath);
-
-                        _presence.ChangePresence("In the menus", Utils.GetVersion(), Utils.GetXboxGamertag());
-                        PresenceTimer.Start();
-
-                        TaskbarIcon.Visible = true;
+                        // if (Bypassed && Utils.SelectedPath != "no file")
+                        //     Injector.Inject(Utils.SelectedPath);
+                        // else
+                        //     Injector.Inject(dllPath);
+                        //
+                        // _presence.ChangePresence("In the menus", Utils.GetVersion(), Utils.GetXboxGamertag());
+                        // PresenceTimer.Start();
+                        
+                        LaunchProgress.Value = 100;
+                        LaunchButton.Enabled = true;
+                        ProgressTransition.AddToQueue(LaunchProgress, AnimateMode.Hide);
+                        ProgressTransition.WaitAllAnimations();
+                        LaunchProgress.Visible = false;
+                        Thread.Sleep(1000); // 1 second
                         Hide();
+                        _working = false;
                     }
+                    
+                    LaunchButton.Invoke((MethodInvoker) delegate
+                    {
+                        LaunchButton.Enabled = true;
+                    });
                     
                     injectClient.Dispose(); // HOLY SHIT!!!!
                 });
                 injectThread.Start();
+                
             }
             catch
             {
                 Utils.ShowMessage("Launch Error", "Failed to launch Onix Client. Please try again later.");
             }
+
+            
         }
 
         private string _previousServer; // ok
@@ -257,7 +285,7 @@ namespace OnixLauncher
             {
                 _presence.ResetPresence();
                 // i guess this is a good place to put notify icon so here
-                TaskbarIcon_MouseClick(null, EventArgs.Empty);
+                Show();
                 PresenceTimer.Stop();
             }
             else
@@ -269,7 +297,6 @@ namespace OnixLauncher
         private void TaskbarIcon_MouseClick(object sender, EventArgs e)
         {
             Show();
-            TaskbarIcon.Visible = false;
         }
     }
 }
