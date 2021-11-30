@@ -10,6 +10,9 @@
 *.userosscache
 *.sln.docstates
 
+# rider thing (WTF)
+*.DotSettings.user
+
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
 
