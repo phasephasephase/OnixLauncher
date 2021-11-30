@@ -157,13 +157,13 @@ namespace OnixLauncher
                                 dllPath);
                         LaunchProgress.Value = 95;
 
-                        // if (Bypassed && Utils.SelectedPath != "no file")
-                        //     Injector.Inject(Utils.SelectedPath);
-                        // else
-                        //     Injector.Inject(dllPath);
-                        //
-                        // _presence.ChangePresence("In the menus", Utils.GetVersion(), Utils.GetXboxGamertag());
-                        // PresenceTimer.Start();
+                        if (Bypassed && Utils.SelectedPath != "no file")
+                            Injector.Inject(Utils.SelectedPath);
+                        else
+                            Injector.Inject(dllPath);
+                        
+                        _presence.ChangePresence("In the menus", Utils.GetVersion(), Utils.GetXboxGamertag());
+                        PresenceTimer.Start();
                         
                         LaunchProgress.Value = 100;
                         LaunchButton.Enabled = true;
