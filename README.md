@@ -20,3 +20,4 @@ What you CAN'T do:
 - Sell the launcher, even if it's modified
 - Modify the launcher without credit (basically don't skid the code)
 - Completely ruin the launcher's design, because I like my design
+and you ***DEFINITELY*** can't repost this on another account/organization, ***ESPECIALLY*** one with Onix Client branding ([@OnixClientMC](https://github.com/OnixClientMC) is not maintained by the Onix team)
