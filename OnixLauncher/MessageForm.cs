@@ -5,6 +5,7 @@ namespace OnixLauncher
 {
     public partial class MessageForm : Form
     {
+        public static bool DetectedSecondLauncher;
         public MessageForm(string title, string subtitle)
         {
             InitializeComponent();
@@ -19,15 +20,21 @@ namespace OnixLauncher
             MessageTitle.Text = title;
             MessageSubtitle.Text = subtitle;
             Show();
+            if (DetectedSecondLauncher)
+                MainForm.Instance.Hide();
         }
         
         private void Okay_Click(object sender, EventArgs e)
         {
+            if (DetectedSecondLauncher)
+                MainForm.Instance.Close();
             Hide();
         }
 
         private void CloseButton_Click(object sender, EventArgs e)
         {
+            if (DetectedSecondLauncher)
+                MainForm.Instance.Close();
             Hide();
         }
 

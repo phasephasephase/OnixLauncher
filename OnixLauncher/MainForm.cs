@@ -23,6 +23,14 @@ namespace OnixLauncher
             InitializeComponent();
             Instance = this;
             _presence = new RichPresence();
+
+            var lol = Process.GetProcessesByName("OnixLauncher");
+            if (lol.Length > 1)
+            {
+                Hide();
+                MessageForm.DetectedSecondLauncher = true;
+                Utils.ShowMessage("Hold on!", "The launcher is hidden in your system tray.");
+            }
             
             // create directories
             Directory.CreateDirectory(Utils.OnixPath);
@@ -44,6 +52,8 @@ namespace OnixLauncher
             
             // ????????
             TaskbarIcon.Visible = true;
+            
+            // this is where tests would go
         }
 
         private void CloseButton_Click(object sender, EventArgs e)
@@ -85,10 +95,18 @@ namespace OnixLauncher
         {
             if (_working) return;
             _working = true;
+            
             Utils.ShowMessage("weird", "bug fix");
             Utils.MessageF.Hide(); // gotta show this once to make it work
             try
             {
+                var minecraftIndex = Process.GetProcessesByName("Minecraft.Windows");
+                if (minecraftIndex.Length == 0)
+                {
+                    Utils.ShowMessage("Minecraft is open", "Close the game before launching Onix Client.");
+                    return;
+                }
+            
                 // let's go!
                 LaunchButton.Enabled = false;
                 LaunchProgress.Visible = true;

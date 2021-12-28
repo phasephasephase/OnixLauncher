@@ -57,6 +57,9 @@ namespace OnixLauncher
         {
             SelectedPath = _fileDialog.FileName;
             MainForm.Bypassed = true;
+            if (File.Exists(OnixPath + "\\custom.dll"))
+                File.Delete(OnixPath + "\\custom.dll");
+            File.Copy(SelectedPath, OnixPath + "\\custom.dll");
         }
 
         public static string GetXboxGamertag()
