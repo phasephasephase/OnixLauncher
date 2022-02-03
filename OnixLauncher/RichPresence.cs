@@ -37,6 +37,8 @@ namespace OnixLauncher
                     End = dateTimestampEnd
                 }
             });
+            
+            Log.Write("Initialized Rich Presence");
         }
 
         public void ChangePresence(string server, string version, string gamertag)
@@ -76,6 +78,7 @@ namespace OnixLauncher
                     End = dateTimestampEnd
                 }
             });
+            Log.Write("Updated rich presence: " + server);
         }
 
         public void ResetPresence()
@@ -105,6 +108,7 @@ namespace OnixLauncher
                     End = dateTimestampEnd
                 }
             });
+            Log.Write("Rich presence was reset to default values");
         }
     }
 }

@@ -20,6 +20,7 @@ namespace OnixLauncher
         
         public static void ShowMessage(string title, string subtitle)
         {
+            Log.Write("Showing a message box: " + title);
             MessageF.SetTitleAndSubtitle(title, subtitle);
             MessageF.Owner = MainForm.Instance;
             MessageF.Show();
@@ -38,6 +39,7 @@ namespace OnixLauncher
             }
 
             _fileDialog.ShowDialog();
+            Log.Write("User is selecting a custom DLL");
         }
 
         public static void OpenGame()
@@ -51,15 +53,15 @@ namespace OnixLauncher
             };
             process.StartInfo = startInfo;
             process.Start();
+            Log.Write("Opened Minecraft, or at least I tried to");
         }
 
         private static void FileDialogOnFileOk(object sender, CancelEventArgs e)
         {
             SelectedPath = _fileDialog.FileName;
             MainForm.Bypassed = true;
-            if (File.Exists(OnixPath + "\\custom.dll"))
-                File.Delete(OnixPath + "\\custom.dll");
-            File.Copy(SelectedPath, OnixPath + "\\custom.dll");
+            Log.Write("Selected DLL: " + SelectedPath);
+            ShowMessage("Insider Mode", "This is intended to be used with Onix DLLs only.");
         }
 
         public static string GetXboxGamertag()
@@ -85,13 +87,14 @@ namespace OnixLauncher
                 xboxName = xboxName.Replace(",", "");
                 xboxName = xboxName.Trim();
             }
-            catch (ArgumentException)
+            catch (ArgumentException e)
             {
+                Log.Write("Failed to grab Xbox Gamertag: " + e.Message);
                 ShowMessage( "Gamertag Error",
                     File.Exists(localappdata +
                                 "\\Packages\\Microsoft.XboxApp_8wekyb3d8bbwe\\LocalState\\XboxLiveGamer.xml")
                         ? "Xbox info is unavailable at this time. Try again in an hour or so."
-                        : "Couldn't get your Xbox gamertag. Make sure you're signed in to Xbox Live.");
+                        : "Couldn't get your Xbox Gamertag. Make sure you're signed in to Xbox Live.");
             }
 
             return xboxName;
@@ -111,6 +114,7 @@ namespace OnixLauncher
 
                 var arch = stringBuilder2.ToString().Replace(Environment.NewLine, "");
                 powerShell.Dispose();
+                Log.Write("Got Minecraft's architecture successfully: " + arch);
                 return arch;
             }
         }
@@ -127,6 +131,7 @@ namespace OnixLauncher
                     stringBuilder.AppendLine(pSObject.ToString());
                 var version = stringBuilder.ToString().Replace(Environment.NewLine, "");
                 powerShell.Dispose();
+                Log.Write("Got Minecraft version " + version);
                 return version;
             }
         }

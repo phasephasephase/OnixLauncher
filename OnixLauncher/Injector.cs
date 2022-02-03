@@ -17,9 +17,11 @@ namespace OnixLauncher
 
         public static void Inject(string path)
         {
+            Log.Write("Injecting " + path);
             try
             {
                 Utils.OpenGame();
+                Log.Write("Waiting 5 seconds to allow the game to load");
                 Thread.Sleep(TimeSpan.FromSeconds(5));
 
                 ApplyAppPackages(path);
@@ -43,11 +45,12 @@ namespace OnixLauncher
                 
                 InjectionCompleted.Invoke(null, EventArgs.Empty);
                 
-                //Utils.ShowMessage("Finished", "Onix Client was successfully launched.");
+                Log.Write("Finished injecting");
             }
-            catch
+            catch (Exception e)
             {
-                Utils.ShowMessage("Injection Error", "Something weird happened while injecting.");
+                Log.Write("Injection failed, the user's antivirus is probably the cause. Exception: " + e.Message);
+                Utils.ShowMessage("Injection Error", "Failed to inject. Try disabling your antivirus.");
                 InjectionCompleted.Invoke(null, EventArgs.Empty);
             }
         }
@@ -59,6 +62,7 @@ namespace OnixLauncher
             fSecurity.AddAccessRule(new FileSystemAccessRule(new SecurityIdentifier("S-1-15-2-1"), 
                 FileSystemRights.FullControl, InheritanceFlags.None, PropagationFlags.NoPropagateInherit, AccessControlType.Allow));
             infoFile.SetAccessControl(fSecurity);
+            Log.Write("Applied ALL_APPLICATION_PACKAGES permission to " + path);
         }
     }
 }

@@ -12,10 +12,13 @@ namespace OnixLauncher
         /// The main entry point for the application.
         /// </summary>
         [STAThread]
-        static void Main()
+        static void Main(string[] args)
         {
+            Log.CreateLog();
+            Log.Write("gaming");
             Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
+            // THIS LINE CAUSES PROBLEMS!!!!
+            //Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new MainForm());
         }
     }

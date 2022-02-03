@@ -5,7 +5,6 @@ using System.IO;
 using System.Net;
 using System.Threading;
 using System.Timers;
-using Guna.UI2.AnimatorNS;
 
 namespace OnixLauncher
 {
@@ -14,29 +13,24 @@ namespace OnixLauncher
         public static Form Instance;
         private RichPresence _presence;
         public static bool Bypassed;
-        public static bool FirstTime;
 
         public MainForm()
         {
             // init
-            CheckForIllegalCrossThreadCalls = false;
+            Log.Write("Initializing UI");
             InitializeComponent();
+            Log.Write("Initialized UI");
             Instance = this;
             _presence = new RichPresence();
-
-            var lol = Process.GetProcessesByName("OnixLauncher");
-            if (lol.Length > 1)
-            {
-                Hide();
-                MessageForm.DetectedSecondLauncher = true;
-                Utils.ShowMessage("Hold on!", "The launcher is hidden in your system tray.");
-            }
             
             // create directories
             Directory.CreateDirectory(Utils.OnixPath);
             Directory.CreateDirectory(
                 Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) +
                 @"\Packages\Microsoft.MinecraftUWP_8wekyb3d8bbwe\RoamingState\OnixClient\Launcher");
+            
+            // stupid winforms thing that fixes message boxes
+            CheckForIllegalCrossThreadCalls = false;
 
             // this is a bit useless, might remove soon
             Injector.InjectionCompleted += InjectionCompleted;
@@ -44,25 +38,22 @@ namespace OnixLauncher
             // first time?
             if (!File.Exists(Utils.OnixPath + "\\firstTime"))
             {
+                Log.Write("Detected first time open, showing the welcome message box");
                 File.Create(Utils.OnixPath + "\\firstTime");
-                FirstTime = true;
                 Utils.ShowMessage("Welcome to Onix Client!", 
                     "Check our Discord's #faq channel if you're having problems.");
             }
-            
-            // ????????
-            TaskbarIcon.Visible = true;
-            
-            // this is where tests would go
         }
 
         private void CloseButton_Click(object sender, EventArgs e)
         {
+            Log.Write("Exiting");
             Close();
         }
 
         private void MinimizeButton_Click(object sender, EventArgs e)
         {
+            Log.Write("Minimizing the launcher");
             WindowState = FormWindowState.Minimized;
         }
 
@@ -79,38 +70,35 @@ namespace OnixLauncher
 
         private void BigOnixLogo_MouseDoubleClick(object sender, MouseEventArgs e)
         {
-            Utils.OpenFile();
+            if (!Bypassed)
+            {
+                Log.Write("The user enabled Insider Mode");
+                Utils.OpenFile();
+            }
+            else
+            {
+                Log.Write("The user disabled Insider Mode");
+                Utils.ShowMessage("Insider Mode", "Your DLL was set back to the release version.");
+            }
         }
 
         private void InjectionCompleted(object sender, EventArgs e)
         {
             LaunchButton.Enabled = true;
             LaunchProgress.Visible = false;
-            _working = false;
+            Log.Write("Finished launching");
         }
 
-        private bool _working;
-        
         private void LaunchButton_Click(object sender, EventArgs e)
         {
-            if (_working) return;
-            _working = true;
-            
             Utils.ShowMessage("weird", "bug fix");
             Utils.MessageF.Hide(); // gotta show this once to make it work
             try
             {
-                var minecraftIndex = Process.GetProcessesByName("Minecraft.Windows");
-                if (minecraftIndex.Length == 0)
-                {
-                    Utils.ShowMessage("Minecraft is open", "Close the game before launching Onix Client.");
-                    return;
-                }
-            
+                Log.Write("Preparing to launch");
                 // let's go!
                 LaunchButton.Enabled = false;
                 LaunchProgress.Visible = true;
-                LaunchProgress.Value = 10;
 
                 var injectThread = new Thread(() =>
                 {
@@ -122,31 +110,31 @@ namespace OnixLauncher
 
                     if (arch == string.Empty)
                     {
+                        Log.Write("Launcher couldn't detect the game, either it's not installed or the user has a cracked version");
                         // wtf the game not installed
                         Utils.ShowMessage("????????", "You don't even have Minecraft Bedrock installed!");
                         LaunchButton.Enabled = true;
                         LaunchProgress.Visible = false;
                         return;
                     }
-                    LaunchProgress.Value = 25;
                     
                     if (arch != "X64")
                     {
+                        Log.Write("This doesn't seem like the correct architecture we want");
                         Utils.ShowMessage("Architecture Error", "You have a version of Minecraft that isn't 64-bit.");
                         LaunchButton.Enabled = true;
                         LaunchProgress.Visible = false;
                         return;
                     }
-                    LaunchProgress.Value = 35;
 
                     // version detection
                     var version = Utils.GetVersion();
-                    LaunchProgress.Value = 50;
+                    Log.Write("Downloading list of supported versions");
                     var latestSupported = injectClient.DownloadString(
                         "https://raw.githubusercontent.com/bernarddesfosse/onixclientautoupdate/main/LatestSupportedVersion");
+                    Log.Write("Downloaded, comparing versions");
                     var stringTable = latestSupported.Split('\n');
                     var supported = false;
-                    LaunchProgress.Value = 60;
 
                     //version = "eaghruyehruger"; // test
 
@@ -158,14 +146,15 @@ namespace OnixLauncher
 
                     if (!supported && !Bypassed)
                     {
+                        Log.Write("The user isn't on a supported version");
                         LaunchButton.Enabled = true;
                         LaunchProgress.Visible = false;
                         Utils.ShowMessage("Unsupported Version",
-                            "Onix Client cannot be used with your current Minecraft version.");
+                            "Your version (" + version + ") is not supported by Onix Client.");
                     }
                     else
                     {
-                        LaunchProgress.Value = 75;
+                        Log.Write("This is either the right version or Insider Mode was enabled, launching");
                         if (File.Exists(dllPath) && Process.GetProcessesByName("Minecraft.Windows").Length == 0)
                             File.Delete(dllPath);
 
@@ -173,42 +162,26 @@ namespace OnixLauncher
                             injectClient.DownloadFile(
                                 "https://github.com/bernarddesfosse/onixclientautoupdate/raw/main/OnixClient.dll",
                                 dllPath);
-                        LaunchProgress.Value = 95;
+                        Log.Write("Got DLL, preparing to inject into the game");
 
                         if (Bypassed && Utils.SelectedPath != "no file")
                             Injector.Inject(Utils.SelectedPath);
                         else
                             Injector.Inject(dllPath);
-                        
+
                         _presence.ChangePresence("In the menus", Utils.GetVersion(), Utils.GetXboxGamertag());
                         PresenceTimer.Start();
-                        
-                        LaunchProgress.Value = 100;
-                        LaunchButton.Enabled = true;
-                        ProgressTransition.AddToQueue(LaunchProgress, AnimateMode.Hide);
-                        ProgressTransition.WaitAllAnimations();
-                        LaunchProgress.Visible = false;
-                        Thread.Sleep(1000); // 1 second
-                        Hide();
-                        _working = false;
                     }
-                    
-                    LaunchButton.Invoke((MethodInvoker) delegate
-                    {
-                        LaunchButton.Enabled = true;
-                    });
                     
                     injectClient.Dispose(); // HOLY SHIT!!!!
                 });
                 injectThread.Start();
-                
             }
-            catch
+            catch (Exception ex)
             {
-                Utils.ShowMessage("Launch Error", "Failed to launch Onix Client. Please try again later.");
+                Log.Write("We ran into a problem while launching: " + ex.Message);
+                Utils.ShowMessage("Launch Error", "Failed to launch Onix Client. Check the logs for info.");
             }
-
-            
         }
 
         private string _previousServer; // ok
@@ -226,16 +199,19 @@ namespace OnixLauncher
             {
                 if (!_once)
                 {
-                    Utils.ShowMessage("RPC Error", "Discord Rich presence is currently unavailable.");
+                    // Utils.ShowMessage("RPC Error", "Discord Rich presence is currently unavailable."); shit error, replacing with log
+                    Log.Write("Ran into a problem with server.txt (most likely doesn't exist)");
                     _once = true;
                 }
             }
 
-            if (_once) return;
-            var server = File.ReadAllText(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)
+            if (!_once)
+            {
+                var server = File.ReadAllText(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)
                                           + @"\Packages\Microsoft.MinecraftUWP_8wekyb3d8bbwe\RoamingState\OnixClient\Launcher\server.txt");
             if (server == _previousServer) return;
             _previousServer = server;
+            Log.Write("Detected a change in server.txt, updating presence");
 
             if (server == "")
                 _presence.ChangePresence("In the menus", Utils.GetVersion(), Utils.GetXboxGamertag());
@@ -274,24 +250,11 @@ namespace OnixLauncher
                     case "play.hyperlandsmc.net":
                         _presence.ChangePresence("Playing on HyperLands", Utils.GetVersion(), Utils.GetXboxGamertag());
                         break;
-                    case "zeqa.net":
-                    case "na.zeqa.net":
-                    case "eu.zeqa.net":
-                    case "as.zeqa.net": // just in case
-                    case "51.79.163.78": // weird ips
-                    case "51.79.163.9":
-                        _presence.ChangePresence("Playing on Zeqa", Utils.GetVersion(), Utils.GetXboxGamertag());
-                        break;
-                    case "181.215.37.67": // xXTurtleGaming123Xx
-                        _presence.ChangePresence("Playing on TurtleUHC", Utils.GetVersion(), Utils.GetXboxGamertag());
-                        break;
-                    case "rushnation.net":
-                        _presence.ChangePresence("Playing on RushNation", Utils.GetVersion(), Utils.GetXboxGamertag());
-                        break;
                     default:
                         _presence.ChangePresence("Playing on " + server, Utils.GetVersion(), Utils.GetXboxGamertag());
                         break;
                 }
+            }
             }
         }
 
@@ -301,20 +264,14 @@ namespace OnixLauncher
 
             if (minecraftIndex.Length == 0)
             {
+                Log.Write("Minecraft seems like it was closed");
                 _presence.ResetPresence();
-                // i guess this is a good place to put notify icon so here
-                Show();
                 PresenceTimer.Stop();
             }
             else
             {
                 ChangeServer();
             }
-        }
-
-        private void TaskbarIcon_MouseClick(object sender, EventArgs e)
-        {
-            Show();
         }
     }
 }
