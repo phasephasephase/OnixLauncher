@@ -68,6 +68,15 @@ namespace OnixLauncher
             Utils.ShowMessage("Credits", "Onix Client - by Onix86\nOnix Launcher - by carlton");
         }
 
+        private void discord_Click(object sender, EventArgs e)
+        {
+            String url = "https://discord.com/invite/onixclient";
+            System.Diagnostics.Process.Start(new ProcessStartInfo
+            {
+                FileName = url, UseShellExecute = true
+            });
+        }
+
         private void BigOnixLogo_MouseDoubleClick(object sender, MouseEventArgs e)
         {
             if (!Bypassed)
