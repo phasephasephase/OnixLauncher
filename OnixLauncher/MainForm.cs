@@ -23,6 +23,9 @@ namespace OnixLauncher
             Instance = this;
             _presence = new RichPresence();
             
+            // We want to have the form in the middle to polish everything
+            StartPosition = FormStartPosition.CenterScreen;
+            
             // create directories
             Directory.CreateDirectory(Utils.OnixPath);
             Directory.CreateDirectory(
