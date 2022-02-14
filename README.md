@@ -18,5 +18,7 @@ What you CAN do:
 
 What you CAN'T do:
 - Sell the launcher, even if it's modified
-- Modify the launcher without credit (basically don't skid the code)
+- Modify the launcher and distribute it without credit (no skidding)
 - Completely ruin the launcher's design, because I like my design
+
+**We cannot ensure that all forks of the launcher are safe. If a fork does anything dangerous, it's not our problem.**
