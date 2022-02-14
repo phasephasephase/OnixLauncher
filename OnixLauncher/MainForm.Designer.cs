@@ -34,7 +34,7 @@ namespace OnixLauncher
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            Guna.UI2.AnimatorNS.Animation animation2 = new Guna.UI2.AnimatorNS.Animation();
+            Guna.UI2.AnimatorNS.Animation animation1 = new Guna.UI2.AnimatorNS.Animation();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.TitleBar = new System.Windows.Forms.Panel();
             this.TitleText = new System.Windows.Forms.Label();
@@ -50,7 +50,7 @@ namespace OnixLauncher
             this.ProgressTransition = new Guna.UI2.WinForms.Guna2Transition();
             this.CustomDLLCheckBox = new Guna.UI2.WinForms.Guna2CheckBox();
             this.CreditsButton = new Guna.UI2.WinForms.Guna2GradientButton();
-            this.discord = new Guna.UI2.WinForms.Guna2GradientButton();
+            this.Discord = new Guna.UI2.WinForms.Guna2GradientButton();
             this.TitleBar.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.OnixLogo)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.BigOnixLogo)).BeginInit();
@@ -242,22 +242,22 @@ namespace OnixLauncher
             // 
             this.ProgressTransition.AnimationType = Guna.UI2.AnimatorNS.AnimationType.Transparent;
             this.ProgressTransition.Cursor = null;
-            animation2.AnimateOnlyDifferences = true;
-            animation2.BlindCoeff = ((System.Drawing.PointF)(resources.GetObject("animation2.BlindCoeff")));
-            animation2.LeafCoeff = 0F;
-            animation2.MaxTime = 1F;
-            animation2.MinTime = 0F;
-            animation2.MosaicCoeff = ((System.Drawing.PointF)(resources.GetObject("animation2.MosaicCoeff")));
-            animation2.MosaicShift = ((System.Drawing.PointF)(resources.GetObject("animation2.MosaicShift")));
-            animation2.MosaicSize = 0;
-            animation2.Padding = new System.Windows.Forms.Padding(0);
-            animation2.RotateCoeff = 0F;
-            animation2.RotateLimit = 0F;
-            animation2.ScaleCoeff = ((System.Drawing.PointF)(resources.GetObject("animation2.ScaleCoeff")));
-            animation2.SlideCoeff = ((System.Drawing.PointF)(resources.GetObject("animation2.SlideCoeff")));
-            animation2.TimeCoeff = 0F;
-            animation2.TransparencyCoeff = 1F;
-            this.ProgressTransition.DefaultAnimation = animation2;
+            animation1.AnimateOnlyDifferences = true;
+            animation1.BlindCoeff = ((System.Drawing.PointF)(resources.GetObject("animation1.BlindCoeff")));
+            animation1.LeafCoeff = 0F;
+            animation1.MaxTime = 1F;
+            animation1.MinTime = 0F;
+            animation1.MosaicCoeff = ((System.Drawing.PointF)(resources.GetObject("animation1.MosaicCoeff")));
+            animation1.MosaicShift = ((System.Drawing.PointF)(resources.GetObject("animation1.MosaicShift")));
+            animation1.MosaicSize = 0;
+            animation1.Padding = new System.Windows.Forms.Padding(0);
+            animation1.RotateCoeff = 0F;
+            animation1.RotateLimit = 0F;
+            animation1.ScaleCoeff = ((System.Drawing.PointF)(resources.GetObject("animation1.ScaleCoeff")));
+            animation1.SlideCoeff = ((System.Drawing.PointF)(resources.GetObject("animation1.SlideCoeff")));
+            animation1.TimeCoeff = 0F;
+            animation1.TransparencyCoeff = 1F;
+            this.ProgressTransition.DefaultAnimation = animation1;
             // 
             // CustomDLLCheckBox
             // 
@@ -307,33 +307,33 @@ namespace OnixLauncher
             this.CreditsButton.TextOffset = new System.Drawing.Point(0, -1);
             this.CreditsButton.Click += new System.EventHandler(this.CreditsButton_Click);
             // 
-            // discord
+            // Discord
             // 
-            this.discord.Animated = true;
-            this.discord.CheckedState.Parent = this.discord;
-            this.discord.CustomImages.Parent = this.discord;
-            this.ProgressTransition.SetDecoration(this.discord, Guna.UI2.AnimatorNS.DecorationType.None);
-            this.discord.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
-            this.discord.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
-            this.discord.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
-            this.discord.DisabledState.FillColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
-            this.discord.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(141)))), ((int)(((byte)(141)))));
-            this.discord.DisabledState.Parent = this.discord;
-            this.discord.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(88)))), ((int)(((byte)(101)))), ((int)(((byte)(242)))));
-            this.discord.FillColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(140)))), ((int)(((byte)(215)))));
-            this.discord.Font = new System.Drawing.Font("Segoe UI Black", 20.25F, System.Drawing.FontStyle.Bold);
-            this.discord.ForeColor = System.Drawing.Color.White;
-            this.discord.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.ForwardDiagonal;
-            this.discord.HoverState.Parent = this.discord;
-            this.discord.Image = ((System.Drawing.Image)(resources.GetObject("discord.Image")));
-            this.discord.ImageSize = new System.Drawing.Size(35, 35);
-            this.discord.Location = new System.Drawing.Point(12, 298);
-            this.discord.Name = "discord";
-            this.discord.ShadowDecoration.Parent = this.discord;
-            this.discord.Size = new System.Drawing.Size(50, 50);
-            this.discord.TabIndex = 7;
-            this.discord.TextOffset = new System.Drawing.Point(0, -1);
-            this.discord.Click += new System.EventHandler(this.discord_Click);
+            this.Discord.Animated = true;
+            this.Discord.CheckedState.Parent = this.Discord;
+            this.Discord.CustomImages.Parent = this.Discord;
+            this.ProgressTransition.SetDecoration(this.Discord, Guna.UI2.AnimatorNS.DecorationType.None);
+            this.Discord.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
+            this.Discord.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
+            this.Discord.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
+            this.Discord.DisabledState.FillColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
+            this.Discord.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(141)))), ((int)(((byte)(141)))));
+            this.Discord.DisabledState.Parent = this.Discord;
+            this.Discord.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(88)))), ((int)(((byte)(101)))), ((int)(((byte)(242)))));
+            this.Discord.FillColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(140)))), ((int)(((byte)(215)))));
+            this.Discord.Font = new System.Drawing.Font("Segoe UI Black", 20.25F, System.Drawing.FontStyle.Bold);
+            this.Discord.ForeColor = System.Drawing.Color.White;
+            this.Discord.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.ForwardDiagonal;
+            this.Discord.HoverState.Parent = this.Discord;
+            this.Discord.Image = ((System.Drawing.Image)(resources.GetObject("Discord.Image")));
+            this.Discord.ImageSize = new System.Drawing.Size(35, 35);
+            this.Discord.Location = new System.Drawing.Point(12, 298);
+            this.Discord.Name = "Discord";
+            this.Discord.ShadowDecoration.Parent = this.Discord;
+            this.Discord.Size = new System.Drawing.Size(50, 50);
+            this.Discord.TabIndex = 7;
+            this.Discord.TextOffset = new System.Drawing.Point(0, -1);
+            this.Discord.Click += new System.EventHandler(this.Discord_Click);
             // 
             // MainForm
             // 
@@ -342,7 +342,7 @@ namespace OnixLauncher
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(12)))), ((int)(((byte)(12)))), ((int)(((byte)(12)))));
             this.ClientSize = new System.Drawing.Size(600, 360);
             this.ControlBox = false;
-            this.Controls.Add(this.discord);
+            this.Controls.Add(this.Discord);
             this.Controls.Add(this.CustomDLLCheckBox);
             this.Controls.Add(this.LaunchProgress);
             this.Controls.Add(this.OnixTitle);
@@ -405,6 +405,6 @@ namespace OnixLauncher
 
         #endregion
         private Guna.UI2.WinForms.Guna2GradientButton CreditsButton;
-        private Guna.UI2.WinForms.Guna2GradientButton discord;
+        private Guna.UI2.WinForms.Guna2GradientButton Discord;
     }
 }
