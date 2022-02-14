@@ -12,6 +12,7 @@ namespace OnixLauncher
 
             MessageTitle.Text = title;
             MessageSubtitle.Text = subtitle;
+            StartPosition = FormStartPosition.CenterScreen;
             Hide();
         }
 

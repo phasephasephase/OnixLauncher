@@ -23,6 +23,9 @@ namespace OnixLauncher
             Instance = this;
             _presence = new RichPresence();
             
+            // We want to have the form in the middle to polish everything
+            StartPosition = FormStartPosition.CenterScreen;
+            
             // create directories
             Directory.CreateDirectory(Utils.OnixPath);
             Directory.CreateDirectory(
@@ -66,6 +69,15 @@ namespace OnixLauncher
         private void CreditsButton_Click(object sender, EventArgs e)
         {
             Utils.ShowMessage("Credits", "Onix Client - by Onix86\nOnix Launcher - by carlton");
+        }
+
+        private void Discord_Click(object sender, EventArgs e)
+        {
+            String url = "https://discord.com/invite/onixclient";
+            System.Diagnostics.Process.Start(new ProcessStartInfo
+            {
+                FileName = url, UseShellExecute = true
+            });
         }
 
         private void BigOnixLogo_MouseDoubleClick(object sender, MouseEventArgs e)
