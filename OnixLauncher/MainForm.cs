@@ -130,7 +130,7 @@ namespace OnixLauncher
                         return;
                     }
                     
-                    if (arch != "X64")
+                    if (arch != "X86")
                     {
                         Log.Write("This doesn't seem like the correct architecture we want");
                         Utils.ShowMessage("Architecture Error", "You have a version of Minecraft that isn't 64-bit.");
