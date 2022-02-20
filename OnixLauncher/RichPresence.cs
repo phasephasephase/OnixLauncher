@@ -1,5 +1,5 @@
-﻿using System;
-using DiscordRPC;
+﻿using DiscordRPC;
+using System;
 
 namespace OnixLauncher
 {
@@ -7,7 +7,7 @@ namespace OnixLauncher
     {
         public DiscordRpcClient Client;
         private string _discordTime = "";
-        
+
         public RichPresence()
         {
             var TimestampStart = 0;
@@ -18,6 +18,11 @@ namespace OnixLauncher
                 dateTimestampEnd = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
                     .AddSeconds(TimestampEnd);
 
+            // Moved it to a variable so it can have support for more seasons later
+            // You can use Dec-Feb for winter logo, Mar-Jun for spring logo, etc
+            string largeImgKey = "onix";
+            if (DateTime.Today.Month == 10) largeImgKey = "onix-halloween";
+
             Client = new DiscordRpcClient("845463201550434344");
             Client.Initialize();
             Client.SetPresence(new DiscordRPC.RichPresence
@@ -26,18 +31,18 @@ namespace OnixLauncher
 
                 Assets = new Assets
                 {
-                    LargeImageKey = DateTime.Today.Month == 10 ? "onix-halloween" : "onix",
+                    LargeImageKey = largeImgKey,
                     LargeImageText = "Onix Launcher"
                 },
                 Timestamps = new Timestamps
                 {
-                    Start = _discordTime != "" && int.TryParse(_discordTime, out TimestampStart) ? 
+                    Start = _discordTime != "" && int.TryParse(_discordTime, out TimestampStart) ?
                         new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
                             .AddSeconds(TimestampStart) : DateTime.UtcNow,
                     End = dateTimestampEnd
                 }
             });
-            
+
             Log.Write("Initialized Rich Presence");
         }
 
@@ -57,6 +62,9 @@ namespace OnixLauncher
                 smallimage = server.Contains("The Hive") ? "hive" : server.Split(' ')[2].ToLower();
             }
 
+            string largeImgKey = "onix";
+            if (DateTime.Today.Month == 10) largeImgKey = "onix-halloween";
+
             Client.SetPresence(new DiscordRPC.RichPresence
             {
                 Details = server,
@@ -65,14 +73,14 @@ namespace OnixLauncher
                 Assets = new Assets
                 {
 
-                    LargeImageKey = DateTime.Today.Month == 10 ? "onix-halloween" : "onix",
+                    LargeImageKey = largeImgKey,
                     LargeImageText = "Onix Client",
                     SmallImageKey = smallimage,
                     SmallImageText = version
                 },
                 Timestamps = new Timestamps
                 {
-                    Start = _discordTime != "" && int.TryParse(_discordTime, out TimestampStart) ? 
+                    Start = _discordTime != "" && int.TryParse(_discordTime, out TimestampStart) ?
                         new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
                             .AddSeconds(TimestampStart) : DateTime.UtcNow,
                     End = dateTimestampEnd
@@ -91,18 +99,21 @@ namespace OnixLauncher
                 dateTimestampEnd = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
                     .AddSeconds(TimestampEnd);
 
+            string largeImgKey = "onix";
+            if (DateTime.Today.Month == 10) largeImgKey = "onix-halloween";
+
             Client.SetPresence(new DiscordRPC.RichPresence
             {
                 Details = "Ready to play",
 
                 Assets = new Assets
                 {
-                    LargeImageKey = DateTime.Today.Month == 10 ? "onix-halloween" : "onix",
+                    LargeImageKey = largeImgKey,
                     LargeImageText = "Onix Launcher",
                 },
                 Timestamps = new Timestamps
                 {
-                    Start = _discordTime != "" && int.TryParse(_discordTime, out TimestampStart) ? 
+                    Start = _discordTime != "" && int.TryParse(_discordTime, out TimestampStart) ?
                         new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
                             .AddSeconds(TimestampStart) : DateTime.UtcNow,
                     End = dateTimestampEnd

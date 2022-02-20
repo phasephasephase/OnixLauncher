@@ -5,6 +5,15 @@ namespace OnixLauncher
 {
     public partial class MessageForm : Form
     {
+        protected override CreateParams CreateParams
+        {
+            get
+            {
+                CreateParams handleParam = base.CreateParams;
+                handleParam.ExStyle |= 0x02000000;
+                return handleParam;
+            }
+        }
         public static bool DetectedSecondLauncher;
         public MessageForm(string title, string subtitle)
         {
@@ -13,7 +22,7 @@ namespace OnixLauncher
             MessageTitle.Text = title;
             MessageSubtitle.Text = subtitle;
             StartPosition = FormStartPosition.CenterScreen;
-            Hide();
+            this.Hide();
         }
 
         public void SetTitleAndSubtitle(string title, string subtitle)
@@ -24,7 +33,7 @@ namespace OnixLauncher
             if (DetectedSecondLauncher)
                 MainForm.Instance.Hide();
         }
-        
+
         private void Okay_Click(object sender, EventArgs e)
         {
             if (DetectedSecondLauncher)

@@ -1,8 +1,8 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.IO;
 using System.Management.Automation;
-using System.Diagnostics;
 using System.Text;
 using System.Windows.Forms;
 
@@ -11,13 +11,18 @@ namespace OnixLauncher
     public static class Utils
     {
         public static string OnixPath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) +
-                                        "\\Onix Launcher";
+                                        @"\Onix Launcher";
+
+        public static string RPCServerPath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)
+                                          + @"\Packages\Microsoft.MinecraftUWP_8wekyb3d8bbwe\RoamingState\OnixClient\Launcher\server.txt";
+
+        public static string DLLPath = OnixPath + @"\OnixClient.dll";
 
         private static OpenFileDialog _fileDialog;
         private static bool _init;
         public static string SelectedPath = "no file";
         public static MessageForm MessageF = new MessageForm("you shouldn't see this", "how are you reading this");
-        
+
         public static void ShowMessage(string title, string subtitle)
         {
             Log.Write("Showing a message box: " + title);
@@ -56,6 +61,12 @@ namespace OnixLauncher
             Log.Write("Opened Minecraft, or at least I tried to");
         }
 
+        public static bool IsGameOpen()
+        {
+            Process[] mc = Process.GetProcessesByName("Minecraft.Windows");
+            return mc.Length > 0;
+        }
+
         private static void FileDialogOnFileOk(object sender, CancelEventArgs e)
         {
             SelectedPath = _fileDialog.FileName;
@@ -90,7 +101,7 @@ namespace OnixLauncher
             catch (ArgumentException e)
             {
                 Log.Write("Failed to grab Xbox Gamertag: " + e.Message);
-                ShowMessage( "Gamertag Error",
+                ShowMessage("Gamertag Error",
                     File.Exists(localappdata +
                                 "\\Packages\\Microsoft.XboxApp_8wekyb3d8bbwe\\LocalState\\XboxLiveGamer.xml")
                         ? "Xbox info is unavailable at this time. Try again in an hour or so."
@@ -104,6 +115,7 @@ namespace OnixLauncher
         {
             using (var powerShell = PowerShell.Create())
             {
+
                 powerShell.AddScript(
                     "Get-AppPackage -name Microsoft.MinecraftUWP | select -expandproperty Architecture");
                 powerShell.AddCommand("Out-String");
@@ -118,7 +130,7 @@ namespace OnixLauncher
                 return arch;
             }
         }
-        
+
         public static string GetVersion()
         {
             using (var powerShell = PowerShell.Create())
