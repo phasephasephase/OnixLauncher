@@ -336,8 +336,6 @@ namespace OnixLauncher
             throw new NotImplementedException();
         }
 
-        private Guna.UI2.WinForms.Guna2CheckBox guna2CheckBox1;
-
         private Guna.UI2.WinForms.Guna2Transition ProgressTransition;
 
         private System.Windows.Forms.NotifyIcon TaskbarIcon;

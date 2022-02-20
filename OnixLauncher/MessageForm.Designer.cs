@@ -178,8 +178,6 @@ namespace OnixLauncher
 
         private Guna.UI2.WinForms.Guna2GradientButton Okay;
 
-        private Guna.UI2.WinForms.Guna2GradientButton LaunchButton;
-
         private System.Windows.Forms.Label MessageSubtitle;
 
         private System.Windows.Forms.PictureBox OnixLogo;
