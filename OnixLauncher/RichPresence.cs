@@ -46,12 +46,11 @@ namespace OnixLauncher
         private string GetLargeImage()
         {
             // Moved it to a variable so it can have support for more seasons later
-            // You can use Dec-Feb for winter logo, Mar-Jun for spring logo, etc
-            float value = (float)DateTime.Today.Month + DateTime.Today.Day / 100f;  // <month>.<day(2 digit)>    
-            if (value < 3.21 || value >= 12.22) return "onix-winter";   // Winter
-            if (value < 6.21) return "onix-spring"; // Spring
-            if (value < 9.23) return "onix-summer"; // Summer
-            return "onix-fall";   // Autumn
+            // You can use Dec-Feb for winter logo, Mar-Jun for spring logo, christmas,kwanza, hanukkah, etc
+            string largeImgKey = "onix";
+            if (DateTime.Today.Month == 10) largeImgKey = "onix-halloween";
+
+            return largeImgKey;
         }
 
 
