@@ -18,10 +18,7 @@ namespace OnixLauncher
                 dateTimestampEnd = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
                     .AddSeconds(TimestampEnd);
 
-            // Moved it to a variable so it can have support for more seasons later
-            // You can use Dec-Feb for winter logo, Mar-Jun for spring logo, etc
-            string largeImgKey = "onix";
-            if (DateTime.Today.Month == 10) largeImgKey = "onix-halloween";
+            
 
             Client = new DiscordRpcClient("845463201550434344");
             Client.Initialize();
@@ -31,7 +28,7 @@ namespace OnixLauncher
 
                 Assets = new Assets
                 {
-                    LargeImageKey = largeImgKey,
+                    LargeImageKey = GetLargeImage(),
                     LargeImageText = "Onix Launcher"
                 },
                 Timestamps = new Timestamps
@@ -45,6 +42,18 @@ namespace OnixLauncher
 
             Log.Write("Initialized Rich Presence");
         }
+
+        private string GetLargeImage()
+        {
+            // Moved it to a variable so it can have support for more seasons later
+            // You can use Dec-Feb for winter logo, Mar-Jun for spring logo, etc
+            float value = (float)DateTime.Today.Month + DateTime.Today.Day / 100f;  // <month>.<day(2 digit)>    
+            if (value < 3.21 || value >= 12.22) return "onix-winter";   // Winter
+            if (value < 6.21) return "onix-spring"; // Spring
+            if (value < 9.23) return "onix-summer"; // Summer
+            return "onix-fall";   // Autumn
+        }
+
 
         public void ChangePresence(string server, string version, string gamertag)
         {
@@ -62,9 +71,6 @@ namespace OnixLauncher
                 smallimage = server.Contains("The Hive") ? "hive" : server.Split(' ')[2].ToLower();
             }
 
-            string largeImgKey = "onix";
-            if (DateTime.Today.Month == 10) largeImgKey = "onix-halloween";
-
             Client.SetPresence(new DiscordRPC.RichPresence
             {
                 Details = server,
@@ -73,7 +79,7 @@ namespace OnixLauncher
                 Assets = new Assets
                 {
 
-                    LargeImageKey = largeImgKey,
+                    LargeImageKey = GetLargeImage(),
                     LargeImageText = "Onix Client",
                     SmallImageKey = smallimage,
                     SmallImageText = version
@@ -99,16 +105,13 @@ namespace OnixLauncher
                 dateTimestampEnd = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
                     .AddSeconds(TimestampEnd);
 
-            string largeImgKey = "onix";
-            if (DateTime.Today.Month == 10) largeImgKey = "onix-halloween";
-
             Client.SetPresence(new DiscordRPC.RichPresence
             {
                 Details = "Ready to play",
 
                 Assets = new Assets
                 {
-                    LargeImageKey = largeImgKey,
+                    LargeImageKey = GetLargeImage(),
                     LargeImageText = "Onix Launcher",
                 },
                 Timestamps = new Timestamps
