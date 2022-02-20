@@ -15,9 +15,13 @@ namespace OnixLauncher
             }
         }
         public static bool DetectedSecondLauncher;
+        private static int _bottomPadding = 40;
         public MessageForm(string title, string subtitle)
         {
             InitializeComponent();
+
+            MessageSubtitle.MaximumSize = new System.Drawing.Size(MessageSubtitle.Size.Width, 3000);
+            MessageSubtitle.AutoSize = true;
 
             MessageTitle.Text = title;
             MessageSubtitle.Text = subtitle;
@@ -29,6 +33,10 @@ namespace OnixLauncher
         {
             MessageTitle.Text = title;
             MessageSubtitle.Text = subtitle;
+            int height = MessageSubtitle.Size.Height;
+
+            this.Height = height + TitleBar.Size.Height + ButtonPanel.Size.Height + _bottomPadding;
+
             Show();
             if (DetectedSecondLauncher)
                 MainForm.Instance.Hide();
