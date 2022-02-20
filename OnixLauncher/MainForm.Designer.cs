@@ -269,6 +269,7 @@ namespace OnixLauncher
             // Discord
             // 
             this.Discord.Animated = true;
+            this.Discord.BorderRadius = 10;
             this.ProgressTransition.SetDecoration(this.Discord, Guna.UI2.AnimatorNS.DecorationType.None);
             this.Discord.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
             this.Discord.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
@@ -282,7 +283,7 @@ namespace OnixLauncher
             this.Discord.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.ForwardDiagonal;
             this.Discord.Image = ((System.Drawing.Image)(resources.GetObject("Discord.Image")));
             this.Discord.ImageSize = new System.Drawing.Size(35, 35);
-            this.Discord.Location = new System.Drawing.Point(12, 298);
+            this.Discord.Location = new System.Drawing.Point(6, 304);
             this.Discord.Name = "Discord";
             this.Discord.Size = new System.Drawing.Size(50, 50);
             this.Discord.TabIndex = 7;

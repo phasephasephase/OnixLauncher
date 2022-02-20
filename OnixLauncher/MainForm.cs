@@ -129,9 +129,9 @@ namespace OnixLauncher
                 LaunchProgress.Value = 0;
                 LaunchProgress.Maximum = int.MaxValue;
 
-                BackgroundWorker _bw = new BackgroundWorker();
+                BackgroundWorker bw = new BackgroundWorker();
 
-                _bw.DoWork += new DoWorkEventHandler(delegate (object o, DoWorkEventArgs workerE)
+                bw.DoWork += new DoWorkEventHandler(delegate (object o, DoWorkEventArgs workerE)
                     {
                         var versionClient = new WebClient();
                         var dllClient = new WebClient();
@@ -142,17 +142,14 @@ namespace OnixLauncher
                             long bytesIn = ez.BytesReceived;
                             long totalBytes = ez.TotalBytesToReceive;
 
-                            double _value = ((double)bytesIn / (double)totalBytes) * (LaunchProgress.Maximum / 70);
+                            double value = ((double)bytesIn / (double)totalBytes) * (LaunchProgress.Maximum / 70);
 
-                            LaunchProgress.Value += (int)_value;
+                            LaunchProgress.Value += (int)value;
                         });
-
-
 
                         // architecture detection
                         var arch = Utils.GetArchitecture();
                         LaunchProgress.Value += LaunchProgress.Maximum / 10;
-
 
                         if (arch == string.Empty)
                         {
@@ -190,7 +187,6 @@ namespace OnixLauncher
 
                         //version = "eaghruyehruger"; // test
 
-
                         if (!supported && !Bypassed)
                         {
                             Log.Write("The user isn't on a supported version");
@@ -211,10 +207,8 @@ namespace OnixLauncher
 
                             BackgroundWorker injector = new BackgroundWorker();
 
-
                             injector.DoWork += new DoWorkEventHandler(delegate (object ins, DoWorkEventArgs ina)
                             {
-
                                 Log.Write("Preparing to inject into the game");
 
                                 BackgroundWorker staticProgress = new BackgroundWorker();
@@ -231,7 +225,6 @@ namespace OnixLauncher
 
                                 staticProgress.RunWorkerAsync();
 
-
                                 if (Bypassed && Utils.SelectedPath != "no file")
                                     Injector.Inject(Utils.SelectedPath);
                                 else
@@ -239,13 +232,10 @@ namespace OnixLauncher
 
                                 LaunchProgress.Value = LaunchProgress.Maximum;
 
-
                                 _presence.ChangePresence("In the menus", Utils.GetVersion(), Utils.GetXboxGamertag());
                                 PresenceTimer.Start();
 
                                 dllClient.Dispose();
-
-
                             });
 
                             dllClient.DownloadFileCompleted += new AsyncCompletedEventHandler((object dls, AsyncCompletedEventArgs dla) =>
@@ -264,7 +254,7 @@ namespace OnixLauncher
                         }
                     });
 
-                _bw.RunWorkerAsync();
+                bw.RunWorkerAsync();
             }
             catch (Exception ex)
             {
@@ -272,7 +262,6 @@ namespace OnixLauncher
                 Utils.ShowMessage("Launch Error", "Failed to launch Onix Client. Check the logs for info.");
             }
         }
-
 
         private List<string> _previousServers = new List<string>() { "" }; // ok
         private bool _once;
@@ -318,27 +307,35 @@ namespace OnixLauncher
                         case "jp.hivebedrock.network":
                             _presence.ChangePresence("Playing on The Hive", Utils.GetVersion(), Utils.GetXboxGamertag());
                             break;
+
                         case "play.inpvp.net":
                             _presence.ChangePresence("Playing on Mineville", Utils.GetVersion(), Utils.GetXboxGamertag());
                             break;
+
                         case "mco.cubecraft.net":
                             _presence.ChangePresence("Playing on CubeCraft", Utils.GetVersion(), Utils.GetXboxGamertag());
                             break;
+
                         case "mco.mineplex.com":
                             _presence.ChangePresence("Playing on Mineplex", Utils.GetVersion(), Utils.GetXboxGamertag());
                             break;
+
                         case "play.galaxite.net":
                             _presence.ChangePresence("Playing on Galaxite", Utils.GetVersion(), Utils.GetXboxGamertag());
                             break;
+
                         case "mco.lbsg.net":
                             _presence.ChangePresence("Playing on Lifeboat", Utils.GetVersion(), Utils.GetXboxGamertag());
                             break;
+
                         case "play.nethergames.org":
                             _presence.ChangePresence("Playing on NetherGames", Utils.GetVersion(), Utils.GetXboxGamertag());
                             break;
+
                         case "play.hyperlandsmc.net":
                             _presence.ChangePresence("Playing on HyperLands", Utils.GetVersion(), Utils.GetXboxGamertag());
                             break;
+
                         default:
                             _presence.ChangePresence("Playing on " + currentServer, Utils.GetVersion(), Utils.GetXboxGamertag());
                             break;
@@ -363,16 +360,16 @@ namespace OnixLauncher
             }
         }
 
-        float fadeSpeed = 0.06f; // Must be a positive float
+        private float _fadeSpeed = 0.06f; // Must be a positive float
 
         private void FadeTimer_Tick(object sender, EventArgs e)
         {
-            if (fadeSpeed > 0)
+            if (_fadeSpeed > 0)
             {
                 if (this.Opacity >= 1)
                 {
                     FadeTimer.Stop();
-                    fadeSpeed = fadeSpeed * -1;
+                    _fadeSpeed = _fadeSpeed * -1;
                     return;
                 }
             }
@@ -387,9 +384,7 @@ namespace OnixLauncher
                 }
             }
 
-
-
-            this.Opacity += fadeSpeed;
+            this.Opacity += _fadeSpeed;
         }
     }
 }
