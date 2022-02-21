@@ -1,10 +1,13 @@
 ﻿using System;
-using System.Windows.Forms;
+using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Threading;
 using System.Timers;
+using System.Windows.Forms;
 
 namespace OnixLauncher
 {
@@ -14,6 +17,16 @@ namespace OnixLauncher
         private RichPresence _presence;
         public static bool Bypassed;
 
+        protected override CreateParams CreateParams
+        {
+            get
+            {
+                CreateParams handleParam = base.CreateParams;
+                handleParam.ExStyle |= 0x02000000;
+                return handleParam;
+            }
+        }
+
         public MainForm()
         {
             // init
@@ -22,16 +35,16 @@ namespace OnixLauncher
             Log.Write("Initialized UI");
             Instance = this;
             _presence = new RichPresence();
-            
+
             // We want to have the form in the middle to polish everything
             StartPosition = FormStartPosition.CenterScreen;
-            
+
             // create directories
             Directory.CreateDirectory(Utils.OnixPath);
             Directory.CreateDirectory(
                 Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) +
                 @"\Packages\Microsoft.MinecraftUWP_8wekyb3d8bbwe\RoamingState\OnixClient\Launcher");
-            
+
             // stupid winforms thing that fixes message boxes
             CheckForIllegalCrossThreadCalls = false;
 
@@ -43,15 +56,15 @@ namespace OnixLauncher
             {
                 Log.Write("Detected first time open, showing the welcome message box");
                 File.Create(Utils.OnixPath + "\\firstTime");
-                Utils.ShowMessage("Welcome to Onix Client!", 
+                Utils.ShowMessage("Welcome to Onix Client!",
                     "Check our Discord's #faq channel if you're having problems.");
             }
         }
 
         private void CloseButton_Click(object sender, EventArgs e)
         {
-            Log.Write("Exiting");
-            Close();
+            FadeTimer.Start();
+            Log.Write("Exiting...");
         }
 
         private void MinimizeButton_Click(object sender, EventArgs e)
@@ -76,7 +89,8 @@ namespace OnixLauncher
             String url = "https://discord.com/invite/onixclient";
             System.Diagnostics.Process.Start(new ProcessStartInfo
             {
-                FileName = url, UseShellExecute = true
+                FileName = url,
+                UseShellExecute = true
             });
         }
 
@@ -96,8 +110,8 @@ namespace OnixLauncher
 
         private void InjectionCompleted(object sender, EventArgs e)
         {
-            LaunchButton.Enabled = true;
             LaunchProgress.Visible = false;
+            LaunchButton.Enabled = true;
             Log.Write("Finished launching");
         }
 
@@ -112,82 +126,135 @@ namespace OnixLauncher
                 LaunchButton.Enabled = false;
                 LaunchProgress.Visible = true;
 
-                var injectThread = new Thread(() =>
-                {
-                    var injectClient = new WebClient();
-                    var dllPath = Utils.OnixPath + "\\OnixClient.dll";
+                LaunchProgress.Value = 0;
+                LaunchProgress.Maximum = int.MaxValue;
 
-                    // architecture detection
-                    var arch = Utils.GetArchitecture();
+                BackgroundWorker bw = new BackgroundWorker();
 
-                    if (arch == string.Empty)
+                bw.DoWork += new DoWorkEventHandler(delegate (object o, DoWorkEventArgs workerE)
                     {
-                        Log.Write("Launcher couldn't detect the game, either it's not installed or the user has a cracked version");
-                        // wtf the game not installed
-                        Utils.ShowMessage("????????", "You don't even have Minecraft Bedrock installed!");
-                        LaunchButton.Enabled = true;
-                        LaunchProgress.Visible = false;
-                        return;
-                    }
-                    
-                    if (arch != "X64")
-                    {
-                        Log.Write("This doesn't seem like the correct architecture we want");
-                        Utils.ShowMessage("Architecture Error", "You have a version of Minecraft that isn't 64-bit.");
-                        LaunchButton.Enabled = true;
-                        LaunchProgress.Visible = false;
-                        return;
-                    }
+                        var versionClient = new WebClient();
+                        var dllClient = new WebClient();
+                        var dllPath = Utils.DLLPath;
 
-                    // version detection
-                    var version = Utils.GetVersion();
-                    Log.Write("Downloading list of supported versions");
-                    var latestSupported = injectClient.DownloadString(
-                        "https://raw.githubusercontent.com/bernarddesfosse/onixclientautoupdate/main/LatestSupportedVersion");
-                    Log.Write("Downloaded, comparing versions");
-                    var stringTable = latestSupported.Split('\n');
-                    var supported = false;
+                        dllClient.DownloadProgressChanged += new DownloadProgressChangedEventHandler((object s, DownloadProgressChangedEventArgs ez) =>
+                        {
+                            long bytesIn = ez.BytesReceived;
+                            long totalBytes = ez.TotalBytesToReceive;
 
-                    //version = "eaghruyehruger"; // test
+                            double value = ((double)bytesIn / (double)totalBytes) * (LaunchProgress.Maximum / 70);
 
-                    foreach (var ver in stringTable)
-                    {
-                        if (version == ver)
-                            supported = true;
-                    }
+                            LaunchProgress.Value += (int)value;
+                        });
 
-                    if (!supported && !Bypassed)
-                    {
-                        Log.Write("The user isn't on a supported version");
-                        LaunchButton.Enabled = true;
-                        LaunchProgress.Visible = false;
-                        Utils.ShowMessage("Unsupported Version",
-                            "Your version (" + version + ") is not supported by Onix Client.");
-                    }
-                    else
-                    {
-                        Log.Write("This is either the right version or Insider Mode was enabled, launching");
-                        if (File.Exists(dllPath) && Process.GetProcessesByName("Minecraft.Windows").Length == 0)
-                            File.Delete(dllPath);
+                        // architecture detection
+                        var arch = Utils.GetArchitecture();
+                        LaunchProgress.Value += LaunchProgress.Maximum / 10;
 
-                        if (!File.Exists(dllPath))
-                            injectClient.DownloadFile(
-                                "https://github.com/bernarddesfosse/onixclientautoupdate/raw/main/OnixClient.dll",
-                                dllPath);
-                        Log.Write("Got DLL, preparing to inject into the game");
+                        if (arch == string.Empty)
+                        {
+                            Log.Write("Launcher couldn't detect the game, either it's not installed or the user has a cracked version");
+                            // wtf the game not installed
+                            Utils.ShowMessage("????????", "You don't even have Minecraft Bedrock installed!");
+                            LaunchButton.Enabled = true;
+                            LaunchProgress.Visible = false;
+                            return;
+                        }
 
-                        if (Bypassed && Utils.SelectedPath != "no file")
-                            Injector.Inject(Utils.SelectedPath);
+                        if (arch != "X64")
+                        {
+                            Log.Write("This doesn't seem like the correct architecture we want");
+                            Utils.ShowMessage("Architecture Error", "You have a version of Minecraft that isn't 64-bit.");
+                            LaunchButton.Enabled = true;
+                            LaunchProgress.Visible = false;
+                            return;
+                        }
+
+                        // version detection
+                        var version = Utils.GetVersion();
+                        LaunchProgress.Value += LaunchProgress.Maximum / 10;
+
+                        Log.Write("Downloading list of supported versions");
+
+                        var latestSupported = versionClient.DownloadString(
+                            "https://raw.githubusercontent.com/bernarddesfosse/onixclientautoupdate/main/LatestSupportedVersion");
+
+                        versionClient.Dispose();
+
+                        Log.Write("Downloaded, comparing versions");
+                        List<string> stringTable = latestSupported.Split('\n').ToList();
+                        var supported = stringTable.Contains(version);
+
+                        //version = "eaghruyehruger"; // test
+
+                        if (!supported && !Bypassed)
+                        {
+                            Log.Write("The user isn't on a supported version");
+                            LaunchButton.Enabled = true;
+                            LaunchProgress.Visible = false;
+                            Utils.ShowMessage("Unsupported Version",
+                                "Your version (" + version + ") is not supported by Onix Client.");
+                        }
                         else
-                            Injector.Inject(dllPath);
+                        {
+                            if (!supported && Bypassed)
+                                Log.Write("Incorrect version, but was bypassed. Launching...");
+                            else if (supported)
+                                Log.Write("Correct Version, Launching...");
 
-                        _presence.ChangePresence("In the menus", Utils.GetVersion(), Utils.GetXboxGamertag());
-                        PresenceTimer.Start();
-                    }
-                    
-                    injectClient.Dispose(); // HOLY SHIT!!!!
-                });
-                injectThread.Start();
+                            if (File.Exists(dllPath) && !Utils.IsGameOpen())
+                                File.Delete(dllPath);
+
+                            BackgroundWorker injector = new BackgroundWorker();
+
+                            injector.DoWork += new DoWorkEventHandler(delegate (object ins, DoWorkEventArgs ina)
+                            {
+                                Log.Write("Preparing to inject into the game");
+
+                                BackgroundWorker staticProgress = new BackgroundWorker();
+
+                                staticProgress.DoWork += new DoWorkEventHandler((object sts, DoWorkEventArgs sta) =>
+                                {
+                                    while (true)
+                                    {
+                                        if (LaunchProgress.Value >= ((LaunchProgress.Maximum / 100) * 95)) break;
+                                        LaunchProgress.Value += (LaunchProgress.Maximum / 100);
+                                        Thread.Sleep(100);
+                                    }
+                                });
+
+                                staticProgress.RunWorkerAsync();
+
+                                if (Bypassed && Utils.SelectedPath != "no file")
+                                    Injector.Inject(Utils.SelectedPath);
+                                else
+                                    Injector.Inject(dllPath);
+
+                                LaunchProgress.Value = LaunchProgress.Maximum;
+
+                                _presence.ChangePresence("In the menus", Utils.GetVersion(), Utils.GetXboxGamertag());
+                                PresenceTimer.Start();
+
+                                dllClient.Dispose();
+                            });
+
+                            dllClient.DownloadFileCompleted += new AsyncCompletedEventHandler((object dls, AsyncCompletedEventArgs dla) =>
+                            {
+                                injector.RunWorkerAsync();
+                            });
+
+                            if (Utils.IsGameOpen())
+                            {
+                                LaunchProgress.Maximum /= 3;
+                                injector.RunWorkerAsync();
+                            }
+                            else if (!File.Exists(dllPath))
+                                dllClient.DownloadFileAsync(
+                                    new Uri("https://github.com/bernarddesfosse/onixclientautoupdate/raw/main/OnixClient.dll"), dllPath);
+                        }
+                    });
+
+                bw.RunWorkerAsync();
             }
             catch (Exception ex)
             {
@@ -196,16 +263,16 @@ namespace OnixLauncher
             }
         }
 
-        private string _previousServer; // ok
+        private List<string> _previousServers = new List<string>() { "" }; // ok
         private bool _once;
 
         private void ChangeServer()
+
         {
+            string currentServer = string.Empty;
             try
             {
-                _previousServer = File.ReadAllText(
-                    Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)
-                    + @"\Packages\Microsoft.MinecraftUWP_8wekyb3d8bbwe\RoamingState\OnixClient\Launcher\server.txt");
+                currentServer = File.ReadAllText(Utils.RPCServerPath);
             }
             catch
             {
@@ -219,54 +286,61 @@ namespace OnixLauncher
 
             if (!_once)
             {
-                var server = File.ReadAllText(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)
-                                          + @"\Packages\Microsoft.MinecraftUWP_8wekyb3d8bbwe\RoamingState\OnixClient\Launcher\server.txt");
-            if (server == _previousServer) return;
-            _previousServer = server;
-            Log.Write("Detected a change in server.txt, updating presence");
+                if (_previousServers[_previousServers.Count - 1] == currentServer) return;
+                _previousServers.Add(currentServer);
+                if (_previousServers.Count > 5) _previousServers.RemoveAt(0);
+                Log.Write("Detected a change in server.txt, updating presence");
 
-            if (server == "")
-                _presence.ChangePresence("In the menus", Utils.GetVersion(), Utils.GetXboxGamertag());
-            else if (server.Contains("In a World, "))
-                _presence.ChangePresence("In a world: " + server.Remove(0, 12), Utils.GetVersion(),
-                    Utils.GetXboxGamertag());
-            else
-            {
-                switch (server)
+                if (currentServer == "")
+                    _presence.ChangePresence("In the menus", Utils.GetVersion(), Utils.GetXboxGamertag());
+                else if (currentServer.Contains("In a World, "))
+                    _presence.ChangePresence("In a world: " + currentServer.Remove(0, 12), Utils.GetVersion(),
+                        Utils.GetXboxGamertag());
+                else
                 {
-                    case "geo.hivebedrock.network":
-                    case "fr.hivebedrock.network":
-                    case "ca.hivebedrock.network":
-                    case "sg.hivebedrock.network":
-                    case "jp.hivebedrock.network":
-                        _presence.ChangePresence("Playing on The Hive", Utils.GetVersion(), Utils.GetXboxGamertag());
-                        break;
-                    case "play.inpvp.net":
-                        _presence.ChangePresence("Playing on Mineville", Utils.GetVersion(), Utils.GetXboxGamertag());
-                        break;
-                    case "mco.cubecraft.net":
-                        _presence.ChangePresence("Playing on CubeCraft", Utils.GetVersion(), Utils.GetXboxGamertag());
-                        break;
-                    case "mco.mineplex.com":
-                        _presence.ChangePresence("Playing on Mineplex", Utils.GetVersion(), Utils.GetXboxGamertag());
-                        break;
-                    case "play.galaxite.net":
-                        _presence.ChangePresence("Playing on Galaxite", Utils.GetVersion(), Utils.GetXboxGamertag());
-                        break;
-                    case "mco.lbsg.net":
-                        _presence.ChangePresence("Playing on Lifeboat", Utils.GetVersion(), Utils.GetXboxGamertag());
-                        break;
-                    case "play.nethergames.org":
-                        _presence.ChangePresence("Playing on NetherGames", Utils.GetVersion(), Utils.GetXboxGamertag());
-                        break;
-                    case "play.hyperlandsmc.net":
-                        _presence.ChangePresence("Playing on HyperLands", Utils.GetVersion(), Utils.GetXboxGamertag());
-                        break;
-                    default:
-                        _presence.ChangePresence("Playing on " + server, Utils.GetVersion(), Utils.GetXboxGamertag());
-                        break;
+                    switch (currentServer)
+                    {
+                        case "geo.hivebedrock.network":
+                        case "fr.hivebedrock.network":
+                        case "ca.hivebedrock.network":
+                        case "sg.hivebedrock.network":
+                        case "jp.hivebedrock.network":
+                            _presence.ChangePresence("Playing on The Hive", Utils.GetVersion(), Utils.GetXboxGamertag());
+                            break;
+
+                        case "play.inpvp.net":
+                            _presence.ChangePresence("Playing on Mineville", Utils.GetVersion(), Utils.GetXboxGamertag());
+                            break;
+
+                        case "mco.cubecraft.net":
+                            _presence.ChangePresence("Playing on CubeCraft", Utils.GetVersion(), Utils.GetXboxGamertag());
+                            break;
+
+                        case "mco.mineplex.com":
+                            _presence.ChangePresence("Playing on Mineplex", Utils.GetVersion(), Utils.GetXboxGamertag());
+                            break;
+
+                        case "play.galaxite.net":
+                            _presence.ChangePresence("Playing on Galaxite", Utils.GetVersion(), Utils.GetXboxGamertag());
+                            break;
+
+                        case "mco.lbsg.net":
+                            _presence.ChangePresence("Playing on Lifeboat", Utils.GetVersion(), Utils.GetXboxGamertag());
+                            break;
+
+                        case "play.nethergames.org":
+                            _presence.ChangePresence("Playing on NetherGames", Utils.GetVersion(), Utils.GetXboxGamertag());
+                            break;
+
+                        case "play.hyperlandsmc.net":
+                            _presence.ChangePresence("Playing on HyperLands", Utils.GetVersion(), Utils.GetXboxGamertag());
+                            break;
+
+                        default:
+                            _presence.ChangePresence("Playing on " + currentServer, Utils.GetVersion(), Utils.GetXboxGamertag());
+                            break;
+                    }
                 }
-            }
             }
         }
 
@@ -284,6 +358,33 @@ namespace OnixLauncher
             {
                 ChangeServer();
             }
+        }
+
+        private float _fadeSpeed = 0.06f; // Must be a positive float
+
+        private void FadeTimer_Tick(object sender, EventArgs e)
+        {
+            if (_fadeSpeed > 0)
+            {
+                if (this.Opacity >= 1)
+                {
+                    FadeTimer.Stop();
+                    _fadeSpeed = _fadeSpeed * -1;
+                    return;
+                }
+            }
+            else
+            {
+                if (this.Opacity <= 0)
+                {
+                    FadeTimer.Stop();
+                    Log.Write("Closed");
+                    this.Close();
+                    return;
+                }
+            }
+
+            this.Opacity += _fadeSpeed;
         }
     }
 }
