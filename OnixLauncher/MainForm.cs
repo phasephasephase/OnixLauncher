@@ -336,6 +336,23 @@ namespace OnixLauncher
                             _presence.ChangePresence("Playing on HyperLands", Utils.GetVersion(), Utils.GetXboxGamertag());
                             break;
 
+                        case "zeqa.net":
+                        case "na.zeqa.net":
+                        case "eu.zeqa.net":
+                        case "as.zeqa.net": // just in case
+                        case "51.79.163.78": // weird ips
+                        case "51.79.163.9":
+                            _presence.ChangePresence("Playing on Zeqa", Utils.GetVersion(), Utils.GetXboxGamertag());
+                            break;
+                        
+                        case "181.215.37.67": // xXTurtleGaming123Xx
+                            _presence.ChangePresence("Playing on TurtleUHC", Utils.GetVersion(), Utils.GetXboxGamertag());
+                            break;
+                        
+                        case "rushnation.net":
+                            _presence.ChangePresence("Playing on RushNation", Utils.GetVersion(), Utils.GetXboxGamertag());
+                            break;
+                        
                         default:
                             _presence.ChangePresence("Playing on " + currentServer, Utils.GetVersion(), Utils.GetXboxGamertag());
                             break;
