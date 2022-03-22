@@ -163,11 +163,23 @@ namespace OnixLauncher
 
                         if (arch != "X64")
                         {
-                            Log.Write("This doesn't seem like the correct architecture we want");
-                            Utils.ShowMessage("Architecture Error", "You have a version of Minecraft that isn't 64-bit.");
-                            LaunchButton.Enabled = true;
-                            LaunchProgress.Visible = false;
-                            return;
+                            if (arch == "X86") 
+                            {
+                                Log.Write("User has 32 bits :vomit:, lets shove a message in their face");
+                                Utils.ShowMessage("Architecture Error", "You have a version of Minecraft that is 32-bit\n\n 32-bit isn't supported by the Onix Client please install Minecraft 64-bit");
+                                LaunchButton.Enabled = true;
+                                LaunchProgress.Visible = false;
+                                return;
+                            }
+                            else
+                            {
+                                //dont even know if any user is gonna see this
+                                Log.Write("This doesn't seem like the correct architecture we want");
+                                Utils.ShowMessage("Architecture Error", "You have a wierd arch "+arch);
+                                LaunchButton.Enabled = true;
+                                LaunchProgress.Visible = false;
+                                return;
+                            }
                         }
 
                         // version detection
@@ -259,7 +271,7 @@ namespace OnixLauncher
             catch (Exception ex)
             {
                 Log.Write("We ran into a problem while launching: " + ex.Message);
-                Utils.ShowMessage("Launch Error", "Failed to launch Onix Client. Check the logs for info.");
+                Utils.ShowMessage("Launch Error", "Failed to launch Onix Client. Check the logs for info.\n"+Utils.OnixPath+"\\Logs");
             }
         }
 
@@ -328,11 +340,11 @@ namespace OnixLauncher
                             _presence.ChangePresence("Playing on Lifeboat", Utils.GetVersion(), Utils.GetXboxGamertag());
                             break;
 
-                        case "play.nethergames.org":
+                        case "play.nethergames.org": //bark server
                             _presence.ChangePresence("Playing on NetherGames", Utils.GetVersion(), Utils.GetXboxGamertag());
                             break;
 
-                        case "play.hyperlandsmc.net":
+                        case "play.hyperlandsmc.net": //this too
                             _presence.ChangePresence("Playing on HyperLands", Utils.GetVersion(), Utils.GetXboxGamertag());
                             break;
 

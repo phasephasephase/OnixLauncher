@@ -78,7 +78,7 @@ namespace OnixLauncher
         public static string GetXboxGamertag()
         {
             var localappdata = Environment.GetEnvironmentVariable("LocalAppData");
-            var xboxName = "nobody (HOW)";
+            var xboxName = "Not signed in (silly)";
 
             if (File.Exists(OnixPath + "\\XboxLiveGamer.xml.txt"))
                 File.Delete(OnixPath + "\\XboxLiveGamer.xml.txt");
