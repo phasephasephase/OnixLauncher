@@ -11,7 +11,11 @@ namespace OnixLauncher
         {
             Directory.CreateDirectory(Utils.OnixPath + "\\Logs");
             if (File.Exists(Utils.OnixPath + "\\Logs\\Current.log"))
-                File.Delete(Utils.OnixPath + "\\Logs\\Current.log");
+            {
+                //save the log instead of deleting
+                File.Move(Utils.OnixPath + "\\Logs\\Current.log", Utils.OnixPath + "\\Logs\\" + DateTime.Now.ToBinary() + ".log");
+            }
+            // File.Delete(Utils.OnixPath + "\\Logs\\Current.log"); kinda silly
         }
 
         public static void Write(string text)
