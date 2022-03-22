@@ -34,7 +34,7 @@ namespace OnixLauncher
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            Guna.UI2.AnimatorNS.Animation animation1 = new Guna.UI2.AnimatorNS.Animation();
+            Guna.UI2.AnimatorNS.Animation animation2 = new Guna.UI2.AnimatorNS.Animation();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.TitleBar = new System.Windows.Forms.Panel();
             this.TitleText = new System.Windows.Forms.Label();
@@ -50,6 +50,7 @@ namespace OnixLauncher
             this.ProgressTransition = new Guna.UI2.WinForms.Guna2Transition();
             this.CreditsButton = new Guna.UI2.WinForms.Guna2GradientButton();
             this.Discord = new Guna.UI2.WinForms.Guna2GradientButton();
+            this.labelstatus = new System.Windows.Forms.Label();
             this.FadeTimer = new System.Windows.Forms.Timer(this.components);
             this.TitleBar.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.OnixLogo)).BeginInit();
@@ -227,22 +228,22 @@ namespace OnixLauncher
             // 
             this.ProgressTransition.AnimationType = Guna.UI2.AnimatorNS.AnimationType.Transparent;
             this.ProgressTransition.Cursor = null;
-            animation1.AnimateOnlyDifferences = true;
-            animation1.BlindCoeff = ((System.Drawing.PointF)(resources.GetObject("animation1.BlindCoeff")));
-            animation1.LeafCoeff = 0F;
-            animation1.MaxTime = 1F;
-            animation1.MinTime = 0F;
-            animation1.MosaicCoeff = ((System.Drawing.PointF)(resources.GetObject("animation1.MosaicCoeff")));
-            animation1.MosaicShift = ((System.Drawing.PointF)(resources.GetObject("animation1.MosaicShift")));
-            animation1.MosaicSize = 0;
-            animation1.Padding = new System.Windows.Forms.Padding(0);
-            animation1.RotateCoeff = 0F;
-            animation1.RotateLimit = 0F;
-            animation1.ScaleCoeff = ((System.Drawing.PointF)(resources.GetObject("animation1.ScaleCoeff")));
-            animation1.SlideCoeff = ((System.Drawing.PointF)(resources.GetObject("animation1.SlideCoeff")));
-            animation1.TimeCoeff = 0F;
-            animation1.TransparencyCoeff = 1F;
-            this.ProgressTransition.DefaultAnimation = animation1;
+            animation2.AnimateOnlyDifferences = true;
+            animation2.BlindCoeff = ((System.Drawing.PointF)(resources.GetObject("animation2.BlindCoeff")));
+            animation2.LeafCoeff = 0F;
+            animation2.MaxTime = 1F;
+            animation2.MinTime = 0F;
+            animation2.MosaicCoeff = ((System.Drawing.PointF)(resources.GetObject("animation2.MosaicCoeff")));
+            animation2.MosaicShift = ((System.Drawing.PointF)(resources.GetObject("animation2.MosaicShift")));
+            animation2.MosaicSize = 0;
+            animation2.Padding = new System.Windows.Forms.Padding(0);
+            animation2.RotateCoeff = 0F;
+            animation2.RotateLimit = 0F;
+            animation2.ScaleCoeff = ((System.Drawing.PointF)(resources.GetObject("animation2.ScaleCoeff")));
+            animation2.SlideCoeff = ((System.Drawing.PointF)(resources.GetObject("animation2.SlideCoeff")));
+            animation2.TimeCoeff = 0F;
+            animation2.TransparencyCoeff = 1F;
+            this.ProgressTransition.DefaultAnimation = animation2;
             // 
             // CreditsButton
             // 
@@ -290,6 +291,19 @@ namespace OnixLauncher
             this.Discord.TextOffset = new System.Drawing.Point(0, -1);
             this.Discord.Click += new System.EventHandler(this.Discord_Click);
             // 
+            // labelstatus
+            // 
+            this.labelstatus.AccessibleName = "status";
+            this.ProgressTransition.SetDecoration(this.labelstatus, Guna.UI2.AnimatorNS.DecorationType.None);
+            this.labelstatus.Font = new System.Drawing.Font("Segoe UI Black", 13F, System.Drawing.FontStyle.Bold);
+            this.labelstatus.ForeColor = System.Drawing.Color.White;
+            this.labelstatus.Location = new System.Drawing.Point(371, 335);
+            this.labelstatus.Name = "labelstatus";
+            this.labelstatus.Size = new System.Drawing.Size(229, 26);
+            this.labelstatus.TabIndex = 8;
+            this.labelstatus.Text = "Status label";
+            this.labelstatus.TextAlign = System.Drawing.ContentAlignment.BottomRight;
+            // 
             // FadeTimer
             // 
             this.FadeTimer.Enabled = true;
@@ -303,6 +317,7 @@ namespace OnixLauncher
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(12)))), ((int)(((byte)(12)))), ((int)(((byte)(12)))));
             this.ClientSize = new System.Drawing.Size(600, 360);
             this.ControlBox = false;
+            this.Controls.Add(this.labelstatus);
             this.Controls.Add(this.Discord);
             this.Controls.Add(this.LaunchProgress);
             this.Controls.Add(this.OnixTitle);
@@ -363,5 +378,6 @@ namespace OnixLauncher
         private Guna.UI2.WinForms.Guna2GradientButton Discord;
         public Timer FadeTimer;
         public Guna.UI2.WinForms.Guna2ProgressBar LaunchProgress;
+        private Label labelstatus;
     }
 }

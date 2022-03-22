@@ -31,6 +31,7 @@ namespace OnixLauncher
         {
             // init
             Log.Write("Initializing UI");
+            SetSatus("Loading");
             InitializeComponent();
             Log.Write("Initialized UI");
             Instance = this;
@@ -397,6 +398,12 @@ namespace OnixLauncher
             }
 
             this.Opacity += _fadeSpeed;
+        }
+
+        public void SetSatus(string Status)
+        {
+            labelstatus.Text = Status;
+            Log.Write("Set status to " + Status);
         }
     }
 }

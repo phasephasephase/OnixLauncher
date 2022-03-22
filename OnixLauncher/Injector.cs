@@ -56,7 +56,7 @@ namespace OnixLauncher
             catch (Exception e)
             {
                 Log.Write("Injection failed, the user's antivirus is probably the cause. Exception: " + e.Message);
-                Utils.ShowMessage("Injection Error", "Failed to inject. \nTry disabling your antivirus? or check #faq. if all that doesn't work go to #community support");
+                Utils.ShowMessage("Injection Error", "Failed to inject. \nTry disabling your antivirus? or check #faq.\n if all that doesn't work go to #community-support");
                 InjectionCompleted.Invoke(null, EventArgs.Empty);
             }
         }
