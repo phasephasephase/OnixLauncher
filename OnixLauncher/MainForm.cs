@@ -31,9 +31,10 @@ namespace OnixLauncher
         {
             // init
             Log.Write("Initializing UI");
-            SetSatus("Loading");
             InitializeComponent();
+            SetSatus("Loading");
             Log.Write("Initialized UI");
+            SetSatus("Loading.");
             Instance = this;
             _presence = new RichPresence();
 
@@ -45,7 +46,7 @@ namespace OnixLauncher
             Directory.CreateDirectory(
                 Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) +
                 @"\Packages\Microsoft.MinecraftUWP_8wekyb3d8bbwe\RoamingState\OnixClient\Launcher");
-
+            SetSatus("Loading..");
             // stupid winforms thing that fixes message boxes
             CheckForIllegalCrossThreadCalls = false;
 
@@ -60,33 +61,39 @@ namespace OnixLauncher
                 Utils.ShowMessage("Welcome to Onix Client!",
                     "Check our Discord's #faq channel if you're having problems.");
             }
+            SetSatus("Loaded");
         }
 
         private void CloseButton_Click(object sender, EventArgs e)
         {
+            SetSatus("Closing");
             FadeTimer.Start();
             Log.Write("Exiting...");
         }
 
         private void MinimizeButton_Click(object sender, EventArgs e)
         {
+            SetSatus("Minimizing");
             Log.Write("Minimizing the launcher");
             WindowState = FormWindowState.Minimized;
         }
 
         private void TitleBar_MouseDown(object sender, MouseEventArgs e)
         {
+            SetSatus("Moving window");
             Winapi.ReleaseCapture();
             Winapi.SendMessage(Handle, Winapi.WM_NCLBUTTONDOWN, Winapi.HT_CAPTION, 0);
         }
 
         private void CreditsButton_Click(object sender, EventArgs e)
         {
+            SetSatus("Showing credits");
             Utils.ShowMessage("Credits", "Onix Client - by Onix86\nOnix Launcher - by carlton");
         }
 
         private void Discord_Click(object sender, EventArgs e)
         {
+            SetSatus("Opening discord link");
             String url = "https://discord.com/invite/onixclient";
             System.Diagnostics.Process.Start(new ProcessStartInfo
             {
@@ -97,6 +104,7 @@ namespace OnixLauncher
 
         private void BigOnixLogo_MouseDoubleClick(object sender, MouseEventArgs e)
         {
+            SetSatus("Switching insider mode");
             if (!Bypassed)
             {
                 Log.Write("The user enabled Insider Mode");
@@ -111,6 +119,7 @@ namespace OnixLauncher
 
         private void InjectionCompleted(object sender, EventArgs e)
         {
+            SetSatus("Finshed injecting");
             LaunchProgress.Visible = false;
             LaunchButton.Enabled = true;
             Log.Write("Finished launching");
@@ -118,6 +127,7 @@ namespace OnixLauncher
 
         private void LaunchButton_Click(object sender, EventArgs e)
         {
+            SetSatus("Starting launch");
             Utils.ShowMessage("weird", "bug fix");
             Utils.MessageF.Hide(); // gotta show this once to make it work
             try
@@ -134,6 +144,7 @@ namespace OnixLauncher
 
                 bw.DoWork += new DoWorkEventHandler(delegate (object o, DoWorkEventArgs workerE)
                     {
+                        SetSatus("Beginging injecting");
                         var versionClient = new WebClient();
                         var dllClient = new WebClient();
                         var dllPath = Utils.DLLPath;
@@ -146,6 +157,8 @@ namespace OnixLauncher
                             double value = ((double)bytesIn / (double)totalBytes) * (LaunchProgress.Maximum / 70);
 
                             LaunchProgress.Value += (int)value;
+                            var progress = (((((int)value/totalBytes)/2) * 10)-10).ToString();
+                            SetSatus("Downloading " + progress/*.Remove(progress.Length-1,1)*/ + "%");
                         });
 
                         // architecture detection
@@ -159,6 +172,7 @@ namespace OnixLauncher
                             Utils.ShowMessage("????????", "You don't even have Minecraft Bedrock installed!");
                             LaunchButton.Enabled = true;
                             LaunchProgress.Visible = false;
+                            SetSatus("no arch found");
                             return;
                         }
 
@@ -170,6 +184,7 @@ namespace OnixLauncher
                                 Utils.ShowMessage("Architecture Error", "You have a version of Minecraft that is 32-bit\n\n 32-bit isn't supported by the Onix Client please install Minecraft 64-bit");
                                 LaunchButton.Enabled = true;
                                 LaunchProgress.Visible = false;
+                                SetSatus("32 bit mc found, yikes");
                                 return;
                             }
                             else
@@ -179,12 +194,14 @@ namespace OnixLauncher
                                 Utils.ShowMessage("Architecture Error", "You have a wierd arch "+arch);
                                 LaunchButton.Enabled = true;
                                 LaunchProgress.Visible = false;
+                                SetSatus("Wierd arch found");
                                 return;
                             }
                         }
 
                         // version detection
                         var version = Utils.GetVersion();
+                        SetSatus("getting version");
                         LaunchProgress.Value += LaunchProgress.Maximum / 10;
 
                         Log.Write("Downloading list of supported versions");
@@ -195,6 +212,7 @@ namespace OnixLauncher
                         versionClient.Dispose();
 
                         Log.Write("Downloaded, comparing versions");
+                        SetSatus("comparing versions");
                         List<string> stringTable = latestSupported.Split('\n').ToList();
                         var supported = stringTable.Contains(version);
 
@@ -207,14 +225,20 @@ namespace OnixLauncher
                             LaunchProgress.Visible = false;
                             Utils.ShowMessage("Unsupported Version",
                                 "Your version (" + version + ") is not supported by Onix Client.");
+                            SetSatus("unsupported version");
                         }
                         else
                         {
                             if (!supported && Bypassed)
+                            {
                                 Log.Write("Incorrect version, but was bypassed. Launching...");
+                                SetSatus("bypass");
+                            }
                             else if (supported)
+                            {
                                 Log.Write("Correct Version, Launching...");
-
+                                SetSatus("Launching game");
+                            }
                             if (File.Exists(dllPath) && !Utils.IsGameOpen())
                                 File.Delete(dllPath);
 
@@ -223,7 +247,7 @@ namespace OnixLauncher
                             injector.DoWork += new DoWorkEventHandler(delegate (object ins, DoWorkEventArgs ina)
                             {
                                 Log.Write("Preparing to inject into the game");
-
+                                SetSatus("Preparing to inject");
                                 BackgroundWorker staticProgress = new BackgroundWorker();
 
                                 staticProgress.DoWork += new DoWorkEventHandler((object sts, DoWorkEventArgs sta) =>
@@ -238,6 +262,7 @@ namespace OnixLauncher
 
                                 staticProgress.RunWorkerAsync();
 
+                                SetSatus("injecting");
                                 if (Bypassed && Utils.SelectedPath != "no file")
                                     Injector.Inject(Utils.SelectedPath);
                                 else
@@ -268,11 +293,13 @@ namespace OnixLauncher
                     });
 
                 bw.RunWorkerAsync();
+                SetSatus("Done");
             }
             catch (Exception ex)
             {
                 Log.Write("We ran into a problem while launching: " + ex.Message);
-                Utils.ShowMessage("Launch Error", "Failed to launch Onix Client. Check the logs for info.\n"+Utils.OnixPath+"\\Logs");
+                Utils.ShowMessage("Launch Error", "Failed to launch Onix Client. Check the logs for info.\n" + Utils.OnixPath + "\\Logs");
+                SetSatus("whoops error");
             }
         }
 
@@ -403,7 +430,7 @@ namespace OnixLauncher
         public void SetSatus(string Status)
         {
             labelstatus.Text = Status;
-            Log.Write("Set status to " + Status);
+            Debug.WriteLine("Set status to " + Status);
         }
     }
 }
