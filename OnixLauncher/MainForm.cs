@@ -349,11 +349,7 @@ namespace OnixLauncher
 						case "51.79.162.196":
                             _presence.ChangePresence("Playing on Zeqa", Utils.GetVersion(), Utils.GetXboxGamertag());
                             break;
-                        
-                        case "181.215.37.67": // xXTurtleGaming123Xx
-                            _presence.ChangePresence("Playing on TurtleUHC", Utils.GetVersion(), Utils.GetXboxGamertag());
-                            break;
-                        
+							
                         case "rushnation.net":
                             _presence.ChangePresence("Playing on RushNation", Utils.GetVersion(), Utils.GetXboxGamertag());
                             break;
