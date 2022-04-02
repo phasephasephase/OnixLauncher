@@ -6,12 +6,17 @@ namespace OnixLauncher
 {
     public static class Log
     {
+        public static string LogPath = Utils.OnixPath + "\\Logs";
+
         private static string _logText = string.Empty;
+
         public static void CreateLog()
         {
-            Directory.CreateDirectory(Utils.OnixPath + "\\Logs");
+            Directory.CreateDirectory(Utils.OnixPath + "\\Logs\\Previous");
             if (File.Exists(Utils.OnixPath + "\\Logs\\Current.log"))
-                File.Delete(Utils.OnixPath + "\\Logs\\Current.log");
+            {
+                File.Move(Utils.OnixPath + "\\Logs\\Current.log", Utils.OnixPath + "\\Logs\\" + DateTime.Now.ToBinary() + ".log");
+            }
         }
 
         public static void Write(string text)

@@ -34,7 +34,7 @@ namespace OnixLauncher
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            Guna.UI2.AnimatorNS.Animation animation4 = new Guna.UI2.AnimatorNS.Animation();
+            Guna.UI2.AnimatorNS.Animation animation1 = new Guna.UI2.AnimatorNS.Animation();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.TitleBar = new System.Windows.Forms.Panel();
             this.TitleText = new System.Windows.Forms.Label();
@@ -46,7 +46,6 @@ namespace OnixLauncher
             this.OnixTitle = new System.Windows.Forms.Label();
             this.LaunchProgress = new Guna.UI2.WinForms.Guna2ProgressBar();
             this.PresenceTimer = new System.Timers.Timer();
-            this.TaskbarIcon = new System.Windows.Forms.NotifyIcon(this.components);
             this.ProgressTransition = new Guna.UI2.WinForms.Guna2Transition();
             this.CreditsButton = new Guna.UI2.WinForms.Guna2GradientButton();
             this.Discord = new Guna.UI2.WinForms.Guna2GradientButton();
@@ -216,33 +215,26 @@ namespace OnixLauncher
             this.PresenceTimer.SynchronizingObject = this;
             this.PresenceTimer.Elapsed += new System.Timers.ElapsedEventHandler(this.PresenceTimer_Elapsed);
             // 
-            // TaskbarIcon
-            // 
-            this.TaskbarIcon.Icon = ((System.Drawing.Icon)(resources.GetObject("TaskbarIcon.Icon")));
-            this.TaskbarIcon.Text = "Onix Launcher";
-            this.TaskbarIcon.Visible = true;
-            this.TaskbarIcon.MouseClick += new System.Windows.Forms.MouseEventHandler(this.TaskbarIcon_MouseClick);
-            // 
             // ProgressTransition
             // 
             this.ProgressTransition.AnimationType = Guna.UI2.AnimatorNS.AnimationType.Transparent;
             this.ProgressTransition.Cursor = null;
-            animation4.AnimateOnlyDifferences = true;
-            animation4.BlindCoeff = ((System.Drawing.PointF)(resources.GetObject("animation4.BlindCoeff")));
-            animation4.LeafCoeff = 0F;
-            animation4.MaxTime = 1F;
-            animation4.MinTime = 0F;
-            animation4.MosaicCoeff = ((System.Drawing.PointF)(resources.GetObject("animation4.MosaicCoeff")));
-            animation4.MosaicShift = ((System.Drawing.PointF)(resources.GetObject("animation4.MosaicShift")));
-            animation4.MosaicSize = 0;
-            animation4.Padding = new System.Windows.Forms.Padding(0);
-            animation4.RotateCoeff = 0F;
-            animation4.RotateLimit = 0F;
-            animation4.ScaleCoeff = ((System.Drawing.PointF)(resources.GetObject("animation4.ScaleCoeff")));
-            animation4.SlideCoeff = ((System.Drawing.PointF)(resources.GetObject("animation4.SlideCoeff")));
-            animation4.TimeCoeff = 0F;
-            animation4.TransparencyCoeff = 1F;
-            this.ProgressTransition.DefaultAnimation = animation4;
+            animation1.AnimateOnlyDifferences = true;
+            animation1.BlindCoeff = ((System.Drawing.PointF)(resources.GetObject("animation1.BlindCoeff")));
+            animation1.LeafCoeff = 0F;
+            animation1.MaxTime = 1F;
+            animation1.MinTime = 0F;
+            animation1.MosaicCoeff = ((System.Drawing.PointF)(resources.GetObject("animation1.MosaicCoeff")));
+            animation1.MosaicShift = ((System.Drawing.PointF)(resources.GetObject("animation1.MosaicShift")));
+            animation1.MosaicSize = 0;
+            animation1.Padding = new System.Windows.Forms.Padding(0);
+            animation1.RotateCoeff = 0F;
+            animation1.RotateLimit = 0F;
+            animation1.ScaleCoeff = ((System.Drawing.PointF)(resources.GetObject("animation1.ScaleCoeff")));
+            animation1.SlideCoeff = ((System.Drawing.PointF)(resources.GetObject("animation1.SlideCoeff")));
+            animation1.TimeCoeff = 0F;
+            animation1.TransparencyCoeff = 1F;
+            this.ProgressTransition.DefaultAnimation = animation1;
             // 
             // CreditsButton
             // 
@@ -337,8 +329,6 @@ namespace OnixLauncher
         }
 
         private Guna.UI2.WinForms.Guna2Transition ProgressTransition;
-
-        private System.Windows.Forms.NotifyIcon TaskbarIcon;
 
         private System.Timers.Timer PresenceTimer;
 
