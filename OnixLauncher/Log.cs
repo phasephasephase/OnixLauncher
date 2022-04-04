@@ -12,18 +12,19 @@ namespace OnixLauncher
 
         public static void CreateLog()
         {
-            Directory.CreateDirectory(Utils.OnixPath + "\\Logs\\Previous");
-            if (File.Exists(Utils.OnixPath + "\\Logs\\Current.log"))
+            Directory.CreateDirectory(LogPath + "\\Previous");
+            if (File.Exists(LogPath + "\\Current.log"))
             {
-                File.Move(Utils.OnixPath + "\\Logs\\Current.log", Utils.OnixPath + "\\Logs\\" + DateTime.Now.ToBinary() + ".log");
+                File.Move(LogPath + "\\Current.log", LogPath + "\\" + DateTime.Now.ToBinary() + ".log");
             }
         }
 
         public static void Write(string text)
         {
             Debug.WriteLine(text);
+            Console.WriteLine(text); // ok
             _logText += text + Environment.NewLine;
-            File.WriteAllText(Utils.OnixPath + "\\Logs\\Current.log", _logText);
+            File.WriteAllText(LogPath + "\\Current.log", _logText);
         }
     }
 }

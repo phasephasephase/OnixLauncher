@@ -35,10 +35,13 @@ namespace OnixLauncher
         {
             if (!_init)
             {
-                _fileDialog = new OpenFileDialog();
-                _fileDialog.Title = "Select DLL";
-                _fileDialog.Multiselect = false;
-                _fileDialog.Filter = "DLL files (*.dll)|*.dll"; // NOT localizable, thanks rider
+                _fileDialog = new OpenFileDialog
+                {
+                    Title = "Select DLL",
+                    Multiselect = false,
+                    Filter = "DLL files (*.dll)|*.dll" // NOT localizable, thanks rider
+                };
+
                 _init = true;
                 _fileDialog.FileOk += FileDialogOnFileOk;
             }
@@ -54,7 +57,7 @@ namespace OnixLauncher
             {
                 WindowStyle = ProcessWindowStyle.Normal,
                 FileName = "explorer.exe",
-                Arguments = "shell:appsFolder\\Microsoft.MinecraftUWP_8wekyb3d8bbwe!App"
+                Arguments = "shell:appsFolder\\Microsoft.MinecraftUWP_8wekyb3d8bbwe!App",
             };
             process.StartInfo = startInfo;
             process.Start();

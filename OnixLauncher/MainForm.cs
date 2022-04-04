@@ -82,13 +82,13 @@ namespace OnixLauncher
         private void CreditsButton_Click(object sender, EventArgs e)
         {
             Utils.ShowMessage("Credits", 
-                "Onix Client - by Onix86\nOnix Launcher - by carlton (and all of the contributors on GitHub <3");
+                "Onix Client - by Onix86\nOnix Launcher - by carlton (and all of the contributors on GitHub <3)");
         }
 
         private void Discord_Click(object sender, EventArgs e)
         {
-            String url = "https://discord.com/invite/onixclient";
-            System.Diagnostics.Process.Start(new ProcessStartInfo
+            string url = "https://discord.com/invite/onixclient";
+            Process.Start(new ProcessStartInfo
             {
                 FileName = url,
                 UseShellExecute = true
@@ -120,6 +120,11 @@ namespace OnixLauncher
         {
             Utils.ShowMessage("weird", "bug fix");
             Utils.MessageF.Hide(); // gotta show this once to make it work
+
+            // let's try this instead
+            if (File.Exists(Utils.DLLPath) && !Utils.IsGameOpen())
+                File.Delete(Utils.DLLPath);
+
             try
             {
                 Log.Write("Preparing to launch");
@@ -203,10 +208,6 @@ namespace OnixLauncher
                             Log.Write("Incorrect version, but was bypassed. Launching...");
                         else if (supported)
                             Log.Write("Correct Version, Launching...");
-
-                        // hopefully this fixes updating
-                        if (File.Exists(dllPath) && !Utils.IsGameOpen())
-                            Process.Start("cmd.exe /c del \" % localappdata %\\Onix Launcher\\OnixClient.dll\"");
 
                         BackgroundWorker injector = new BackgroundWorker();
 
@@ -399,7 +400,7 @@ namespace OnixLauncher
                 if (Opacity <= 0)
                 {
                     FadeTimer.Stop();
-                    Log.Write("Closed");
+                    Log.Write("bye");
                     Close();
                     return;
                 }
