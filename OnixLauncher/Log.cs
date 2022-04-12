@@ -21,7 +21,7 @@ namespace OnixLauncher
 
         public static void Write(string text)
         {
-            Debug.WriteLine(text);
+            Debug.WriteLine(text); //this does it double
             Console.WriteLine(text); // ok
             _logText += text + Environment.NewLine;
             File.WriteAllText(LogPath + "\\Current.log", _logText);
