@@ -122,7 +122,7 @@ namespace OnixLauncher
             Launcher.LaunchButton = LaunchButton;
             Launcher.LaunchProgress = LaunchProgress;
             Launcher.PresenceTimer = PresenceTimer;
-            Launcher.rpc = _presence;
+            Launcher.Presence = _presence;
             
             Launcher.Launch();
         }

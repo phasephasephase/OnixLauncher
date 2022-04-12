@@ -7,15 +7,16 @@ using System.Net;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Guna.UI2.WinForms;
 
 namespace OnixLauncher
 {
     class Launcher
     {
-        public static Guna.UI2.WinForms.Guna2GradientButton LaunchButton;
-        public static Guna.UI2.WinForms.Guna2ProgressBar LaunchProgress;
+        public static Guna2GradientButton LaunchButton;
+        public static Guna2ProgressBar LaunchProgress;
         public static bool Bypassed;
-        public static RichPresence rpc;
+        public static RichPresence Presence; //:tr:
         public static System.Timers.Timer PresenceTimer;
 
         public static void Launch()
@@ -142,7 +143,7 @@ namespace OnixLauncher
 
                             LaunchProgress.Value = LaunchProgress.Maximum;
 
-                            rpc.ChangePresence("In the menus", Utils.GetVersion(), Utils.GetXboxGamertag());
+                            Presence.ChangePresence("In the menus", Utils.GetVersion(), Utils.GetXboxGamertag());
                             PresenceTimer.Start();
 
                             dllClient.Dispose();
