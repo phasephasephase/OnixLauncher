@@ -232,6 +232,7 @@ namespace OnixLauncher
             if (minecraftIndex.Length == 0)
             {
                 Log.Write("Minecraft seems like it was closed");
+                if (_presence == null) Log.Write("wtf presence null");
                 _presence.ResetPresence();
                 PresenceTimer.Stop();
             }
