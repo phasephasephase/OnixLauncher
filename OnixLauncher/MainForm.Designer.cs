@@ -268,13 +268,13 @@ namespace OnixLauncher
             this.Discord.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
             this.Discord.DisabledState.FillColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
             this.Discord.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(141)))), ((int)(((byte)(141)))));
-            this.Discord.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(88)))), ((int)(((byte)(101)))), ((int)(((byte)(242)))));
+            this.Discord.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(1)))), ((int)(((byte)(254)))), ((int)(((byte)(218)))));
             this.Discord.FillColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(140)))), ((int)(((byte)(215)))));
             this.Discord.Font = new System.Drawing.Font("Segoe UI Black", 20.25F, System.Drawing.FontStyle.Bold);
             this.Discord.ForeColor = System.Drawing.Color.White;
             this.Discord.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.ForwardDiagonal;
             this.Discord.Image = ((System.Drawing.Image)(resources.GetObject("Discord.Image")));
-            this.Discord.ImageSize = new System.Drawing.Size(35, 35);
+            this.Discord.ImageSize = new System.Drawing.Size(38, 38);
             this.Discord.Location = new System.Drawing.Point(10, 300);
             this.Discord.Name = "Discord";
             this.Discord.Size = new System.Drawing.Size(50, 50);
