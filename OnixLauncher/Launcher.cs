@@ -11,7 +11,7 @@ using Guna.UI2.WinForms;
 
 namespace OnixLauncher
 {
-    class Launcher
+    public static class Launcher
     {
         public static Guna2GradientButton LaunchButton;
         public static Guna2ProgressBar LaunchProgress;
