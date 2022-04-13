@@ -14,7 +14,6 @@ namespace OnixLauncher
     public partial class MainForm : Form
     {
         public static Form Instance;
-        private RichPresence _presence;
         public static bool Bypassed;
 
         protected override CreateParams CreateParams
@@ -34,7 +33,7 @@ namespace OnixLauncher
             InitializeComponent();
             Log.Write("Initialized UI");
             Instance = this;
-            _presence = new RichPresence();
+            RichPresence.Initialize();
 
             // We want to have the form in the middle to polish everything
             StartPosition = FormStartPosition.CenterScreen;
@@ -122,7 +121,6 @@ namespace OnixLauncher
             Launcher.LaunchButton = LaunchButton;
             Launcher.LaunchProgress = LaunchProgress;
             Launcher.PresenceTimer = PresenceTimer;
-            Launcher.Presence = _presence;
             
             Launcher.Launch();
         }
@@ -155,9 +153,9 @@ namespace OnixLauncher
                 Log.Write("Detected a change in server.txt, updating presence");
 
                 if (currentServer == "")
-                    _presence.ChangePresence("In the menus", Utils.GetVersion(), Utils.GetXboxGamertag());
+                    RichPresence.ChangePresence("In the menus", Utils.GetVersion(), Utils.GetXboxGamertag());
                 else if (currentServer.Contains("In a World, "))
-                    _presence.ChangePresence("In a world: " + currentServer.Remove(0, 12), Utils.GetVersion(),
+                    RichPresence.ChangePresence("In a world: " + currentServer.Remove(0, 12), Utils.GetVersion(),
                         Utils.GetXboxGamertag());
                 else
                 {
@@ -168,35 +166,35 @@ namespace OnixLauncher
                         case "ca.hivebedrock.network":
                         case "sg.hivebedrock.network":
                         case "jp.hivebedrock.network":
-                            _presence.ChangePresence("Playing on The Hive", Utils.GetVersion(), Utils.GetXboxGamertag());
+                            RichPresence.ChangePresence("Playing on The Hive", Utils.GetVersion(), Utils.GetXboxGamertag());
                             break;
 
                         case "play.inpvp.net":
-                            _presence.ChangePresence("Playing on Mineville", Utils.GetVersion(), Utils.GetXboxGamertag());
+                            RichPresence.ChangePresence("Playing on Mineville", Utils.GetVersion(), Utils.GetXboxGamertag());
                             break;
 
                         case "mco.cubecraft.net":
-                            _presence.ChangePresence("Playing on CubeCraft", Utils.GetVersion(), Utils.GetXboxGamertag());
+                            RichPresence.ChangePresence("Playing on CubeCraft", Utils.GetVersion(), Utils.GetXboxGamertag());
                             break;
 
                         case "mco.mineplex.com":
-                            _presence.ChangePresence("Playing on Mineplex", Utils.GetVersion(), Utils.GetXboxGamertag());
+                            RichPresence.ChangePresence("Playing on Mineplex", Utils.GetVersion(), Utils.GetXboxGamertag());
                             break;
 
                         case "play.galaxite.net":
-                            _presence.ChangePresence("Playing on Galaxite", Utils.GetVersion(), Utils.GetXboxGamertag());
+                            RichPresence.ChangePresence("Playing on Galaxite", Utils.GetVersion(), Utils.GetXboxGamertag());
                             break;
 
                         case "mco.lbsg.net":
-                            _presence.ChangePresence("Playing on Lifeboat", Utils.GetVersion(), Utils.GetXboxGamertag());
+                            RichPresence.ChangePresence("Playing on Lifeboat", Utils.GetVersion(), Utils.GetXboxGamertag());
                             break;
 
                         case "play.nethergames.org":
-                            _presence.ChangePresence("Playing on NetherGames", Utils.GetVersion(), Utils.GetXboxGamertag());
+                            RichPresence.ChangePresence("Playing on NetherGames", Utils.GetVersion(), Utils.GetXboxGamertag());
                             break;
 
                         case "play.hyperlandsmc.net":
-                            _presence.ChangePresence("Playing on HyperLands", Utils.GetVersion(), Utils.GetXboxGamertag());
+                            RichPresence.ChangePresence("Playing on HyperLands", Utils.GetVersion(), Utils.GetXboxGamertag());
                             break;
 
                         case "zeqa.net":
@@ -210,15 +208,15 @@ namespace OnixLauncher
 						case "139.99.120.127":
 						case "51.79.177.168":
 						case "51.79.162.196":
-                            _presence.ChangePresence("Playing on Zeqa", Utils.GetVersion(), Utils.GetXboxGamertag());
+                            RichPresence.ChangePresence("Playing on Zeqa", Utils.GetVersion(), Utils.GetXboxGamertag());
                             break;
 							
                         case "rushnation.net":
-                            _presence.ChangePresence("Playing on RushNation", Utils.GetVersion(), Utils.GetXboxGamertag());
+                            RichPresence.ChangePresence("Playing on RushNation", Utils.GetVersion(), Utils.GetXboxGamertag());
                             break;
                         
                         default:
-                            _presence.ChangePresence("Playing on " + currentServer, Utils.GetVersion(), Utils.GetXboxGamertag());
+                            RichPresence.ChangePresence("Playing on " + currentServer, Utils.GetVersion(), Utils.GetXboxGamertag());
                             break;
                     }
                 }
@@ -232,8 +230,7 @@ namespace OnixLauncher
             if (minecraftIndex.Length == 0)
             {
                 Log.Write("Minecraft seems like it was closed");
-                if (_presence == null) Log.Write("wtf presence null");
-                _presence.ResetPresence();
+                RichPresence.ResetPresence();
                 PresenceTimer.Stop();
             }
             else

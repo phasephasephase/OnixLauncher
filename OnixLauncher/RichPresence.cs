@@ -3,12 +3,12 @@ using System;
 
 namespace OnixLauncher
 {
-    public class RichPresence
+    public static class RichPresence
     {
-        public DiscordRpcClient Client;
-        private string _discordTime = "";
+        public static DiscordRpcClient Client;
+        private static string _discordTime = "";
 
-        public RichPresence()
+        public static void Initialize()
         {
             var TimestampStart = 0;
             var TimestampEnd = 0;
@@ -43,7 +43,7 @@ namespace OnixLauncher
             Log.Write("Initialized Rich Presence");
         }
 
-        private string GetLargeImage()
+        private static string GetLargeImage()
         {
             // Moved it to a variable so it can have support for more seasons later
             // You can use Dec-Feb for winter logo, Mar-Jun for spring logo, christmas,kwanza, hanukkah, etc
@@ -54,7 +54,7 @@ namespace OnixLauncher
         }
 
 
-        public void ChangePresence(string server, string version, string gamertag)
+        public static void ChangePresence(string server, string version, string gamertag)
         {
             int TimestampStart = 0;
             int TimestampEnd = 0;
@@ -94,7 +94,7 @@ namespace OnixLauncher
             Log.Write("Updated rich presence: " + server);
         }
 
-        public void ResetPresence()
+        public static void ResetPresence()
         {
             int TimestampStart = 0;
             int TimestampEnd = 0;

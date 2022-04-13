@@ -34,7 +34,7 @@ namespace OnixLauncher
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            Guna.UI2.AnimatorNS.Animation animation1 = new Guna.UI2.AnimatorNS.Animation();
+            Guna.UI2.AnimatorNS.Animation animation2 = new Guna.UI2.AnimatorNS.Animation();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.TitleBar = new System.Windows.Forms.Panel();
             this.TitleText = new System.Windows.Forms.Label();
@@ -75,7 +75,7 @@ namespace OnixLauncher
             // TitleText
             // 
             this.ProgressTransition.SetDecoration(this.TitleText, Guna.UI2.AnimatorNS.DecorationType.None);
-            this.TitleText.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.TitleText.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.TitleText.ForeColor = System.Drawing.Color.White;
             this.TitleText.Location = new System.Drawing.Point(30, 8);
             this.TitleText.Name = "TitleText";
@@ -219,22 +219,22 @@ namespace OnixLauncher
             // 
             this.ProgressTransition.AnimationType = Guna.UI2.AnimatorNS.AnimationType.Transparent;
             this.ProgressTransition.Cursor = null;
-            animation1.AnimateOnlyDifferences = true;
-            animation1.BlindCoeff = ((System.Drawing.PointF)(resources.GetObject("animation1.BlindCoeff")));
-            animation1.LeafCoeff = 0F;
-            animation1.MaxTime = 1F;
-            animation1.MinTime = 0F;
-            animation1.MosaicCoeff = ((System.Drawing.PointF)(resources.GetObject("animation1.MosaicCoeff")));
-            animation1.MosaicShift = ((System.Drawing.PointF)(resources.GetObject("animation1.MosaicShift")));
-            animation1.MosaicSize = 0;
-            animation1.Padding = new System.Windows.Forms.Padding(0);
-            animation1.RotateCoeff = 0F;
-            animation1.RotateLimit = 0F;
-            animation1.ScaleCoeff = ((System.Drawing.PointF)(resources.GetObject("animation1.ScaleCoeff")));
-            animation1.SlideCoeff = ((System.Drawing.PointF)(resources.GetObject("animation1.SlideCoeff")));
-            animation1.TimeCoeff = 0F;
-            animation1.TransparencyCoeff = 1F;
-            this.ProgressTransition.DefaultAnimation = animation1;
+            animation2.AnimateOnlyDifferences = true;
+            animation2.BlindCoeff = ((System.Drawing.PointF)(resources.GetObject("animation2.BlindCoeff")));
+            animation2.LeafCoeff = 0F;
+            animation2.MaxTime = 1F;
+            animation2.MinTime = 0F;
+            animation2.MosaicCoeff = ((System.Drawing.PointF)(resources.GetObject("animation2.MosaicCoeff")));
+            animation2.MosaicShift = ((System.Drawing.PointF)(resources.GetObject("animation2.MosaicShift")));
+            animation2.MosaicSize = 0;
+            animation2.Padding = new System.Windows.Forms.Padding(0);
+            animation2.RotateCoeff = 0F;
+            animation2.RotateLimit = 0F;
+            animation2.ScaleCoeff = ((System.Drawing.PointF)(resources.GetObject("animation2.ScaleCoeff")));
+            animation2.SlideCoeff = ((System.Drawing.PointF)(resources.GetObject("animation2.SlideCoeff")));
+            animation2.TimeCoeff = 0F;
+            animation2.TransparencyCoeff = 1F;
+            this.ProgressTransition.DefaultAnimation = animation2;
             // 
             // CreditsButton
             // 
@@ -274,7 +274,7 @@ namespace OnixLauncher
             this.Discord.ForeColor = System.Drawing.Color.White;
             this.Discord.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.ForwardDiagonal;
             this.Discord.Image = ((System.Drawing.Image)(resources.GetObject("Discord.Image")));
-            this.Discord.ImageSize = new System.Drawing.Size(38, 38);
+            this.Discord.ImageSize = new System.Drawing.Size(35, 35);
             this.Discord.Location = new System.Drawing.Point(10, 300);
             this.Discord.Name = "Discord";
             this.Discord.Size = new System.Drawing.Size(50, 50);
