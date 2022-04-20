@@ -34,7 +34,7 @@ namespace OnixLauncher
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            Guna.UI2.AnimatorNS.Animation animation2 = new Guna.UI2.AnimatorNS.Animation();
+            Guna.UI2.AnimatorNS.Animation animation3 = new Guna.UI2.AnimatorNS.Animation();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.TitleBar = new System.Windows.Forms.Panel();
             this.TitleText = new System.Windows.Forms.Label();
@@ -50,6 +50,8 @@ namespace OnixLauncher
             this.CreditsButton = new Guna.UI2.WinForms.Guna2GradientButton();
             this.Discord = new Guna.UI2.WinForms.Guna2GradientButton();
             this.FadeTimer = new System.Windows.Forms.Timer(this.components);
+            this.MagicGradient = new Guna.UI2.WinForms.Guna2ColorTransition(this.components);
+            this.MagicGradient2 = new Guna.UI2.WinForms.Guna2ColorTransition(this.components);
             this.TitleBar.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.OnixLogo)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.BigOnixLogo)).BeginInit();
@@ -219,22 +221,22 @@ namespace OnixLauncher
             // 
             this.ProgressTransition.AnimationType = Guna.UI2.AnimatorNS.AnimationType.Transparent;
             this.ProgressTransition.Cursor = null;
-            animation2.AnimateOnlyDifferences = true;
-            animation2.BlindCoeff = ((System.Drawing.PointF)(resources.GetObject("animation2.BlindCoeff")));
-            animation2.LeafCoeff = 0F;
-            animation2.MaxTime = 1F;
-            animation2.MinTime = 0F;
-            animation2.MosaicCoeff = ((System.Drawing.PointF)(resources.GetObject("animation2.MosaicCoeff")));
-            animation2.MosaicShift = ((System.Drawing.PointF)(resources.GetObject("animation2.MosaicShift")));
-            animation2.MosaicSize = 0;
-            animation2.Padding = new System.Windows.Forms.Padding(0);
-            animation2.RotateCoeff = 0F;
-            animation2.RotateLimit = 0F;
-            animation2.ScaleCoeff = ((System.Drawing.PointF)(resources.GetObject("animation2.ScaleCoeff")));
-            animation2.SlideCoeff = ((System.Drawing.PointF)(resources.GetObject("animation2.SlideCoeff")));
-            animation2.TimeCoeff = 0F;
-            animation2.TransparencyCoeff = 1F;
-            this.ProgressTransition.DefaultAnimation = animation2;
+            animation3.AnimateOnlyDifferences = true;
+            animation3.BlindCoeff = ((System.Drawing.PointF)(resources.GetObject("animation3.BlindCoeff")));
+            animation3.LeafCoeff = 0F;
+            animation3.MaxTime = 1F;
+            animation3.MinTime = 0F;
+            animation3.MosaicCoeff = ((System.Drawing.PointF)(resources.GetObject("animation3.MosaicCoeff")));
+            animation3.MosaicShift = ((System.Drawing.PointF)(resources.GetObject("animation3.MosaicShift")));
+            animation3.MosaicSize = 0;
+            animation3.Padding = new System.Windows.Forms.Padding(0);
+            animation3.RotateCoeff = 0F;
+            animation3.RotateLimit = 0F;
+            animation3.ScaleCoeff = ((System.Drawing.PointF)(resources.GetObject("animation3.ScaleCoeff")));
+            animation3.SlideCoeff = ((System.Drawing.PointF)(resources.GetObject("animation3.SlideCoeff")));
+            animation3.TimeCoeff = 0F;
+            animation3.TransparencyCoeff = 1F;
+            this.ProgressTransition.DefaultAnimation = animation3;
             // 
             // CreditsButton
             // 
@@ -287,6 +289,24 @@ namespace OnixLauncher
             this.FadeTimer.Enabled = true;
             this.FadeTimer.Interval = 1;
             this.FadeTimer.Tick += new System.EventHandler(this.FadeTimer_Tick);
+            // 
+            // MagicGradient
+            // 
+            this.MagicGradient.AutoTransition = true;
+            this.MagicGradient.ColorArray = new System.Drawing.Color[] {
+        System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(140)))), ((int)(((byte)(215))))),
+        System.Drawing.Color.FromArgb(((int)(((byte)(1)))), ((int)(((byte)(254)))), ((int)(((byte)(218)))))};
+            this.MagicGradient.EndColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(140)))), ((int)(((byte)(215)))));
+            this.MagicGradient.StartColor = System.Drawing.Color.FromArgb(((int)(((byte)(1)))), ((int)(((byte)(254)))), ((int)(((byte)(218)))));
+            // 
+            // MagicGradient2
+            // 
+            this.MagicGradient2.AutoTransition = true;
+            this.MagicGradient2.ColorArray = new System.Drawing.Color[] {
+        System.Drawing.Color.FromArgb(((int)(((byte)(1)))), ((int)(((byte)(254)))), ((int)(((byte)(218))))),
+        System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(140)))), ((int)(((byte)(215)))))};
+            this.MagicGradient2.EndColor = System.Drawing.Color.FromArgb(((int)(((byte)(1)))), ((int)(((byte)(254)))), ((int)(((byte)(218)))));
+            this.MagicGradient2.StartColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(140)))), ((int)(((byte)(215)))));
             // 
             // MainForm
             // 
@@ -353,5 +373,7 @@ namespace OnixLauncher
         private Guna.UI2.WinForms.Guna2GradientButton Discord;
         public Timer FadeTimer;
         public Guna.UI2.WinForms.Guna2ProgressBar LaunchProgress;
+        private Guna.UI2.WinForms.Guna2ColorTransition MagicGradient;
+        private Guna.UI2.WinForms.Guna2ColorTransition MagicGradient2;
     }
 }

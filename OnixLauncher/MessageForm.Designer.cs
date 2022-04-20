@@ -60,7 +60,7 @@ namespace OnixLauncher
             // 
             // TitleText
             // 
-            this.TitleText.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.TitleText.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.TitleText.ForeColor = System.Drawing.Color.White;
             this.TitleText.Location = new System.Drawing.Point(7, 7);
             this.TitleText.Name = "TitleText";

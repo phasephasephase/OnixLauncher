@@ -1,11 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
-using System.Net;
-using System.Threading;
 using System.Timers;
 using System.Windows.Forms;
 
@@ -47,8 +43,10 @@ namespace OnixLauncher
             // stupid winforms thing that fixes message boxes
             CheckForIllegalCrossThreadCalls = false;
 
-            // this is a bit useless, might remove soon
+            // event stuffs
             Injector.InjectionCompleted += InjectionCompleted;
+            MagicGradient.ValueChanged += HandleGradient1;
+            MagicGradient2.ValueChanged += HandleGradient2;
 
             // first time?
             if (!File.Exists(Utils.OnixPath + "\\firstTime"))
@@ -58,6 +56,22 @@ namespace OnixLauncher
                 Utils.ShowMessage("Welcome to Onix Client!",
                     "Check our Discord's #faq channel if you're having problems.");
             }
+        }
+
+        private void HandleGradient2(object sender, EventArgs e)
+        {
+            LaunchButton.FillColor2 = MagicGradient2.Value;
+            CreditsButton.FillColor2 = MagicGradient2.Value;
+            Discord.FillColor2 = MagicGradient2.Value;
+            LaunchProgress.ProgressColor2 = MagicGradient2.Value;
+        }
+
+        private void HandleGradient1(object sender, EventArgs e)
+        {
+            LaunchButton.FillColor = MagicGradient.Value;
+            CreditsButton.FillColor = MagicGradient.Value;
+            Discord.FillColor = MagicGradient.Value;
+            LaunchProgress.ProgressColor = MagicGradient.Value;
         }
 
         private void CloseButton_Click(object sender, EventArgs e)
