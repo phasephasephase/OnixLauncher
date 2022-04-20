@@ -31,6 +31,11 @@ namespace OnixLauncher
             MessageF.Show();
         }
 
+        private static Settings LoadSettings()
+        {
+
+        }
+
         public static void OpenFile()
         {
             if (!_init)
