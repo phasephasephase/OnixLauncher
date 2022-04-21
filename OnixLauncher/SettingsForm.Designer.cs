@@ -46,9 +46,9 @@
             // 
             this.InsiderDescription.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.InsiderDescription.ForeColor = System.Drawing.Color.White;
-            this.InsiderDescription.Location = new System.Drawing.Point(13, 74);
+            this.InsiderDescription.Location = new System.Drawing.Point(12, 74);
             this.InsiderDescription.Name = "InsiderDescription";
-            this.InsiderDescription.Size = new System.Drawing.Size(223, 17);
+            this.InsiderDescription.Size = new System.Drawing.Size(235, 17);
             this.InsiderDescription.TabIndex = 10;
             this.InsiderDescription.Text = "This will only work with Onix Client DLLs.";
             // 
@@ -220,11 +220,11 @@
         private System.Windows.Forms.Panel TitleBar;
         private System.Windows.Forms.Label TitleText;
         private Guna.UI2.WinForms.Guna2Button CloseButton;
-        private Guna.UI2.WinForms.Guna2GradientButton InsiderSelect;
         private Guna.UI2.WinForms.Guna2Separator Separator1;
         private System.Windows.Forms.Label MagicDescription;
         private System.Windows.Forms.Label shushing_face;
         public Guna.UI2.WinForms.Guna2CheckBox InsiderToggle;
         public Guna.UI2.WinForms.Guna2CheckBox MagicToggle;
+        public Guna.UI2.WinForms.Guna2GradientButton InsiderSelect;
     }
 }

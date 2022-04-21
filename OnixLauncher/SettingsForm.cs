@@ -27,6 +27,7 @@ namespace OnixLauncher
         private void InsiderToggle_CheckedChanged(object sender, EventArgs e)
         {
             Utils.CurrentSettings.InsiderMode = InsiderToggle.Checked;
+            InsiderSelect.Enabled = InsiderToggle.Checked;
             Utils.UpdateSettings();
         }
 

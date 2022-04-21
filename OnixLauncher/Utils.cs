@@ -47,6 +47,7 @@ namespace OnixLauncher
             MainForm.Instance.UpdateGradientSettings();
             SettingsF.InsiderToggle.Checked = CurrentSettings.InsiderMode;
             SettingsF.MagicToggle.Checked = CurrentSettings.MagicGradient;
+            SettingsF.InsiderSelect.Enabled = SettingsF.InsiderToggle.Checked;
 
             SelectedPath = CurrentSettings.DLLPath;
 

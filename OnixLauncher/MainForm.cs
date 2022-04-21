@@ -61,20 +61,29 @@ namespace OnixLauncher
         // srry for bad code
         private void HandleGradient2(object sender, EventArgs e)
         {
+            // main
             LaunchButton.FillColor2 = MagicGradient2.Value;
             CreditsButton.FillColor2 = MagicGradient2.Value;
             Discord.FillColor2 = MagicGradient2.Value;
             LaunchProgress.ProgressColor2 = MagicGradient2.Value;
             SettingsButton.FillColor2 = MagicGradient2.Value;
+
+            // message and settings
+            Utils.MessageF.Okay.FillColor2 = MagicGradient2.Value;
+            Utils.SettingsF.InsiderSelect.FillColor2 = MagicGradient2.Value;
         }
 
         private void HandleGradient1(object sender, EventArgs e)
         {
+            // same
             LaunchButton.FillColor = MagicGradient.Value;
             CreditsButton.FillColor = MagicGradient.Value;
             Discord.FillColor = MagicGradient.Value;
             LaunchProgress.ProgressColor = MagicGradient.Value;
             SettingsButton.FillColor = MagicGradient.Value;
+
+            Utils.MessageF.Okay.FillColor = MagicGradient.Value;
+            Utils.SettingsF.InsiderSelect.FillColor = MagicGradient.Value;
         }
 
         public void UpdateGradientSettings()
