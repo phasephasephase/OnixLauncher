@@ -14,8 +14,10 @@ namespace OnixLauncher
                 return handleParam;
             }
         }
+
         public static bool DetectedSecondLauncher;
         private static int _bottomPadding = 40;
+
         public MessageForm(string title, string subtitle)
         {
             InitializeComponent();

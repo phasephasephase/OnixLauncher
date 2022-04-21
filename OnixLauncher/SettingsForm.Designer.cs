@@ -38,8 +38,6 @@
             this.Separator1 = new Guna.UI2.WinForms.Guna2Separator();
             this.MagicToggle = new Guna.UI2.WinForms.Guna2CheckBox();
             this.MagicDescription = new System.Windows.Forms.Label();
-            this.MagicSelect1 = new Guna.UI2.WinForms.Guna2Button();
-            this.MagicSelect2 = new Guna.UI2.WinForms.Guna2Button();
             this.shushing_face = new System.Windows.Forms.Label();
             this.TitleBar.SuspendLayout();
             this.SuspendLayout();
@@ -177,43 +175,11 @@
             this.MagicDescription.TabIndex = 14;
             this.MagicDescription.Text = "Animate all gradient elements, at the cost of performance. (i\'m working on it)";
             // 
-            // MagicSelect1
-            // 
-            this.MagicSelect1.Animated = true;
-            this.MagicSelect1.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
-            this.MagicSelect1.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
-            this.MagicSelect1.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
-            this.MagicSelect1.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(141)))), ((int)(((byte)(141)))));
-            this.MagicSelect1.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(1)))), ((int)(((byte)(254)))), ((int)(((byte)(218)))));
-            this.MagicSelect1.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
-            this.MagicSelect1.ForeColor = System.Drawing.Color.White;
-            this.MagicSelect1.Location = new System.Drawing.Point(16, 176);
-            this.MagicSelect1.Name = "MagicSelect1";
-            this.MagicSelect1.Size = new System.Drawing.Size(214, 25);
-            this.MagicSelect1.TabIndex = 15;
-            this.MagicSelect1.Text = "Choose a color";
-            // 
-            // MagicSelect2
-            // 
-            this.MagicSelect2.Animated = true;
-            this.MagicSelect2.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
-            this.MagicSelect2.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
-            this.MagicSelect2.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
-            this.MagicSelect2.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(141)))), ((int)(((byte)(141)))));
-            this.MagicSelect2.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(140)))), ((int)(((byte)(215)))));
-            this.MagicSelect2.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
-            this.MagicSelect2.ForeColor = System.Drawing.Color.White;
-            this.MagicSelect2.Location = new System.Drawing.Point(16, 207);
-            this.MagicSelect2.Name = "MagicSelect2";
-            this.MagicSelect2.Size = new System.Drawing.Size(214, 25);
-            this.MagicSelect2.TabIndex = 16;
-            this.MagicSelect2.Text = "Choose another color";
-            // 
             // shushing_face
             // 
             this.shushing_face.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.shushing_face.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(14)))), ((int)(((byte)(14)))), ((int)(((byte)(14)))));
-            this.shushing_face.Location = new System.Drawing.Point(0, 235);
+            this.shushing_face.Location = new System.Drawing.Point(0, 167);
             this.shushing_face.Name = "shushing_face";
             this.shushing_face.Size = new System.Drawing.Size(223, 15);
             this.shushing_face.TabIndex = 17;
@@ -224,10 +190,8 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(12)))), ((int)(((byte)(12)))), ((int)(((byte)(12)))));
-            this.ClientSize = new System.Drawing.Size(247, 250);
+            this.ClientSize = new System.Drawing.Size(247, 182);
             this.Controls.Add(this.shushing_face);
-            this.Controls.Add(this.MagicSelect2);
-            this.Controls.Add(this.MagicSelect1);
             this.Controls.Add(this.MagicDescription);
             this.Controls.Add(this.MagicToggle);
             this.Controls.Add(this.Separator1);
@@ -256,8 +220,6 @@
         private Guna.UI2.WinForms.Guna2Separator Separator1;
         private Guna.UI2.WinForms.Guna2CheckBox MagicToggle;
         private System.Windows.Forms.Label MagicDescription;
-        private Guna.UI2.WinForms.Guna2Button MagicSelect1;
-        private Guna.UI2.WinForms.Guna2Button MagicSelect2;
         private System.Windows.Forms.Label shushing_face;
     }
 }

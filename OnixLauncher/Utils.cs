@@ -22,6 +22,7 @@ namespace OnixLauncher
         private static bool _init;
         public static string SelectedPath = "no file";
         public static MessageForm MessageF = new MessageForm("you shouldn't see this", "how are you reading this");
+        public static Settings? CurrentSettings = null;
 
         public static void ShowMessage(string title, string subtitle)
         {
@@ -31,9 +32,13 @@ namespace OnixLauncher
             MessageF.Show();
         }
 
-        private static Settings LoadSettings()
+        public static void UpdateSettings()
         {
+            if (CurrentSettings == null)
+                CurrentSettings = Settings.GetDefault();
 
+            Settings.Save((Settings)CurrentSettings); // bro
+            CurrentSettings = Settings.Load();
         }
 
         public static void OpenFile()

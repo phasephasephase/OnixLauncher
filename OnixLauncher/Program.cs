@@ -12,7 +12,11 @@ namespace OnixLauncher
         static void Main(string[] args)
         {
             Log.CreateLog();
-            Log.Write("gaming");
+            Log.Write("Begin");
+
+            Utils.UpdateSettings();
+            Log.Write("Settings loaded");
+
             Application.EnableVisualStyles();
             // THIS LINE CAUSES PROBLEMS!!!!
             //Application.SetCompatibleTextRenderingDefault(false);

@@ -15,7 +15,7 @@ namespace OnixLauncher
             Directory.CreateDirectory(LogPath + "\\Previous");
             if (File.Exists(LogPath + "\\Current.log"))
             {
-                File.Move(LogPath + "\\Current.log", LogPath + "\\" + DateTime.Now.ToBinary() + ".log");
+                File.Move(LogPath + "\\Current.log", LogPath + "\\Previous\\" + DateTime.Now.ToBinary() + ".log");
             }
         }
 
