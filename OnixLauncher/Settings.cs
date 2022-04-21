@@ -17,7 +17,7 @@ namespace OnixLauncher
             return new Settings()
             {
                 InsiderMode = false,
-                DLLPath = string.Empty,
+                DLLPath = "no file",
                 MagicGradient = false
             };
         }

@@ -63,6 +63,7 @@
             this.TitleBar.Name = "TitleBar";
             this.TitleBar.Size = new System.Drawing.Size(247, 30);
             this.TitleBar.TabIndex = 7;
+            this.TitleBar.MouseDown += new System.Windows.Forms.MouseEventHandler(this.TitleBar_MouseDown);
             // 
             // TitleText
             // 
@@ -93,6 +94,7 @@
             this.CloseButton.Name = "CloseButton";
             this.CloseButton.Size = new System.Drawing.Size(30, 30);
             this.CloseButton.TabIndex = 1;
+            this.CloseButton.Click += new System.EventHandler(this.CloseButton_Click);
             // 
             // InsiderSelect
             // 
@@ -114,6 +116,7 @@
             this.InsiderSelect.Text = "Select";
             this.InsiderSelect.TextOffset = new System.Drawing.Point(0, -1);
             this.InsiderSelect.TextRenderingHint = System.Drawing.Text.TextRenderingHint.SingleBitPerPixel;
+            this.InsiderSelect.Click += new System.EventHandler(this.InsiderSelect_Click);
             // 
             // InsiderToggle
             // 
@@ -135,6 +138,7 @@
             this.InsiderToggle.UncheckedState.BorderRadius = 0;
             this.InsiderToggle.UncheckedState.BorderThickness = 0;
             this.InsiderToggle.UncheckedState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(30)))), ((int)(((byte)(30)))));
+            this.InsiderToggle.CheckedChanged += new System.EventHandler(this.InsiderToggle_CheckedChanged);
             // 
             // Separator1
             // 
@@ -164,6 +168,7 @@
             this.MagicToggle.UncheckedState.BorderRadius = 0;
             this.MagicToggle.UncheckedState.BorderThickness = 0;
             this.MagicToggle.UncheckedState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(30)))), ((int)(((byte)(30)))));
+            this.MagicToggle.CheckedChanged += new System.EventHandler(this.MagicToggle_CheckedChanged);
             // 
             // MagicDescription
             // 
@@ -191,8 +196,8 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(12)))), ((int)(((byte)(12)))), ((int)(((byte)(12)))));
             this.ClientSize = new System.Drawing.Size(247, 182);
-            this.Controls.Add(this.shushing_face);
             this.Controls.Add(this.MagicDescription);
+            this.Controls.Add(this.shushing_face);
             this.Controls.Add(this.MagicToggle);
             this.Controls.Add(this.Separator1);
             this.Controls.Add(this.InsiderToggle);
@@ -216,10 +221,10 @@
         private System.Windows.Forms.Label TitleText;
         private Guna.UI2.WinForms.Guna2Button CloseButton;
         private Guna.UI2.WinForms.Guna2GradientButton InsiderSelect;
-        private Guna.UI2.WinForms.Guna2CheckBox InsiderToggle;
         private Guna.UI2.WinForms.Guna2Separator Separator1;
-        private Guna.UI2.WinForms.Guna2CheckBox MagicToggle;
         private System.Windows.Forms.Label MagicDescription;
         private System.Windows.Forms.Label shushing_face;
+        public Guna.UI2.WinForms.Guna2CheckBox InsiderToggle;
+        public Guna.UI2.WinForms.Guna2CheckBox MagicToggle;
     }
 }

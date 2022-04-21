@@ -13,7 +13,6 @@ namespace OnixLauncher
     {
         public static Guna2GradientButton LaunchButton;
         public static Guna2ProgressBar LaunchProgress;
-        public static bool Bypassed;
         public static System.Timers.Timer PresenceTimer;
 
         public static void Launch()
@@ -24,6 +23,12 @@ namespace OnixLauncher
             // let's try this instead
             if (File.Exists(Utils.DLLPath) && !Utils.IsGameOpen())
                 File.Delete(Utils.DLLPath);
+
+            if (Utils.SelectedPath == "no file" && Utils.CurrentSettings.InsiderMode)
+            {
+                Utils.ShowMessage("Insider Mode", "Select an Onix Client DLL first!\n  ");
+                return;
+            }
 
             try
             {
@@ -94,7 +99,7 @@ namespace OnixLauncher
 
                     //version = "eaghruyehruger"; // test
 
-                    if (!supported && !Bypassed)
+                    if (!supported && !Utils.CurrentSettings.InsiderMode)
                     {
                         Log.Write("The user isn't on a supported version");
                         LaunchButton.Enabled = true;
@@ -104,7 +109,7 @@ namespace OnixLauncher
                     }
                     else
                     {
-                        if (!supported && Bypassed)
+                        if (!supported && Utils.CurrentSettings.InsiderMode)
                         {
                             Log.Write("Incorrect version, but was bypassed. Launching...");
                         }
@@ -133,7 +138,7 @@ namespace OnixLauncher
 
                             staticProgress.RunWorkerAsync();
 
-                            if (Bypassed && Utils.SelectedPath != "no file")
+                            if (Utils.CurrentSettings.InsiderMode && Utils.SelectedPath != "no file")
                                 Injector.Inject(Utils.SelectedPath);
                             else
                                 Injector.Inject(dllPath);

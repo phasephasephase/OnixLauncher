@@ -14,9 +14,6 @@ namespace OnixLauncher
             Log.CreateLog();
             Log.Write("Begin");
 
-            Utils.UpdateSettings();
-            Log.Write("Settings loaded");
-
             Application.EnableVisualStyles();
             // THIS LINE CAUSES PROBLEMS!!!!
             //Application.SetCompatibleTextRenderingDefault(false);

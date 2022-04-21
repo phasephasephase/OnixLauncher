@@ -9,8 +9,7 @@ namespace OnixLauncher
 {
     public partial class MainForm : Form
     {
-        public static Form Instance;
-        public static bool Bypassed;
+        public static MainForm Instance;
 
         protected override CreateParams CreateParams
         {
@@ -30,6 +29,7 @@ namespace OnixLauncher
             Log.Write("Initialized UI");
             Instance = this;
             RichPresence.Initialize();
+            Utils.UpdateSettings();
 
             // We want to have the form in the middle to polish everything
             StartPosition = FormStartPosition.CenterScreen;
@@ -58,12 +58,14 @@ namespace OnixLauncher
             }
         }
 
+        // srry for bad code
         private void HandleGradient2(object sender, EventArgs e)
         {
             LaunchButton.FillColor2 = MagicGradient2.Value;
             CreditsButton.FillColor2 = MagicGradient2.Value;
             Discord.FillColor2 = MagicGradient2.Value;
             LaunchProgress.ProgressColor2 = MagicGradient2.Value;
+            SettingsButton.FillColor2 = MagicGradient2.Value;
         }
 
         private void HandleGradient1(object sender, EventArgs e)
@@ -72,6 +74,13 @@ namespace OnixLauncher
             CreditsButton.FillColor = MagicGradient.Value;
             Discord.FillColor = MagicGradient.Value;
             LaunchProgress.ProgressColor = MagicGradient.Value;
+            SettingsButton.FillColor = MagicGradient.Value;
+        }
+
+        public void UpdateGradientSettings()
+        {
+            MagicGradient.AutoTransition = Utils.CurrentSettings.MagicGradient;
+            MagicGradient2.AutoTransition = Utils.CurrentSettings.MagicGradient;
         }
 
         private void CloseButton_Click(object sender, EventArgs e)
@@ -108,20 +117,6 @@ namespace OnixLauncher
             });
         }
 
-        private void BigOnixLogo_MouseDoubleClick(object sender, MouseEventArgs e)
-        {
-            if (!Bypassed)
-            {
-                Log.Write("The user enabled Insider Mode");
-                Utils.OpenFile();
-            }
-            else
-            {
-                Log.Write("The user disabled Insider Mode");
-                Utils.ShowMessage("Insider Mode", "Your DLL was set back to the release version.");
-            }
-        }
-
         private void InjectionCompleted(object sender, EventArgs e)
         {
             LaunchProgress.Visible = false;
@@ -131,7 +126,6 @@ namespace OnixLauncher
 
         private void LaunchButton_Click(object sender, EventArgs e)
         {
-            Launcher.Bypassed = Bypassed;
             Launcher.LaunchButton = LaunchButton;
             Launcher.LaunchProgress = LaunchProgress;
             Launcher.PresenceTimer = PresenceTimer;
@@ -278,6 +272,11 @@ namespace OnixLauncher
             }
 
             Opacity += _fadeSpeed;
+        }
+
+        private void SettingsButton_Click(object sender, EventArgs e)
+        {
+            Utils.ShowSettings();
         }
     }
 }

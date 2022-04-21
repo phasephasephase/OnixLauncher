@@ -34,7 +34,7 @@ namespace OnixLauncher
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            Guna.UI2.AnimatorNS.Animation animation5 = new Guna.UI2.AnimatorNS.Animation();
+            Guna.UI2.AnimatorNS.Animation animation1 = new Guna.UI2.AnimatorNS.Animation();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.TitleBar = new System.Windows.Forms.Panel();
             this.TitleText = new System.Windows.Forms.Label();
@@ -52,6 +52,7 @@ namespace OnixLauncher
             this.FadeTimer = new System.Windows.Forms.Timer(this.components);
             this.MagicGradient = new Guna.UI2.WinForms.Guna2ColorTransition(this.components);
             this.MagicGradient2 = new Guna.UI2.WinForms.Guna2ColorTransition(this.components);
+            this.SettingsButton = new Guna.UI2.WinForms.Guna2GradientButton();
             this.TitleBar.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.OnixLogo)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.BigOnixLogo)).BeginInit();
@@ -182,7 +183,6 @@ namespace OnixLauncher
             this.BigOnixLogo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.BigOnixLogo.TabIndex = 4;
             this.BigOnixLogo.TabStop = false;
-            this.BigOnixLogo.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.BigOnixLogo_MouseDoubleClick);
             // 
             // OnixTitle
             // 
@@ -221,22 +221,22 @@ namespace OnixLauncher
             // 
             this.ProgressTransition.AnimationType = Guna.UI2.AnimatorNS.AnimationType.Transparent;
             this.ProgressTransition.Cursor = null;
-            animation5.AnimateOnlyDifferences = true;
-            animation5.BlindCoeff = ((System.Drawing.PointF)(resources.GetObject("animation5.BlindCoeff")));
-            animation5.LeafCoeff = 0F;
-            animation5.MaxTime = 1F;
-            animation5.MinTime = 0F;
-            animation5.MosaicCoeff = ((System.Drawing.PointF)(resources.GetObject("animation5.MosaicCoeff")));
-            animation5.MosaicShift = ((System.Drawing.PointF)(resources.GetObject("animation5.MosaicShift")));
-            animation5.MosaicSize = 0;
-            animation5.Padding = new System.Windows.Forms.Padding(0);
-            animation5.RotateCoeff = 0F;
-            animation5.RotateLimit = 0F;
-            animation5.ScaleCoeff = ((System.Drawing.PointF)(resources.GetObject("animation5.ScaleCoeff")));
-            animation5.SlideCoeff = ((System.Drawing.PointF)(resources.GetObject("animation5.SlideCoeff")));
-            animation5.TimeCoeff = 0F;
-            animation5.TransparencyCoeff = 1F;
-            this.ProgressTransition.DefaultAnimation = animation5;
+            animation1.AnimateOnlyDifferences = true;
+            animation1.BlindCoeff = ((System.Drawing.PointF)(resources.GetObject("animation1.BlindCoeff")));
+            animation1.LeafCoeff = 0F;
+            animation1.MaxTime = 1F;
+            animation1.MinTime = 0F;
+            animation1.MosaicCoeff = ((System.Drawing.PointF)(resources.GetObject("animation1.MosaicCoeff")));
+            animation1.MosaicShift = ((System.Drawing.PointF)(resources.GetObject("animation1.MosaicShift")));
+            animation1.MosaicSize = 0;
+            animation1.Padding = new System.Windows.Forms.Padding(0);
+            animation1.RotateCoeff = 0F;
+            animation1.RotateLimit = 0F;
+            animation1.ScaleCoeff = ((System.Drawing.PointF)(resources.GetObject("animation1.ScaleCoeff")));
+            animation1.SlideCoeff = ((System.Drawing.PointF)(resources.GetObject("animation1.SlideCoeff")));
+            animation1.TimeCoeff = 0F;
+            animation1.TransparencyCoeff = 1F;
+            this.ProgressTransition.DefaultAnimation = animation1;
             // 
             // CreditsButton
             // 
@@ -276,10 +276,9 @@ namespace OnixLauncher
             this.Discord.ForeColor = System.Drawing.Color.White;
             this.Discord.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.ForwardDiagonal;
             this.Discord.Image = ((System.Drawing.Image)(resources.GetObject("Discord.Image")));
-            this.Discord.ImageSize = new System.Drawing.Size(35, 35);
-            this.Discord.Location = new System.Drawing.Point(10, 300);
+            this.Discord.Location = new System.Drawing.Point(12, 313);
             this.Discord.Name = "Discord";
-            this.Discord.Size = new System.Drawing.Size(50, 50);
+            this.Discord.Size = new System.Drawing.Size(35, 35);
             this.Discord.TabIndex = 7;
             this.Discord.TextOffset = new System.Drawing.Point(0, -1);
             this.Discord.Click += new System.EventHandler(this.Discord_Click);
@@ -308,6 +307,29 @@ namespace OnixLauncher
             this.MagicGradient2.EndColor = System.Drawing.Color.FromArgb(((int)(((byte)(1)))), ((int)(((byte)(254)))), ((int)(((byte)(218)))));
             this.MagicGradient2.StartColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(140)))), ((int)(((byte)(215)))));
             // 
+            // SettingsButton
+            // 
+            this.SettingsButton.Animated = true;
+            this.ProgressTransition.SetDecoration(this.SettingsButton, Guna.UI2.AnimatorNS.DecorationType.None);
+            this.SettingsButton.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
+            this.SettingsButton.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
+            this.SettingsButton.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
+            this.SettingsButton.DisabledState.FillColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
+            this.SettingsButton.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(141)))), ((int)(((byte)(141)))));
+            this.SettingsButton.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(1)))), ((int)(((byte)(254)))), ((int)(((byte)(218)))));
+            this.SettingsButton.FillColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(140)))), ((int)(((byte)(215)))));
+            this.SettingsButton.Font = new System.Drawing.Font("Segoe UI Black", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.SettingsButton.ForeColor = System.Drawing.Color.White;
+            this.SettingsButton.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.BackwardDiagonal;
+            this.SettingsButton.Image = ((System.Drawing.Image)(resources.GetObject("SettingsButton.Image")));
+            this.SettingsButton.ImageSize = new System.Drawing.Size(25, 25);
+            this.SettingsButton.Location = new System.Drawing.Point(553, 313);
+            this.SettingsButton.Name = "SettingsButton";
+            this.SettingsButton.Size = new System.Drawing.Size(35, 35);
+            this.SettingsButton.TabIndex = 8;
+            this.SettingsButton.TextOffset = new System.Drawing.Point(0, -1);
+            this.SettingsButton.Click += new System.EventHandler(this.SettingsButton_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -315,6 +337,7 @@ namespace OnixLauncher
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(12)))), ((int)(((byte)(12)))), ((int)(((byte)(12)))));
             this.ClientSize = new System.Drawing.Size(600, 360);
             this.ControlBox = false;
+            this.Controls.Add(this.SettingsButton);
             this.Controls.Add(this.Discord);
             this.Controls.Add(this.LaunchProgress);
             this.Controls.Add(this.OnixTitle);
@@ -375,5 +398,6 @@ namespace OnixLauncher
         public Guna.UI2.WinForms.Guna2ProgressBar LaunchProgress;
         private Guna.UI2.WinForms.Guna2ColorTransition MagicGradient;
         private Guna.UI2.WinForms.Guna2ColorTransition MagicGradient2;
+        private Guna.UI2.WinForms.Guna2GradientButton SettingsButton;
     }
 }

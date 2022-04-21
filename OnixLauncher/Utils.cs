@@ -22,7 +22,8 @@ namespace OnixLauncher
         private static bool _init;
         public static string SelectedPath = "no file";
         public static MessageForm MessageF = new MessageForm("you shouldn't see this", "how are you reading this");
-        public static Settings? CurrentSettings = null;
+        public static SettingsForm SettingsF = new SettingsForm();
+        public static Settings CurrentSettings = Settings.Load();
 
         public static void ShowMessage(string title, string subtitle)
         {
@@ -32,13 +33,24 @@ namespace OnixLauncher
             MessageF.Show();
         }
 
+        public static void ShowSettings()
+        {
+            SettingsF.Owner = MainForm.Instance;
+            SettingsF.Show();
+        }
+
         public static void UpdateSettings()
         {
-            if (CurrentSettings == null)
-                CurrentSettings = Settings.GetDefault();
-
-            Settings.Save((Settings)CurrentSettings); // bro
+            Settings.Save(CurrentSettings); // bro
             CurrentSettings = Settings.Load();
+
+            MainForm.Instance.UpdateGradientSettings();
+            SettingsF.InsiderToggle.Checked = CurrentSettings.InsiderMode;
+            SettingsF.MagicToggle.Checked = CurrentSettings.MagicGradient;
+
+            SelectedPath = CurrentSettings.DLLPath;
+
+            Log.Write("Settings updated");
         }
 
         public static void OpenFile()
@@ -57,7 +69,7 @@ namespace OnixLauncher
             }
 
             _fileDialog.ShowDialog();
-            Log.Write("User is selecting a custom DLL");
+            Log.Write("User selected a custom DLL");
         }
 
         public static void OpenGame()
@@ -71,7 +83,7 @@ namespace OnixLauncher
             };
             process.StartInfo = startInfo;
             process.Start();
-            Log.Write("Opened Minecraft, or at least I tried to");
+            Log.Write("Attempted to open Minecraft");
         }
 
         public static bool IsGameOpen()
@@ -82,10 +94,14 @@ namespace OnixLauncher
 
         private static void FileDialogOnFileOk(object sender, CancelEventArgs e)
         {
-            SelectedPath = _fileDialog.FileName;
-            MainForm.Bypassed = true;
-            Log.Write("Selected DLL: " + SelectedPath);
-            ShowMessage("Insider Mode", "This is intended to be used with Onix DLLs only.");
+            var customPath = OnixPath + "\\Custom.dll";
+            File.Copy(_fileDialog.FileName, customPath, true);
+
+            SelectedPath = customPath;
+            CurrentSettings.DLLPath = customPath;
+            UpdateSettings();
+
+            Log.Write("Selected DLL: " + customPath);
         }
 
         public static string GetXboxGamertag()
