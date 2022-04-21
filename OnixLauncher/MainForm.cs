@@ -54,7 +54,7 @@ namespace OnixLauncher
                 Log.Write("Detected first time open, showing the welcome message box");
                 File.Create(Utils.OnixPath + "\\firstTime");
                 Utils.ShowMessage("Welcome to Onix Client!",
-                    "Check our Discord's #faq channel if you're having problems.");
+                    "Check our Discord's #help-me channel if you're having any problems with the launcher.");
             }
         }
 
