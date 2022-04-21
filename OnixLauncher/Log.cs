@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
 using System.IO;
 
 namespace OnixLauncher
@@ -21,7 +20,7 @@ namespace OnixLauncher
 
         public static void Write(string text)
         {
-            Debug.WriteLine(text);
+            Console.WriteLine(text);
             _logText += text + Environment.NewLine;
             File.WriteAllText(LogPath + "\\Current.log", _logText);
         }
