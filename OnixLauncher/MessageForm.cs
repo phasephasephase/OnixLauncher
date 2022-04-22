@@ -40,6 +40,8 @@ namespace OnixLauncher
             this.Height = height + TitleBar.Size.Height + ButtonPanel.Size.Height + _bottomPadding;
 
             Show();
+            Visible = true;
+
             if (DetectedSecondLauncher)
                 MainForm.Instance.Hide();
         }
@@ -56,6 +58,7 @@ namespace OnixLauncher
             if (DetectedSecondLauncher)
                 MainForm.Instance.Close();
             Hide();
+            Visible = false;
         }
 
         private void TitleBar_MouseDown(object sender, MouseEventArgs e)

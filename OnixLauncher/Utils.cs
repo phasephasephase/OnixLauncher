@@ -4,6 +4,8 @@ using System.Diagnostics;
 using System.IO;
 using System.Management.Automation;
 using System.Text;
+using System.Net;
+using System.Threading;
 using System.Windows.Forms;
 
 namespace OnixLauncher
@@ -13,8 +15,9 @@ namespace OnixLauncher
         public static string OnixPath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) +
                                         @"\Onix Launcher";
 
-        public static string RPCServerPath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)
-                                          + @"\Packages\Microsoft.MinecraftUWP_8wekyb3d8bbwe\RoamingState\OnixClient\Launcher\server.txt";
+        public static string RPCServerPath = 
+            Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)
+             + @"\Packages\Microsoft.MinecraftUWP_8wekyb3d8bbwe\RoamingState\OnixClient\Launcher\server.txt";
 
         public static string DLLPath = OnixPath + @"\OnixClient.dll";
 
@@ -24,6 +27,48 @@ namespace OnixLauncher
         public static MessageForm MessageF = new MessageForm("you shouldn't see this", "how are you reading this");
         public static SettingsForm SettingsF = new SettingsForm();
         public static Settings CurrentSettings = Settings.Load();
+        public static bool IsOnline;
+
+        public static void CheckOnline()
+        {
+            HttpWebRequest request = (HttpWebRequest)WebRequest.Create("https://github.com/");
+            request.Timeout = 5000;
+            request.Method = "HEAD";
+            try
+            {
+                using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
+                {
+                    IsOnline = response.StatusCode == HttpStatusCode.OK;
+                }
+            }
+            catch (WebException)
+            {
+                IsOnline = false;
+            }
+
+            if (!IsOnline)
+            {
+                if (File.Exists(DLLPath))
+                {
+                    ShowMessage("Offline Mode",
+                        "We couldn't contact GitHub servers, so launching will inject the DLL you had from last launch.");
+                }
+                else
+                {
+                    ShowMessage("Network Error", 
+                        "We couldn't reach GitHub servers, and you don't have the DLL downloaded. Try launching later.");
+                    Thread t = new Thread(() =>
+                    {
+                        while (MessageF.Visible)
+                        {
+                            Thread.Sleep(5);
+                        }
+                        MainForm.Instance.Close();
+                    });
+                    t.Start();
+                }
+            }
+        }
 
         public static void ShowMessage(string title, string subtitle)
         {
@@ -48,6 +93,9 @@ namespace OnixLauncher
             SettingsF.InsiderToggle.Checked = CurrentSettings.InsiderMode;
             SettingsF.MagicToggle.Checked = CurrentSettings.MagicGradient;
             SettingsF.InsiderSelect.Enabled = SettingsF.InsiderToggle.Checked;
+
+            MainForm.Instance.Text = CurrentSettings.InsiderMode ? "Onix Launcher (Insider Mode)" : "Onix Launcher";
+            MainForm.Instance.TitleText.Text = MainForm.Instance.Text;
 
             SelectedPath = CurrentSettings.DLLPath;
 
@@ -116,7 +164,8 @@ namespace OnixLauncher
                 localappdata + "\\Packages\\Microsoft.XboxApp_8wekyb3d8bbwe\\LocalState\\XboxLiveGamer.xml")) return xboxName;
             try
             {
-                File.Copy(localappdata + "\\Packages\\Microsoft.XboxApp_8wekyb3d8bbwe\\LocalState\\XboxLiveGamer.xml", OnixPath + "\\XboxLiveGamer.xml.txt");
+                File.Copy(localappdata + "\\Packages\\Microsoft.XboxApp_8wekyb3d8bbwe\\LocalState\\XboxLiveGamer.xml",
+                    OnixPath + "\\XboxLiveGamer.xml.txt");
                 foreach (var readAllLine in File.ReadAllLines(OnixPath + "\\XboxLiveGamer.xml.txt"))
                 {
                     if (readAllLine.Contains("Gamertag"))

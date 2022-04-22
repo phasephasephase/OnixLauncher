@@ -64,7 +64,7 @@ namespace OnixLauncher
             this.TitleText.ForeColor = System.Drawing.Color.White;
             this.TitleText.Location = new System.Drawing.Point(7, 7);
             this.TitleText.Name = "TitleText";
-            this.TitleText.Size = new System.Drawing.Size(56, 15);
+            this.TitleText.Size = new System.Drawing.Size(56, 19);
             this.TitleText.TabIndex = 3;
             this.TitleText.Text = "Message";
             // 

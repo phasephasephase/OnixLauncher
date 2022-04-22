@@ -26,7 +26,7 @@ namespace OnixLauncher
 
             if (Utils.SelectedPath == "no file" && Utils.CurrentSettings.InsiderMode)
             {
-                Utils.ShowMessage("Insider Mode", "Select an Onix Client DLL first!\n  ");
+                Utils.ShowMessage("Insider Mode", "Select an Onix Client DLL first!\n  "); // newline and spaces for idk
                 return;
             }
 
@@ -40,24 +40,26 @@ namespace OnixLauncher
                 LaunchProgress.Value = 0;
                 LaunchProgress.Maximum = int.MaxValue;
 
-                BackgroundWorker bw = new BackgroundWorker();
-
-                bw.DoWork += new DoWorkEventHandler(delegate (object o, DoWorkEventArgs workerE)
+                if (Utils.IsOnline)
                 {
-                    var versionClient = new WebClient();
-                    var dllClient = new WebClient();
-                    var dllPath = Utils.DLLPath;
+                    BackgroundWorker bw = new BackgroundWorker();
 
-                    dllClient.DownloadProgressChanged +=
-                        new DownloadProgressChangedEventHandler((object s, DownloadProgressChangedEventArgs ez) =>
-                        {
-                            long bytesIn = ez.BytesReceived;
-                            long totalBytes = ez.TotalBytesToReceive;
+                    bw.DoWork += new DoWorkEventHandler(delegate (object o, DoWorkEventArgs workerE)
+                    {
+                        var versionClient = new WebClient();
+                        var dllClient = new WebClient();
+                        var dllPath = Utils.DLLPath;
 
-                            double value = ((double)bytesIn / (double)totalBytes) * (LaunchProgress.Maximum / 70);
+                        dllClient.DownloadProgressChanged +=
+                            new DownloadProgressChangedEventHandler((object s, DownloadProgressChangedEventArgs ez) =>
+                            {
+                                long bytesIn = ez.BytesReceived;
+                                long totalBytes = ez.TotalBytesToReceive;
 
-                            LaunchProgress.Value += (int)value;
-                        });
+                                double value = ((double)bytesIn / (double)totalBytes) * (LaunchProgress.Maximum / 70);
+
+                                LaunchProgress.Value += (int)value;
+                            });
 
                     // architecture detection
                     var arch = Utils.GetArchitecture();
@@ -66,8 +68,8 @@ namespace OnixLauncher
                     if (arch == string.Empty)
                     {
                         Log.Write("Launcher couldn't detect the game, either it's not installed or the user has a cracked version");
-                        // wtf the game not installed
-                        Utils.ShowMessage("????????", "You don't even have Minecraft Bedrock installed!");
+                    // wtf the game not installed
+                    Utils.ShowMessage("????????", "You don't even have Minecraft Bedrock installed!");
                         LaunchButton.Enabled = true;
                         LaunchProgress.Visible = false;
                         return;
@@ -84,91 +86,148 @@ namespace OnixLauncher
 
                     // version detection
                     var version = Utils.GetVersion();
-                    LaunchProgress.Value += LaunchProgress.Maximum / 10;
+                        LaunchProgress.Value += LaunchProgress.Maximum / 10;
 
-                    Log.Write("Downloading list of supported versions");
+                        Log.Write("Downloading list of supported versions");
 
-                    var latestSupported = versionClient.DownloadString(
-                        "https://raw.githubusercontent.com/bernarddesfosse/onixclientautoupdate/main/LatestSupportedVersion");
+                        var latestSupported = versionClient.DownloadString(
+                            "https://raw.githubusercontent.com/bernarddesfosse/onixclientautoupdate/main/LatestSupportedVersion");
 
-                    versionClient.Dispose();
+                        versionClient.Dispose();
 
-                    Log.Write("Downloaded, comparing versions");
-                    List<string> stringTable = latestSupported.Split('\n').ToList();
-                    var supported = stringTable.Contains(version);
+                        Log.Write("Downloaded, comparing versions");
+                        List<string> stringTable = latestSupported.Split('\n').ToList();
+                        var supported = stringTable.Contains(version);
 
                     //version = "eaghruyehruger"; // test
 
                     if (!supported && !Utils.CurrentSettings.InsiderMode)
-                    {
-                        Log.Write("The user isn't on a supported version");
-                        LaunchButton.Enabled = true;
-                        LaunchProgress.Visible = false;
-                        Utils.ShowMessage("Unsupported Version",
-                            "Your version (" + version + ") is not supported by Onix Client.");
-                    }
-                    else
-                    {
-                        if (!supported && Utils.CurrentSettings.InsiderMode)
                         {
-                            Log.Write("Incorrect version, but was bypassed. Launching...");
+                            Log.Write("The user isn't on a supported version");
+                            LaunchButton.Enabled = true;
+                            LaunchProgress.Visible = false;
+                            Utils.ShowMessage("Unsupported Version",
+                                "Your version (" + version + ") is not supported by Onix Client.");
                         }
-                        else if (supported)
+                        else
                         {
-                            Log.Write("Correct Version, Launching...");
-                        }
-
-                        BackgroundWorker injector = new BackgroundWorker();
-
-                        injector.DoWork += new DoWorkEventHandler(delegate (object ins, DoWorkEventArgs ina)
-                        {
-                            Log.Write("Preparing to inject into the game");
-
-                            BackgroundWorker staticProgress = new BackgroundWorker();
-
-                            staticProgress.DoWork += new DoWorkEventHandler((object sts, DoWorkEventArgs sta) =>
+                            if (!supported && Utils.CurrentSettings.InsiderMode)
                             {
-                                while (true)
+                                Log.Write("Incorrect version, but was bypassed. Launching...");
+                            }
+                            else if (supported)
+                            {
+                                Log.Write("Correct Version, Launching...");
+                            }
+
+                            BackgroundWorker injector = new BackgroundWorker();
+
+                            injector.DoWork += new DoWorkEventHandler(delegate (object ins, DoWorkEventArgs ina)
+                            {
+                                Log.Write("Preparing to inject into the game");
+
+                                BackgroundWorker staticProgress = new BackgroundWorker();
+
+                                staticProgress.DoWork += new DoWorkEventHandler((object sts, DoWorkEventArgs sta) =>
                                 {
-                                    if (LaunchProgress.Value >= ((LaunchProgress.Maximum / 100) * 95)) break;
-                                    LaunchProgress.Value += (LaunchProgress.Maximum / 100);
-                                    Thread.Sleep(100);
-                                }
+                                    while (true)
+                                    {
+                                        if (LaunchProgress.Value >= ((LaunchProgress.Maximum / 100) * 95)) break;
+                                        LaunchProgress.Value += (LaunchProgress.Maximum / 100);
+                                        Thread.Sleep(100);
+                                    }
+                                });
+
+                                staticProgress.RunWorkerAsync();
+
+                                if (Utils.CurrentSettings.InsiderMode && Utils.SelectedPath != "no file")
+                                    Injector.Inject(Utils.SelectedPath);
+                                else
+                                    Injector.Inject(dllPath);
+
+                                LaunchProgress.Value = LaunchProgress.Maximum;
+
+                                RichPresence.ChangePresence("In the menus", Utils.GetVersion(), Utils.GetXboxGamertag());
+                                PresenceTimer.Start();
+
+                                dllClient.Dispose();
                             });
 
-                            staticProgress.RunWorkerAsync();
+                            dllClient.DownloadFileCompleted +=
+                                new AsyncCompletedEventHandler((object dls, AsyncCompletedEventArgs dla) =>
+                                {
+                                    injector.RunWorkerAsync();
+                                });
 
-                            if (Utils.CurrentSettings.InsiderMode && Utils.SelectedPath != "no file")
-                                Injector.Inject(Utils.SelectedPath);
-                            else
-                                Injector.Inject(dllPath);
+                            if (Utils.IsGameOpen())
+                            {
+                                LaunchProgress.Maximum /= 3;
+                                injector.RunWorkerAsync();
+                            }
+                            else if (!File.Exists(dllPath))
+                                dllClient.DownloadFileAsync(
+                                    new Uri("https://github.com/bernarddesfosse/onixclientautoupdate/raw/main/OnixClient.dll"), dllPath);
+                        }
+                    });
+                    bw.RunWorkerAsync();
+                }
+                else // offline launch
+                {
+                    Log.Write("Offline mode detected");
+                    BackgroundWorker offlineWorker = new BackgroundWorker();
 
-                            LaunchProgress.Value = LaunchProgress.Maximum;
+                    offlineWorker.DoWork += new DoWorkEventHandler(delegate (object ins, DoWorkEventArgs ina)
+                    {
+                        var arch = Utils.GetArchitecture();
+                        LaunchProgress.Value += LaunchProgress.Maximum / 10;
 
-                            RichPresence.ChangePresence("In the menus", Utils.GetVersion(), Utils.GetXboxGamertag());
-                            PresenceTimer.Start();
+                        if (arch == string.Empty)
+                        {
+                            Log.Write("Launcher couldn't detect the game, either it's not installed or the user has a cracked version");
+                            // wtf the game not installed
+                            Utils.ShowMessage("????????", "You don't even have Minecraft Bedrock installed!");
+                            LaunchButton.Enabled = true;
+                            LaunchProgress.Visible = false;
+                            return;
+                        }
 
-                            dllClient.Dispose();
+                        if (arch != "X64")
+                        {
+                            Log.Write("This doesn't seem like the correct architecture we want");
+                            Utils.ShowMessage("Architecture Error", "You have a version of Minecraft that isn't 64-bit.");
+                            LaunchButton.Enabled = true;
+                            LaunchProgress.Visible = false;
+                            return;
+                        }
+
+                        Log.Write("Preparing to inject into the game");
+
+                        BackgroundWorker staticProgress = new BackgroundWorker();
+
+                        staticProgress.DoWork += new DoWorkEventHandler((object sts, DoWorkEventArgs sta) =>
+                        {
+                            while (true)
+                            {
+                                if (LaunchProgress.Value >= ((LaunchProgress.Maximum / 100) * 95)) break;
+                                LaunchProgress.Value += (LaunchProgress.Maximum / 100);
+                                Thread.Sleep(100);
+                            }
                         });
 
-                        dllClient.DownloadFileCompleted +=
-                            new AsyncCompletedEventHandler((object dls, AsyncCompletedEventArgs dla) =>
-                            {
-                                injector.RunWorkerAsync();
-                            });
+                        staticProgress.RunWorkerAsync();
 
-                        if (Utils.IsGameOpen())
-                        {
-                            LaunchProgress.Maximum /= 3;
-                            injector.RunWorkerAsync();
-                        }
-                        else if (!File.Exists(dllPath))
-                            dllClient.DownloadFileAsync(
-                                new Uri("https://github.com/bernarddesfosse/onixclientautoupdate/raw/main/OnixClient.dll"), dllPath);
-                    }
-                });
+                        if (Utils.CurrentSettings.InsiderMode && Utils.SelectedPath != "no file")
+                            Injector.Inject(Utils.SelectedPath);
+                        else
+                            Injector.Inject(Utils.DLLPath);
 
-                bw.RunWorkerAsync();
+                        LaunchProgress.Value = LaunchProgress.Maximum;
+
+                        RichPresence.ChangePresence("In the menus", Utils.GetVersion(), Utils.GetXboxGamertag());
+                        PresenceTimer.Start();
+                    });
+                    offlineWorker.RunWorkerAsync();
+                }
             }
             catch (Exception ex)
             {

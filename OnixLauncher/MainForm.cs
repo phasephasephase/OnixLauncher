@@ -28,8 +28,11 @@ namespace OnixLauncher
             InitializeComponent();
             Log.Write("Initialized UI");
             Instance = this;
+
             RichPresence.Initialize();
             Utils.UpdateSettings();
+            Utils.CheckOnline();
+
 
             // We want to have the form in the middle to polish everything
             StartPosition = FormStartPosition.CenterScreen;
@@ -92,7 +95,7 @@ namespace OnixLauncher
             MagicGradient2.AutoTransition = Utils.CurrentSettings.MagicGradient;
         }
 
-        private void CloseButton_Click(object sender, EventArgs e)
+        public void CloseButton_Click(object sender, EventArgs e)
         {
             FadeTimer.Start();
             Log.Write("Exiting...");
