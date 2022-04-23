@@ -28,8 +28,6 @@ namespace OnixLauncher
                     Thread.Sleep(TimeSpan.FromSeconds(5));
                 }
 
-
-
                 ApplyAppPackages(path);
 
                 var targetProcess = Process.GetProcessesByName("Minecraft.Windows")[0];
@@ -55,8 +53,12 @@ namespace OnixLauncher
             }
             catch (Exception e)
             {
-                Log.Write("Injection failed, the user's antivirus is probably the cause. Exception: " + e.Message);
-                Utils.ShowMessage("Injection Error", "Failed to inject. Try disabling your antivirus?");
+                Log.Write("Injection failed. Exception: " + e.ToString());
+                if (Utils.IsGameOpen())
+                    Utils.ShowMessage("Injection Error", 
+                        "Failed to inject, but the game is open. Try closing the game before launching.");
+                else
+                    Utils.ShowMessage("Injection Error", "Failed to inject. Try disabling your antivirus.");
                 InjectionCompleted.Invoke(null, EventArgs.Empty);
             }
         }
@@ -65,8 +67,11 @@ namespace OnixLauncher
         {
             var infoFile = new FileInfo(path);
             var fSecurity = infoFile.GetAccessControl();
-            fSecurity.AddAccessRule(new FileSystemAccessRule(new SecurityIdentifier("S-1-15-2-1"),
-                FileSystemRights.FullControl, InheritanceFlags.None, PropagationFlags.NoPropagateInherit, AccessControlType.Allow));
+            fSecurity.AddAccessRule(
+                new FileSystemAccessRule(new SecurityIdentifier("S-1-15-2-1"),
+                FileSystemRights.FullControl, InheritanceFlags.None, 
+                PropagationFlags.NoPropagateInherit, AccessControlType.Allow));
+
             infoFile.SetAccessControl(fSecurity);
             Log.Write("Applied ALL_APPLICATION_PACKAGES permission to " + path);
         }

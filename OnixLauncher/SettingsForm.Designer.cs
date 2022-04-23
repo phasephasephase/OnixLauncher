@@ -46,9 +46,9 @@
             // 
             this.InsiderDescription.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.InsiderDescription.ForeColor = System.Drawing.Color.White;
-            this.InsiderDescription.Location = new System.Drawing.Point(12, 74);
+            this.InsiderDescription.Location = new System.Drawing.Point(13, 74);
             this.InsiderDescription.Name = "InsiderDescription";
-            this.InsiderDescription.Size = new System.Drawing.Size(235, 17);
+            this.InsiderDescription.Size = new System.Drawing.Size(230, 17);
             this.InsiderDescription.TabIndex = 10;
             this.InsiderDescription.Text = "This will only work with Onix Client DLLs.";
             // 
@@ -178,7 +178,7 @@
             this.MagicDescription.Name = "MagicDescription";
             this.MagicDescription.Size = new System.Drawing.Size(223, 32);
             this.MagicDescription.TabIndex = 14;
-            this.MagicDescription.Text = "Animate all gradient elements, at the cost of performance. (i\'m working on it)";
+            this.MagicDescription.Text = "Adds a neat color transition to all buttons.";
             // 
             // shushing_face
             // 
