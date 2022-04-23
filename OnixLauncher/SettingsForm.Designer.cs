@@ -178,7 +178,7 @@
             this.MagicDescription.Name = "MagicDescription";
             this.MagicDescription.Size = new System.Drawing.Size(223, 32);
             this.MagicDescription.TabIndex = 14;
-            this.MagicDescription.Text = "Animate all gradient elements, at the cost of performance. (i\'m working on it)";
+            this.MagicDescription.Text = "Adds color transitions to all gradients, at the cost of (barely any) performance.";
             // 
             // shushing_face
             // 
