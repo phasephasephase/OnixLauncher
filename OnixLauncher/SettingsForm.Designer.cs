@@ -178,7 +178,7 @@
             this.MagicDescription.Name = "MagicDescription";
             this.MagicDescription.Size = new System.Drawing.Size(223, 32);
             this.MagicDescription.TabIndex = 14;
-            this.MagicDescription.Text = "Adds color transitions to all gradients, at the cost of (barely any) performance.";
+            this.MagicDescription.Text = "Adds color transitions to all gradients, at the (very little) cost of performance.";
             // 
             // shushing_face
             // 
