@@ -129,7 +129,7 @@
             this.InsiderToggle.CheckedState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(140)))), ((int)(((byte)(215)))));
             this.InsiderToggle.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
             this.InsiderToggle.ForeColor = System.Drawing.Color.White;
-            this.InsiderToggle.Location = new System.Drawing.Point(12, 45);
+            this.InsiderToggle.Location = new System.Drawing.Point(8, 45);
             this.InsiderToggle.Name = "InsiderToggle";
             this.InsiderToggle.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.InsiderToggle.Size = new System.Drawing.Size(129, 25);
@@ -151,7 +151,7 @@
             this.MagicToggle.CheckedState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(140)))), ((int)(((byte)(215)))));
             this.MagicToggle.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
             this.MagicToggle.ForeColor = System.Drawing.Color.White;
-            this.MagicToggle.Location = new System.Drawing.Point(11, 96);
+            this.MagicToggle.Location = new System.Drawing.Point(8, 96);
             this.MagicToggle.Name = "MagicToggle";
             this.MagicToggle.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.MagicToggle.Size = new System.Drawing.Size(146, 25);
@@ -187,7 +187,7 @@
             // 
             this.LogsTitle.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
             this.LogsTitle.ForeColor = System.Drawing.Color.White;
-            this.LogsTitle.Location = new System.Drawing.Point(13, 159);
+            this.LogsTitle.Location = new System.Drawing.Point(12, 159);
             this.LogsTitle.Name = "LogsTitle";
             this.LogsTitle.Size = new System.Drawing.Size(97, 24);
             this.LogsTitle.TabIndex = 18;
