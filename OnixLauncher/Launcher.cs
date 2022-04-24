@@ -121,14 +121,7 @@ namespace OnixLauncher
                         }
                         else
                         {
-                            if (!supported && Utils.CurrentSettings.InsiderMode)
-                            {
-                                Log.Write("Incorrect version, but was bypassed. Launching...");
-                            }
-                            else if (supported)
-                            {
-                                Log.Write("Correct Version, Launching...");
-                            }
+                            Log.Write("Launching...");
 
                             BackgroundWorker injector = new BackgroundWorker();
 
