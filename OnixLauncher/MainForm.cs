@@ -74,6 +74,7 @@ namespace OnixLauncher
             // message and settings
             Utils.MessageF.Okay.FillColor2 = MagicGradient2.Value;
             Utils.SettingsF.InsiderSelect.FillColor2 = MagicGradient2.Value;
+            Utils.SettingsF.LogsButton.FillColor2 = MagicGradient2.Value;
         }
 
         private void HandleGradient1(object sender, EventArgs e)
@@ -87,6 +88,7 @@ namespace OnixLauncher
 
             Utils.MessageF.Okay.FillColor = MagicGradient.Value;
             Utils.SettingsF.InsiderSelect.FillColor = MagicGradient.Value;
+            Utils.SettingsF.LogsButton.FillColor = MagicGradient.Value;
         }
 
         public void UpdateGradientSettings()

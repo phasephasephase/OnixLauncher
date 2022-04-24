@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Windows.Forms;
 
 namespace OnixLauncher
@@ -48,6 +49,11 @@ namespace OnixLauncher
         {
             Winapi.ReleaseCapture();
             Winapi.SendMessage(Handle, Winapi.WM_NCLBUTTONDOWN, Winapi.HT_CAPTION, 0);
+        }
+
+        private void LogsButton_Click(object sender, EventArgs e)
+        {
+            Process.Start(Log.LogPath);
         }
     }
 }

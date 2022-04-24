@@ -35,10 +35,11 @@
             this.CloseButton = new Guna.UI2.WinForms.Guna2Button();
             this.InsiderSelect = new Guna.UI2.WinForms.Guna2GradientButton();
             this.InsiderToggle = new Guna.UI2.WinForms.Guna2CheckBox();
-            this.Separator1 = new Guna.UI2.WinForms.Guna2Separator();
             this.MagicToggle = new Guna.UI2.WinForms.Guna2CheckBox();
             this.MagicDescription = new System.Windows.Forms.Label();
             this.shushing_face = new System.Windows.Forms.Label();
+            this.LogsTitle = new System.Windows.Forms.Label();
+            this.LogsButton = new Guna.UI2.WinForms.Guna2GradientButton();
             this.TitleBar.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -140,14 +141,6 @@
             this.InsiderToggle.UncheckedState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(30)))), ((int)(((byte)(30)))));
             this.InsiderToggle.CheckedChanged += new System.EventHandler(this.InsiderToggle_CheckedChanged);
             // 
-            // Separator1
-            // 
-            this.Separator1.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(30)))), ((int)(((byte)(30)))));
-            this.Separator1.Location = new System.Drawing.Point(12, 94);
-            this.Separator1.Name = "Separator1";
-            this.Separator1.Size = new System.Drawing.Size(225, 10);
-            this.Separator1.TabIndex = 12;
-            // 
             // MagicToggle
             // 
             this.MagicToggle.Animated = true;
@@ -158,7 +151,7 @@
             this.MagicToggle.CheckedState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(140)))), ((int)(((byte)(215)))));
             this.MagicToggle.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
             this.MagicToggle.ForeColor = System.Drawing.Color.White;
-            this.MagicToggle.Location = new System.Drawing.Point(12, 110);
+            this.MagicToggle.Location = new System.Drawing.Point(11, 96);
             this.MagicToggle.Name = "MagicToggle";
             this.MagicToggle.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.MagicToggle.Size = new System.Drawing.Size(146, 25);
@@ -174,7 +167,7 @@
             // 
             this.MagicDescription.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.MagicDescription.ForeColor = System.Drawing.Color.White;
-            this.MagicDescription.Location = new System.Drawing.Point(13, 138);
+            this.MagicDescription.Location = new System.Drawing.Point(13, 124);
             this.MagicDescription.Name = "MagicDescription";
             this.MagicDescription.Size = new System.Drawing.Size(223, 32);
             this.MagicDescription.TabIndex = 14;
@@ -184,22 +177,55 @@
             // 
             this.shushing_face.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.shushing_face.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(14)))), ((int)(((byte)(14)))), ((int)(((byte)(14)))));
-            this.shushing_face.Location = new System.Drawing.Point(0, 167);
+            this.shushing_face.Location = new System.Drawing.Point(-1, 179);
             this.shushing_face.Name = "shushing_face";
             this.shushing_face.Size = new System.Drawing.Size(223, 15);
             this.shushing_face.TabIndex = 17;
             this.shushing_face.Text = "thanks to hmmm#9008 for being funny";
+            // 
+            // LogsTitle
+            // 
+            this.LogsTitle.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
+            this.LogsTitle.ForeColor = System.Drawing.Color.White;
+            this.LogsTitle.Location = new System.Drawing.Point(13, 159);
+            this.LogsTitle.Name = "LogsTitle";
+            this.LogsTitle.Size = new System.Drawing.Size(97, 24);
+            this.LogsTitle.TabIndex = 18;
+            this.LogsTitle.Text = "Logs Folder";
+            // 
+            // LogsButton
+            // 
+            this.LogsButton.Animated = true;
+            this.LogsButton.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
+            this.LogsButton.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
+            this.LogsButton.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
+            this.LogsButton.DisabledState.FillColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
+            this.LogsButton.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(141)))), ((int)(((byte)(141)))));
+            this.LogsButton.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(1)))), ((int)(((byte)(254)))), ((int)(((byte)(218)))));
+            this.LogsButton.FillColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(140)))), ((int)(((byte)(215)))));
+            this.LogsButton.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
+            this.LogsButton.ForeColor = System.Drawing.Color.White;
+            this.LogsButton.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.BackwardDiagonal;
+            this.LogsButton.Location = new System.Drawing.Point(150, 156);
+            this.LogsButton.Name = "LogsButton";
+            this.LogsButton.Size = new System.Drawing.Size(80, 25);
+            this.LogsButton.TabIndex = 19;
+            this.LogsButton.Text = "Open";
+            this.LogsButton.TextOffset = new System.Drawing.Point(0, -1);
+            this.LogsButton.TextRenderingHint = System.Drawing.Text.TextRenderingHint.SingleBitPerPixel;
+            this.LogsButton.Click += new System.EventHandler(this.LogsButton_Click);
             // 
             // SettingsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(12)))), ((int)(((byte)(12)))), ((int)(((byte)(12)))));
-            this.ClientSize = new System.Drawing.Size(247, 182);
+            this.ClientSize = new System.Drawing.Size(247, 195);
+            this.Controls.Add(this.LogsButton);
+            this.Controls.Add(this.LogsTitle);
             this.Controls.Add(this.MagicDescription);
             this.Controls.Add(this.shushing_face);
             this.Controls.Add(this.MagicToggle);
-            this.Controls.Add(this.Separator1);
             this.Controls.Add(this.InsiderToggle);
             this.Controls.Add(this.InsiderSelect);
             this.Controls.Add(this.InsiderDescription);
@@ -222,11 +248,12 @@
         private System.Windows.Forms.Panel TitleBar;
         private System.Windows.Forms.Label TitleText;
         private Guna.UI2.WinForms.Guna2Button CloseButton;
-        private Guna.UI2.WinForms.Guna2Separator Separator1;
         private System.Windows.Forms.Label MagicDescription;
         private System.Windows.Forms.Label shushing_face;
         public Guna.UI2.WinForms.Guna2CheckBox InsiderToggle;
         public Guna.UI2.WinForms.Guna2CheckBox MagicToggle;
         public Guna.UI2.WinForms.Guna2GradientButton InsiderSelect;
+        private System.Windows.Forms.Label LogsTitle;
+        public Guna.UI2.WinForms.Guna2GradientButton LogsButton;
     }
 }
