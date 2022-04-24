@@ -61,7 +61,7 @@ namespace OnixLauncher
             Visible = false;
         }
 
-        private void TitleBar_MouseDown(object sender, MouseEventArgs e)
+        private void Drag(object sender, MouseEventArgs e)
         {
             Winapi.ReleaseCapture();
             Winapi.SendMessage(Handle, Winapi.WM_NCLBUTTONDOWN, Winapi.HT_CAPTION, 0);

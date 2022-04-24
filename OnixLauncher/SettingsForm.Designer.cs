@@ -64,7 +64,7 @@
             this.TitleBar.Name = "TitleBar";
             this.TitleBar.Size = new System.Drawing.Size(247, 30);
             this.TitleBar.TabIndex = 7;
-            this.TitleBar.MouseDown += new System.Windows.Forms.MouseEventHandler(this.TitleBar_MouseDown);
+            this.TitleBar.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Drag);
             // 
             // TitleText
             // 
@@ -75,6 +75,7 @@
             this.TitleText.Size = new System.Drawing.Size(56, 18);
             this.TitleText.TabIndex = 3;
             this.TitleText.Text = "Settings";
+            this.TitleText.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Drag);
             // 
             // CloseButton
             // 

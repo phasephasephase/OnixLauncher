@@ -56,7 +56,7 @@ namespace OnixLauncher
             this.TitleBar.Name = "TitleBar";
             this.TitleBar.Size = new System.Drawing.Size(310, 30);
             this.TitleBar.TabIndex = 2;
-            this.TitleBar.MouseDown += new System.Windows.Forms.MouseEventHandler(this.TitleBar_MouseDown);
+            this.TitleBar.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Drag);
             // 
             // TitleText
             // 
@@ -67,6 +67,7 @@ namespace OnixLauncher
             this.TitleText.Size = new System.Drawing.Size(56, 19);
             this.TitleText.TabIndex = 3;
             this.TitleText.Text = "Message";
+            this.TitleText.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Drag);
             // 
             // CloseButton
             // 
