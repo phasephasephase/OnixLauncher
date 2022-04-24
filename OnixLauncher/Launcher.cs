@@ -61,47 +61,57 @@ namespace OnixLauncher
                                 LaunchProgress.Value += (int)value;
                             });
 
-                    // architecture detection
-                    var arch = Utils.GetArchitecture();
-                    LaunchProgress.Value += LaunchProgress.Maximum / 10;
-
-                    if (arch == string.Empty)
-                    {
-                        Log.Write("Launcher couldn't detect the game, either it's not installed or the user has a cracked version");
-                    // wtf the game not installed
-                    Utils.ShowMessage("????????", "You don't even have Minecraft Bedrock installed!");
-                        LaunchButton.Enabled = true;
-                        LaunchProgress.Visible = false;
-                        return;
-                    }
-
-                    if (arch != "X64")
-                    {
-                        Log.Write("This doesn't seem like the correct architecture we want");
-                        Utils.ShowMessage("Architecture Error", "You have a version of Minecraft that isn't 64-bit.");
-                        LaunchButton.Enabled = true;
-                        LaunchProgress.Visible = false;
-                        return;
-                    }
-
-                    // version detection
-                    var version = Utils.GetVersion();
+                        // architecture detection
+                        var arch = Utils.GetArchitecture();
                         LaunchProgress.Value += LaunchProgress.Maximum / 10;
 
-                        Log.Write("Downloading list of supported versions");
+                        if (arch == string.Empty)
+                        {
+                            Log.Write("Launcher couldn't detect the game, either it's not installed or the user has a cracked version");
+                            // wtf the game not installed
+                            Utils.ShowMessage("????????", "You don't even have Minecraft Bedrock installed!");
+                            LaunchButton.Enabled = true;
+                            LaunchProgress.Visible = false;
+                            return;
+                        }
 
-                        var latestSupported = versionClient.DownloadString(
-                            "https://raw.githubusercontent.com/bernarddesfosse/onixclientautoupdate/main/LatestSupportedVersion");
+                        if (arch != "X64")
+                        {
+                            Log.Write("This doesn't seem like the correct architecture we want");
+                            Utils.ShowMessage("Architecture Error", "You have a version of Minecraft that isn't 64-bit.");
+                            LaunchButton.Enabled = true;
+                            LaunchProgress.Visible = false;
+                            return;
+                        }
 
-                        versionClient.Dispose();
+                        // version detection
+                        bool supported;
+                        var version = Utils.GetVersion();
 
-                        Log.Write("Downloaded, comparing versions");
-                        List<string> stringTable = latestSupported.Split('\n').ToList();
-                        var supported = stringTable.Contains(version);
+                        if (Utils.CurrentSettings.InsiderMode)
+                        {
+                            supported = true;
+                            Log.Write("Insider Mode is enabled, skipping version check");
+                        }
+                        else
+                        {
+                            LaunchProgress.Value += LaunchProgress.Maximum / 10;
 
-                    //version = "eaghruyehruger"; // test
+                            Log.Write("Downloading list of supported versions");
 
-                    if (!supported && !Utils.CurrentSettings.InsiderMode)
+                            var latestSupported = versionClient.DownloadString(
+                                "https://raw.githubusercontent.com/bernarddesfosse/onixclientautoupdate/main/LatestSupportedVersion");
+
+                            versionClient.Dispose();
+
+                            Log.Write("Downloaded, comparing versions");
+                            List<string> stringTable = latestSupported.Split('\n').ToList();
+                            supported = stringTable.Contains(version);
+                        }
+
+                        //version = "eaghruyehruger"; // test
+
+                        if (!supported && !Utils.CurrentSettings.InsiderMode)
                         {
                             Log.Write("The user isn't on a supported version");
                             LaunchButton.Enabled = true;
