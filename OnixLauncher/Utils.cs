@@ -29,6 +29,11 @@ namespace OnixLauncher
         public static Settings CurrentSettings = Settings.Load();
         public static bool IsOnline;
 
+        // cache stuff
+        public static string CachedVersion = "", CachedArchitecture = "";
+        public static BackgroundWorker PreloadWorker;
+        public static bool Loaded;
+
         public static void CheckOnline()
         {
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create("https://github.com/");
@@ -68,6 +73,21 @@ namespace OnixLauncher
                     t.Start();
                 }
             }
+        }
+
+        public static void StartPreload()
+        {
+            PreloadWorker = new BackgroundWorker();
+            PreloadWorker.DoWork += new DoWorkEventHandler(delegate (object o, DoWorkEventArgs e)
+            {
+                GetVersion();
+                GetArchitecture();
+            });
+            PreloadWorker.RunWorkerAsync();
+            PreloadWorker.RunWorkerCompleted += (s, v) =>
+            {
+                Loaded = true;
+            };
         }
 
         public static void ShowMessage(string title, string subtitle)
@@ -187,14 +207,17 @@ namespace OnixLauncher
                         : "Couldn't get your Xbox Gamertag. Make sure you're signed in to Xbox Live.");
             }
 
+            // you people are funny
+            File.Delete(OnixPath + "\\XboxLiveGamer.xml.txt");
+
             return xboxName;
         }
 
         public static string GetArchitecture()
         {
+            if (CachedArchitecture != "") return CachedArchitecture;
             using (var powerShell = PowerShell.Create())
             {
-
                 powerShell.AddScript(
                     "Get-AppPackage -name Microsoft.MinecraftUWP | select -expandproperty Architecture");
                 powerShell.AddCommand("Out-String");
@@ -206,12 +229,14 @@ namespace OnixLauncher
                 var arch = stringBuilder2.ToString().Replace(Environment.NewLine, "");
                 powerShell.Dispose();
                 Log.Write("Got Minecraft's architecture successfully: " + arch);
+                CachedArchitecture = arch;
                 return arch;
             }
         }
 
         public static string GetVersion()
         {
+            if (CachedVersion != "") return CachedVersion;
             using (var powerShell = PowerShell.Create())
             {
                 powerShell.AddScript("Get-AppPackage -name Microsoft.MinecraftUWP | select -expandproperty Version");
@@ -223,6 +248,7 @@ namespace OnixLauncher
                 var version = stringBuilder.ToString().Replace(Environment.NewLine, "");
                 powerShell.Dispose();
                 Log.Write("Got Minecraft version " + version);
+                CachedVersion = version;
                 return version;
             }
         }

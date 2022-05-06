@@ -34,7 +34,7 @@ namespace OnixLauncher
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            Guna.UI2.AnimatorNS.Animation animation1 = new Guna.UI2.AnimatorNS.Animation();
+            Guna.UI2.AnimatorNS.Animation animation2 = new Guna.UI2.AnimatorNS.Animation();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.TitleBar = new System.Windows.Forms.Panel();
             this.TitleText = new System.Windows.Forms.Label();
@@ -200,11 +200,11 @@ namespace OnixLauncher
             // 
             this.ProgressTransition.SetDecoration(this.LaunchProgress, Guna.UI2.AnimatorNS.DecorationType.None);
             this.LaunchProgress.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(12)))), ((int)(((byte)(12)))), ((int)(((byte)(12)))));
-            this.LaunchProgress.Location = new System.Drawing.Point(191, 287);
+            this.LaunchProgress.Location = new System.Drawing.Point(0, 356);
             this.LaunchProgress.Name = "LaunchProgress";
             this.LaunchProgress.ProgressColor = System.Drawing.Color.FromArgb(((int)(((byte)(1)))), ((int)(((byte)(254)))), ((int)(((byte)(218)))));
             this.LaunchProgress.ProgressColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(140)))), ((int)(((byte)(215)))));
-            this.LaunchProgress.Size = new System.Drawing.Size(216, 10);
+            this.LaunchProgress.Size = new System.Drawing.Size(600, 10);
             this.LaunchProgress.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
             this.LaunchProgress.TabIndex = 5;
             this.LaunchProgress.TextRenderingHint = System.Drawing.Text.TextRenderingHint.SystemDefault;
@@ -222,22 +222,22 @@ namespace OnixLauncher
             // 
             this.ProgressTransition.AnimationType = Guna.UI2.AnimatorNS.AnimationType.Transparent;
             this.ProgressTransition.Cursor = null;
-            animation1.AnimateOnlyDifferences = true;
-            animation1.BlindCoeff = ((System.Drawing.PointF)(resources.GetObject("animation1.BlindCoeff")));
-            animation1.LeafCoeff = 0F;
-            animation1.MaxTime = 1F;
-            animation1.MinTime = 0F;
-            animation1.MosaicCoeff = ((System.Drawing.PointF)(resources.GetObject("animation1.MosaicCoeff")));
-            animation1.MosaicShift = ((System.Drawing.PointF)(resources.GetObject("animation1.MosaicShift")));
-            animation1.MosaicSize = 0;
-            animation1.Padding = new System.Windows.Forms.Padding(0);
-            animation1.RotateCoeff = 0F;
-            animation1.RotateLimit = 0F;
-            animation1.ScaleCoeff = ((System.Drawing.PointF)(resources.GetObject("animation1.ScaleCoeff")));
-            animation1.SlideCoeff = ((System.Drawing.PointF)(resources.GetObject("animation1.SlideCoeff")));
-            animation1.TimeCoeff = 0F;
-            animation1.TransparencyCoeff = 1F;
-            this.ProgressTransition.DefaultAnimation = animation1;
+            animation2.AnimateOnlyDifferences = true;
+            animation2.BlindCoeff = ((System.Drawing.PointF)(resources.GetObject("animation2.BlindCoeff")));
+            animation2.LeafCoeff = 0F;
+            animation2.MaxTime = 1F;
+            animation2.MinTime = 0F;
+            animation2.MosaicCoeff = ((System.Drawing.PointF)(resources.GetObject("animation2.MosaicCoeff")));
+            animation2.MosaicShift = ((System.Drawing.PointF)(resources.GetObject("animation2.MosaicShift")));
+            animation2.MosaicSize = 0;
+            animation2.Padding = new System.Windows.Forms.Padding(0);
+            animation2.RotateCoeff = 0F;
+            animation2.RotateLimit = 0F;
+            animation2.ScaleCoeff = ((System.Drawing.PointF)(resources.GetObject("animation2.ScaleCoeff")));
+            animation2.SlideCoeff = ((System.Drawing.PointF)(resources.GetObject("animation2.SlideCoeff")));
+            animation2.TimeCoeff = 0F;
+            animation2.TransparencyCoeff = 1F;
+            this.ProgressTransition.DefaultAnimation = animation2;
             // 
             // CreditsButton
             // 
@@ -359,6 +359,7 @@ namespace OnixLauncher
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Onix Launcher";
+            this.Load += new System.EventHandler(this.MainForm_Load);
             this.TitleBar.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.OnixLogo)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.BigOnixLogo)).EndInit();

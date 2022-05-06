@@ -54,11 +54,8 @@ namespace OnixLauncher
             catch (Exception e)
             {
                 Log.Write("Injection failed. Exception: " + e.ToString());
-                if (Utils.IsGameOpen())
-                    Utils.ShowMessage("Injection Error", 
-                        "Failed to inject, but the game is open. Try closing the game before launching.");
-                else
-                    Utils.ShowMessage("Injection Error", "Failed to inject. Try disabling your antivirus.");
+                Utils.ShowMessage("Injection Error", 
+                    "Failed to inject. Try disabling your antivirus, or closing the game if it's open.");
                 InjectionCompleted.Invoke(null, EventArgs.Empty);
             }
         }

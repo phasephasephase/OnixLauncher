@@ -11,6 +11,8 @@ namespace OnixLauncher
         [STAThread]
         static void Main(string[] args)
         {
+            Utils.StartPreload();
+
             Log.CreateLog();
             Log.Write("Begin");
 

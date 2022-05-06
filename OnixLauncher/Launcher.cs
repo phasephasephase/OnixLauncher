@@ -36,6 +36,7 @@ namespace OnixLauncher
                 // let's go!
                 LaunchButton.Enabled = false;
                 LaunchProgress.Visible = true;
+                LaunchProgress.Style = System.Windows.Forms.ProgressBarStyle.Marquee;
 
                 LaunchProgress.Value = 0;
                 LaunchProgress.Maximum = int.MaxValue;
@@ -50,6 +51,9 @@ namespace OnixLauncher
                         var dllClient = new WebClient();
                         var dllPath = Utils.DLLPath;
 
+                        while (!Utils.Loaded) Thread.Sleep(1);
+                        LaunchProgress.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
+
                         dllClient.DownloadProgressChanged +=
                             new DownloadProgressChangedEventHandler((object s, DownloadProgressChangedEventArgs ez) =>
                             {
@@ -62,7 +66,7 @@ namespace OnixLauncher
                             });
 
                         // architecture detection
-                        var arch = Utils.GetArchitecture();
+                        var arch = Utils.CachedArchitecture;
                         LaunchProgress.Value += LaunchProgress.Maximum / 10;
 
                         if (arch == string.Empty)
@@ -86,7 +90,7 @@ namespace OnixLauncher
 
                         // version detection
                         bool supported;
-                        var version = Utils.GetVersion();
+                        var version = Utils.CachedVersion;
 
                         if (Utils.CurrentSettings.InsiderMode)
                         {
@@ -188,7 +192,8 @@ namespace OnixLauncher
                         {
                             Log.Write("Launcher couldn't detect the game, either it's not installed or the user has a cracked version");
                             // wtf the game not installed
-                            Utils.ShowMessage("????????", "You don't even have Minecraft Bedrock installed!");
+                            Utils.ShowMessage("Couldn't detect game", 
+                                "Keep in mind that Onix Client doesn't work with cracked versions, nor does it get you the game for free.");
                             LaunchButton.Enabled = true;
                             LaunchProgress.Visible = false;
                             return;
