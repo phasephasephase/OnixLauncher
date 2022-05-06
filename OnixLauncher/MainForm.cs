@@ -59,9 +59,6 @@ namespace OnixLauncher
                 Utils.ShowMessage("Welcome to Onix Client!",
                     "Check our Discord's #help-me channel if you're having any problems with the launcher.");
             }
-
-            Utils.ShowMessage("Couldn't detect Minecraft",
-                                "Keep in mind that Onix Client doesn't work with cracked versions, nor does it get you the game for free.");
         }
 
         // srry for bad code
