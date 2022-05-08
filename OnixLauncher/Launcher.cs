@@ -190,7 +190,7 @@ namespace OnixLauncher
                         {
                             Log.Write("Launcher couldn't detect the game, either it's not installed or the user has a cracked version");
                             // wtf the game not installed
-                            Utils.ShowMessage("Couldn't detect game",
+                            Utils.ShowMessage("Couldn't detect Minecraft",
                                 "Keep in mind that Onix Client doesn't work with cracked versions, nor does it get you the game for free. \n\n" +
                                 "If this isn't the case, the launcher might be sandboxed. Turn off your antivirus.");
                             LaunchButton.Enabled = true;
