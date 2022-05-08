@@ -82,11 +82,19 @@ namespace OnixLauncher
             {
                 GetVersion();
                 GetArchitecture();
+
+                if (IsOnline)
+                {
+                    var client = new WebClient();
+                    Launcher.VersionList = client.DownloadString(
+                        "https://raw.githubusercontent.com/bernarddesfosse/onixclientautoupdate/main/LatestSupportedVersion");
+                }
             });
             PreloadWorker.RunWorkerAsync();
             PreloadWorker.RunWorkerCompleted += (s, v) =>
             {
                 Loaded = true;
+                Log.Write("Preload complete");
             };
         }
 

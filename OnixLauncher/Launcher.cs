@@ -15,6 +15,8 @@ namespace OnixLauncher
         public static Guna2ProgressBar LaunchProgress;
         public static System.Timers.Timer PresenceTimer;
 
+        public static string VersionList = "";
+
         public static void Launch()
         {
             Utils.ShowMessage("weird", "bug fix");
@@ -47,7 +49,6 @@ namespace OnixLauncher
 
                     bw.DoWork += new DoWorkEventHandler(delegate (object o, DoWorkEventArgs workerE)
                     {
-                        var versionClient = new WebClient();
                         var dllClient = new WebClient();
                         var dllPath = Utils.DLLPath;
 
@@ -101,14 +102,11 @@ namespace OnixLauncher
                         {
                             LaunchProgress.Value += LaunchProgress.Maximum / 10;
 
-                            Log.Write("Downloading list of supported versions");
+                            Log.Write("Getting list of supported versions");
 
-                            var latestSupported = versionClient.DownloadString(
-                                "https://raw.githubusercontent.com/bernarddesfosse/onixclientautoupdate/main/LatestSupportedVersion");
+                            var latestSupported = VersionList;
 
-                            versionClient.Dispose();
-
-                            Log.Write("Downloaded, comparing versions");
+                            Log.Write("Comparing versions");
                             List<string> stringTable = latestSupported.Split('\n').ToList();
                             supported = stringTable.Contains(version);
                         }
@@ -192,8 +190,9 @@ namespace OnixLauncher
                         {
                             Log.Write("Launcher couldn't detect the game, either it's not installed or the user has a cracked version");
                             // wtf the game not installed
-                            Utils.ShowMessage("Couldn't detect game", 
-                                "Keep in mind that Onix Client doesn't work with cracked versions, nor does it get you the game for free.");
+                            Utils.ShowMessage("Couldn't detect game",
+                                "Keep in mind that Onix Client doesn't work with cracked versions, nor does it get you the game for free. \n\n" +
+                                "If this isn't the case, the launcher might be sandboxed. Turn off your antivirus.");
                             LaunchButton.Enabled = true;
                             LaunchProgress.Visible = false;
                             return;
