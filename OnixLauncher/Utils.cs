@@ -37,7 +37,7 @@ namespace OnixLauncher
         public static void CheckOnline()
         {
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create("https://github.com/");
-            request.Timeout = 5000;
+            request.Timeout = 10000;
             request.Method = "HEAD";
             try
             {
