@@ -1,5 +1,5 @@
 # Onix Launcher
-![image](https://user-images.githubusercontent.com/64127681/167512572-3236cef6-171d-4b89-83a5-ef5bac986b51.png)
+![image](https://user-images.githubusercontent.com/20384051/167514540-ce650320-cf6d-4285-80d0-eb4030e627e7.png)
 
 **The most recent and modern launcher for Onix Client.**
 
