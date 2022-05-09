@@ -1,5 +1,5 @@
 # Onix Launcher
-![](https://cdn.discordapp.com/attachments/942087790420717638/963538280694030376/unknown.png?size=4096)
+![image](https://user-images.githubusercontent.com/64127681/167512572-3236cef6-171d-4b89-83a5-ef5bac986b51.png)
 
 **The most recent and modern launcher for Onix Client.**
 
