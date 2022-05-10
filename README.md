@@ -3,8 +3,6 @@
 
 **The most recent and modern launcher for Onix Client.**
 
-and all of this is handled on a separate thread.
-
 ## Contributing
 If there is an issue open with your fix or addition to the launcher, please close it with your pull request. Here are some [good first issues](https://github.com/notcarlton/OnixLauncher/labels/good%20first%20issue) to get you started.
 
