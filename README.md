@@ -3,11 +3,6 @@
 
 **The most recent and modern launcher for Onix Client.**
 
-## What makes it better than the others:
-- Automatic version detection
-- Architecture detection
-- **Always** downloads the latest DLL
-
 and all of this is handled on a separate thread.
 
 ## Contributing
