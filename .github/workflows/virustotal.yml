@@ -1,0 +1,25 @@
+name: Upload latest release to VirusTotal
+
+on:
+  release:
+    types: [published]
+    
+  workflow_dispatch:
+
+jobs:
+  funny:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Download latest launcher
+        uses: i3h/download-release-asset@v1.3.2
+        with:
+          owner: notcarlton
+          repo: OnixLauncher
+          tag: latest
+          file: OnixLauncher.exe
+      
+      - name: Upload to VirusTotal
+        uses: wei/curl@v1.1.1
+        with:
+          args: --request POST --url https://www.virustotal.com/api/v3/files --header Content-Type:\ multipart/form-data --header x-apikey:\ ${{ secrets.VIRUSTOTAL_API_TOKEN }} --form file=@OnixLauncher.exe
