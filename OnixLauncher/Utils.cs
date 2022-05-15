@@ -95,6 +95,7 @@ namespace OnixLauncher
             {
                 if (v.Error != null)
                 {
+                    Log.Write("Preload failed. Exception: " + v.Error.ToString());
                     ShowMessage("Preload Error",
                         "We failed to preload everything needed for launch, so things might not work as expected. " +
                         "Try disabling your antivirus.");
