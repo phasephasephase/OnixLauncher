@@ -93,8 +93,17 @@ namespace OnixLauncher
             PreloadWorker.RunWorkerAsync();
             PreloadWorker.RunWorkerCompleted += (s, v) =>
             {
+                if (v.Error != null)
+                {
+                    ShowMessage("Preload Error",
+                        "We failed to preload everything needed for launch, so things might not work as expected. " +
+                        "Try disabling your antivirus.");
+                }
                 Loaded = true;
                 Log.Write("Preload complete");
+
+                // wtf
+                Log.Write("Version list: " + Launcher.VersionList);
             };
         }
 
