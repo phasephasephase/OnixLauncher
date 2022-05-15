@@ -10,15 +10,10 @@ namespace OnixLauncher
 
         public static void Initialize()
         {
-            var TimestampStart = 0;
-            var TimestampEnd = 0;
             dynamic dateTimestampEnd = null;
 
-            if (_discordTime != "" && int.TryParse(_discordTime, out TimestampEnd))
-                dateTimestampEnd = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
-                    .AddSeconds(TimestampEnd);
-
-            
+            if (_discordTime != "" && int.TryParse(_discordTime, out int timestampEnd))
+                dateTimestampEnd = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc).AddSeconds(timestampEnd);
 
             Client = new DiscordRpcClient("845463201550434344");
             Client.Initialize();
@@ -33,9 +28,9 @@ namespace OnixLauncher
                 },
                 Timestamps = new Timestamps
                 {
-                    Start = _discordTime != "" && int.TryParse(_discordTime, out TimestampStart) ?
+                    Start = _discordTime != "" && int.TryParse(_discordTime, out int timestampStart) ?
                         new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
-                            .AddSeconds(TimestampStart) : DateTime.UtcNow,
+                            .AddSeconds(timestampStart) : DateTime.UtcNow,
                     End = dateTimestampEnd
                 }
             });
@@ -53,18 +48,15 @@ namespace OnixLauncher
             return largeImgKey;
         }
 
-
         public static void ChangePresence(string server, string version, string gamertag)
         {
-            int TimestampStart = 0;
-            int TimestampEnd = 0;
             dynamic dateTimestampEnd = null;
 
-            if (_discordTime != "" && int.TryParse(_discordTime, out TimestampEnd))
+            if (_discordTime != "" && int.TryParse(_discordTime, out int timestampEnd))
                 dateTimestampEnd = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
-                    .AddSeconds(TimestampEnd);
+                    .AddSeconds(timestampEnd);
 
-            string smallimage = "minecraft";
+            var smallimage = "minecraft";
             if (!server.Contains("In a world:") || server != "In the menus" || !server.Contains("."))
             {
                 smallimage = server.Contains("The Hive") ? "hive" : server.Split(' ')[2].ToLower();
@@ -85,9 +77,9 @@ namespace OnixLauncher
                 },
                 Timestamps = new Timestamps
                 {
-                    Start = _discordTime != "" && int.TryParse(_discordTime, out TimestampStart) ?
+                    Start = _discordTime != "" && int.TryParse(_discordTime, out int timestampStart) ?
                         new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
-                            .AddSeconds(TimestampStart) : DateTime.UtcNow,
+                            .AddSeconds(timestampStart) : DateTime.UtcNow,
                     End = dateTimestampEnd
                 }
             });
@@ -96,13 +88,10 @@ namespace OnixLauncher
 
         public static void ResetPresence()
         {
-            int TimestampStart = 0;
-            int TimestampEnd = 0;
             dynamic dateTimestampEnd = null;
 
-            if (_discordTime != "" && int.TryParse(_discordTime, out TimestampEnd))
-                dateTimestampEnd = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
-                    .AddSeconds(TimestampEnd);
+            if (_discordTime != "" && int.TryParse(_discordTime, out int timestampEnd))
+                dateTimestampEnd = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc).AddSeconds(timestampEnd);
 
             Client.SetPresence(new DiscordRPC.RichPresence
             {
@@ -111,13 +100,13 @@ namespace OnixLauncher
                 Assets = new Assets
                 {
                     LargeImageKey = GetLargeImage(),
-                    LargeImageText = "Onix Launcher",
+                    LargeImageText = "Onix Launcher"
                 },
                 Timestamps = new Timestamps
                 {
-                    Start = _discordTime != "" && int.TryParse(_discordTime, out TimestampStart) ?
+                    Start = _discordTime != "" && int.TryParse(_discordTime, out int timestampStart) ?
                         new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
-                            .AddSeconds(TimestampStart) : DateTime.UtcNow,
+                            .AddSeconds(timestampStart) : DateTime.UtcNow,
                     End = dateTimestampEnd
                 }
             });

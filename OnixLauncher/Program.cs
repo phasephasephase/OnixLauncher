@@ -11,8 +11,11 @@ namespace OnixLauncher
         [STAThread]
         static void Main(string[] args)
         {
+            Utils.StartPreload();
+
             Log.CreateLog();
-            Log.Write("gaming");
+            Log.Write("Begin");
+
             Application.EnableVisualStyles();
             // THIS LINE CAUSES PROBLEMS!!!!
             //Application.SetCompatibleTextRenderingDefault(false);

@@ -4,6 +4,8 @@ using System.Diagnostics;
 using System.IO;
 using System.Management.Automation;
 using System.Text;
+using System.Net;
+using System.Threading;
 using System.Windows.Forms;
 
 namespace OnixLauncher
@@ -13,8 +15,9 @@ namespace OnixLauncher
         public static string OnixPath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) +
                                         @"\Onix Launcher";
 
-        public static string RPCServerPath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)
-                                          + @"\Packages\Microsoft.MinecraftUWP_8wekyb3d8bbwe\RoamingState\OnixClient\Launcher\server.txt";
+        public static string RPCServerPath = 
+            Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)
+             + @"\Packages\Microsoft.MinecraftUWP_8wekyb3d8bbwe\RoamingState\OnixClient\Launcher\server.txt";
 
         public static string DLLPath = OnixPath + @"\OnixClient.dll";
 
@@ -22,6 +25,78 @@ namespace OnixLauncher
         private static bool _init;
         public static string SelectedPath = "no file";
         public static MessageForm MessageF = new MessageForm("you shouldn't see this", "how are you reading this");
+        public static SettingsForm SettingsF = new SettingsForm();
+        public static Settings CurrentSettings = Settings.Load();
+        public static bool IsOnline;
+
+        // cache stuff
+        public static string CachedVersion = "", CachedArchitecture = "";
+        public static BackgroundWorker PreloadWorker;
+        public static bool Loaded;
+
+        public static void CheckOnline()
+        {
+            HttpWebRequest request = (HttpWebRequest)WebRequest.Create("https://github.com/");
+            request.Timeout = 10000;
+            request.Method = "HEAD";
+            try
+            {
+                using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
+                {
+                    IsOnline = response.StatusCode == HttpStatusCode.OK;
+                }
+            }
+            catch (WebException)
+            {
+                IsOnline = false;
+            }
+
+            if (!IsOnline)
+            {
+                if (File.Exists(DLLPath))
+                {
+                    ShowMessage("Offline Mode",
+                        "We couldn't contact GitHub servers, so launching will inject the DLL you had from last launch.");
+                }
+                else
+                {
+                    ShowMessage("Network Error", 
+                        "We couldn't reach GitHub servers, and you don't have the DLL downloaded. Try launching later.");
+                    Thread t = new Thread(() =>
+                    {
+                        while (MessageF.Visible)
+                        {
+                            Thread.Sleep(5);
+                        }
+                        MainForm.Instance.Close();
+                    });
+                    t.Start();
+                }
+            }
+        }
+
+        public static void StartPreload()
+        {
+            PreloadWorker = new BackgroundWorker();
+            PreloadWorker.DoWork += new DoWorkEventHandler(delegate (object o, DoWorkEventArgs e)
+            {
+                GetVersion();
+                GetArchitecture();
+
+                if (IsOnline)
+                {
+                    var client = new WebClient();
+                    Launcher.VersionList = client.DownloadString(
+                        "https://raw.githubusercontent.com/bernarddesfosse/onixclientautoupdate/main/LatestSupportedVersion");
+                }
+            });
+            PreloadWorker.RunWorkerAsync();
+            PreloadWorker.RunWorkerCompleted += (s, v) =>
+            {
+                Loaded = true;
+                Log.Write("Preload complete");
+            };
+        }
 
         public static void ShowMessage(string title, string subtitle)
         {
@@ -29,6 +104,30 @@ namespace OnixLauncher
             MessageF.SetTitleAndSubtitle(title, subtitle);
             MessageF.Owner = MainForm.Instance;
             MessageF.Show();
+        }
+
+        public static void ShowSettings()
+        {
+            SettingsF.Owner = MainForm.Instance;
+            SettingsF.Show();
+        }
+
+        public static void UpdateSettings()
+        {
+            Settings.Save(CurrentSettings); // bro
+            CurrentSettings = Settings.Load();
+
+            MainForm.Instance.UpdateGradientSettings();
+            SettingsF.InsiderToggle.Checked = CurrentSettings.InsiderMode;
+            SettingsF.MagicToggle.Checked = CurrentSettings.MagicGradient;
+            SettingsF.InsiderSelect.Enabled = SettingsF.InsiderToggle.Checked;
+
+            MainForm.Instance.Text = CurrentSettings.InsiderMode ? "Onix Launcher (Insider Mode)" : "Onix Launcher";
+            MainForm.Instance.TitleText.Text = MainForm.Instance.Text;
+
+            SelectedPath = CurrentSettings.DLLPath;
+
+            Log.Write("Settings updated");
         }
 
         public static void OpenFile()
@@ -47,7 +146,7 @@ namespace OnixLauncher
             }
 
             _fileDialog.ShowDialog();
-            Log.Write("User is selecting a custom DLL");
+            Log.Write("User selected a custom DLL");
         }
 
         public static void OpenGame()
@@ -61,7 +160,7 @@ namespace OnixLauncher
             };
             process.StartInfo = startInfo;
             process.Start();
-            Log.Write("Opened Minecraft, or at least I tried to");
+            Log.Write("Attempted to open Minecraft");
         }
 
         public static bool IsGameOpen()
@@ -72,10 +171,14 @@ namespace OnixLauncher
 
         private static void FileDialogOnFileOk(object sender, CancelEventArgs e)
         {
-            SelectedPath = _fileDialog.FileName;
-            MainForm.Bypassed = true;
-            Log.Write("Selected DLL: " + SelectedPath);
-            ShowMessage("Insider Mode", "This is intended to be used with Onix DLLs only.");
+            var customPath = OnixPath + "\\Custom.dll";
+            File.Copy(_fileDialog.FileName, customPath, true);
+
+            SelectedPath = customPath;
+            CurrentSettings.DLLPath = customPath;
+            UpdateSettings();
+
+            Log.Write("Selected DLL: " + customPath);
         }
 
         public static string GetXboxGamertag()
@@ -89,7 +192,8 @@ namespace OnixLauncher
                 localappdata + "\\Packages\\Microsoft.XboxApp_8wekyb3d8bbwe\\LocalState\\XboxLiveGamer.xml")) return xboxName;
             try
             {
-                File.Copy(localappdata + "\\Packages\\Microsoft.XboxApp_8wekyb3d8bbwe\\LocalState\\XboxLiveGamer.xml", OnixPath + "\\XboxLiveGamer.xml.txt");
+                File.Copy(localappdata + "\\Packages\\Microsoft.XboxApp_8wekyb3d8bbwe\\LocalState\\XboxLiveGamer.xml",
+                    OnixPath + "\\XboxLiveGamer.xml.txt");
                 foreach (var readAllLine in File.ReadAllLines(OnixPath + "\\XboxLiveGamer.xml.txt"))
                 {
                     if (readAllLine.Contains("Gamertag"))
@@ -111,14 +215,17 @@ namespace OnixLauncher
                         : "Couldn't get your Xbox Gamertag. Make sure you're signed in to Xbox Live.");
             }
 
+            // you people are funny
+            File.Delete(OnixPath + "\\XboxLiveGamer.xml.txt");
+
             return xboxName;
         }
 
         public static string GetArchitecture()
         {
+            if (CachedArchitecture != "") return CachedArchitecture;
             using (var powerShell = PowerShell.Create())
             {
-
                 powerShell.AddScript(
                     "Get-AppPackage -name Microsoft.MinecraftUWP | select -expandproperty Architecture");
                 powerShell.AddCommand("Out-String");
@@ -130,12 +237,14 @@ namespace OnixLauncher
                 var arch = stringBuilder2.ToString().Replace(Environment.NewLine, "");
                 powerShell.Dispose();
                 Log.Write("Got Minecraft's architecture successfully: " + arch);
+                CachedArchitecture = arch;
                 return arch;
             }
         }
 
         public static string GetVersion()
         {
+            if (CachedVersion != "") return CachedVersion;
             using (var powerShell = PowerShell.Create())
             {
                 powerShell.AddScript("Get-AppPackage -name Microsoft.MinecraftUWP | select -expandproperty Version");
@@ -147,6 +256,7 @@ namespace OnixLauncher
                 var version = stringBuilder.ToString().Replace(Environment.NewLine, "");
                 powerShell.Dispose();
                 Log.Write("Got Minecraft version " + version);
+                CachedVersion = version;
                 return version;
             }
         }

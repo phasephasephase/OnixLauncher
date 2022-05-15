@@ -1,11 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
-using System.Net;
-using System.Threading;
 using System.Timers;
 using System.Windows.Forms;
 
@@ -13,8 +9,7 @@ namespace OnixLauncher
 {
     public partial class MainForm : Form
     {
-        public static Form Instance;
-        public static bool Bypassed;
+        public static MainForm Instance;
 
         protected override CreateParams CreateParams
         {
@@ -33,7 +28,11 @@ namespace OnixLauncher
             InitializeComponent();
             Log.Write("Initialized UI");
             Instance = this;
+
             RichPresence.Initialize();
+            Utils.UpdateSettings();
+            Utils.CheckOnline();
+
 
             // We want to have the form in the middle to polish everything
             StartPosition = FormStartPosition.CenterScreen;
@@ -47,8 +46,10 @@ namespace OnixLauncher
             // stupid winforms thing that fixes message boxes
             CheckForIllegalCrossThreadCalls = false;
 
-            // this is a bit useless, might remove soon
+            // event stuffs
             Injector.InjectionCompleted += InjectionCompleted;
+            MagicGradient.ValueChanged += HandleGradient1;
+            MagicGradient2.ValueChanged += HandleGradient2;
 
             // first time?
             if (!File.Exists(Utils.OnixPath + "\\firstTime"))
@@ -56,11 +57,47 @@ namespace OnixLauncher
                 Log.Write("Detected first time open, showing the welcome message box");
                 File.Create(Utils.OnixPath + "\\firstTime");
                 Utils.ShowMessage("Welcome to Onix Client!",
-                    "Check our Discord's #faq channel if you're having problems.");
+                    "Check our Discord's #help-me channel if you're having any problems with the launcher.");
             }
         }
 
-        private void CloseButton_Click(object sender, EventArgs e)
+        // srry for bad code
+        private void HandleGradient2(object sender, EventArgs e)
+        {
+            // main
+            LaunchButton.FillColor2 = MagicGradient2.Value;
+            CreditsButton.FillColor2 = MagicGradient2.Value;
+            Discord.FillColor2 = MagicGradient2.Value;
+            LaunchProgress.ProgressColor2 = MagicGradient2.Value;
+            SettingsButton.FillColor2 = MagicGradient2.Value;
+
+            // message and settings
+            Utils.MessageF.Okay.FillColor2 = MagicGradient2.Value;
+            Utils.SettingsF.InsiderSelect.FillColor2 = MagicGradient2.Value;
+            Utils.SettingsF.LogsButton.FillColor2 = MagicGradient2.Value;
+        }
+
+        private void HandleGradient1(object sender, EventArgs e)
+        {
+            // same
+            LaunchButton.FillColor = MagicGradient.Value;
+            CreditsButton.FillColor = MagicGradient.Value;
+            Discord.FillColor = MagicGradient.Value;
+            LaunchProgress.ProgressColor = MagicGradient.Value;
+            SettingsButton.FillColor = MagicGradient.Value;
+
+            Utils.MessageF.Okay.FillColor = MagicGradient.Value;
+            Utils.SettingsF.InsiderSelect.FillColor = MagicGradient.Value;
+            Utils.SettingsF.LogsButton.FillColor = MagicGradient.Value;
+        }
+
+        public void UpdateGradientSettings()
+        {
+            MagicGradient.AutoTransition = Utils.CurrentSettings.MagicGradient;
+            MagicGradient2.AutoTransition = Utils.CurrentSettings.MagicGradient;
+        }
+
+        public void CloseButton_Click(object sender, EventArgs e)
         {
             FadeTimer.Start();
             Log.Write("Exiting...");
@@ -72,7 +109,7 @@ namespace OnixLauncher
             WindowState = FormWindowState.Minimized;
         }
 
-        private void TitleBar_MouseDown(object sender, MouseEventArgs e)
+        private void Drag(object sender, MouseEventArgs e)
         {
             Winapi.ReleaseCapture();
             Winapi.SendMessage(Handle, Winapi.WM_NCLBUTTONDOWN, Winapi.HT_CAPTION, 0);
@@ -94,20 +131,6 @@ namespace OnixLauncher
             });
         }
 
-        private void BigOnixLogo_MouseDoubleClick(object sender, MouseEventArgs e)
-        {
-            if (!Bypassed)
-            {
-                Log.Write("The user enabled Insider Mode");
-                Utils.OpenFile();
-            }
-            else
-            {
-                Log.Write("The user disabled Insider Mode");
-                Utils.ShowMessage("Insider Mode", "Your DLL was set back to the release version.");
-            }
-        }
-
         private void InjectionCompleted(object sender, EventArgs e)
         {
             LaunchProgress.Visible = false;
@@ -117,7 +140,6 @@ namespace OnixLauncher
 
         private void LaunchButton_Click(object sender, EventArgs e)
         {
-            Launcher.Bypassed = Bypassed;
             Launcher.LaunchButton = LaunchButton;
             Launcher.LaunchProgress = LaunchProgress;
             Launcher.PresenceTimer = PresenceTimer;
@@ -264,6 +286,21 @@ namespace OnixLauncher
             }
 
             Opacity += _fadeSpeed;
+        }
+
+        private void SettingsButton_Click(object sender, EventArgs e)
+        {
+            Utils.ShowSettings();
+        }
+
+        private void MainForm_Load(object sender, EventArgs e)
+        {
+            
+        }
+
+        private void PreloadFinished(object sender, EventArgs e)
+        {
+            LaunchProgress.Visible = false;
         }
     }
 }

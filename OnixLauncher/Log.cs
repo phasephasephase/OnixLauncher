@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
 using System.IO;
 
 namespace OnixLauncher
@@ -15,13 +14,13 @@ namespace OnixLauncher
             Directory.CreateDirectory(LogPath + "\\Previous");
             if (File.Exists(LogPath + "\\Current.log"))
             {
-                File.Move(LogPath + "\\Current.log", LogPath + "\\" + DateTime.Now.ToBinary() + ".log");
+                File.Move(LogPath + "\\Current.log", LogPath + "\\Previous\\Old" + DateTime.Now.ToBinary() + ".log");
             }
         }
 
         public static void Write(string text)
         {
-            Debug.WriteLine(text);
+            Console.WriteLine(text);
             _logText += text + Environment.NewLine;
             File.WriteAllText(LogPath + "\\Current.log", _logText);
         }

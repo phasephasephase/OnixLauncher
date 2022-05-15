@@ -49,7 +49,10 @@ namespace OnixLauncher
             this.ProgressTransition = new Guna.UI2.WinForms.Guna2Transition();
             this.CreditsButton = new Guna.UI2.WinForms.Guna2GradientButton();
             this.Discord = new Guna.UI2.WinForms.Guna2GradientButton();
+            this.SettingsButton = new Guna.UI2.WinForms.Guna2GradientButton();
             this.FadeTimer = new System.Windows.Forms.Timer(this.components);
+            this.MagicGradient = new Guna.UI2.WinForms.Guna2ColorTransition(this.components);
+            this.MagicGradient2 = new Guna.UI2.WinForms.Guna2ColorTransition(this.components);
             this.TitleBar.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.OnixLogo)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.BigOnixLogo)).BeginInit();
@@ -70,7 +73,7 @@ namespace OnixLauncher
             this.TitleBar.Name = "TitleBar";
             this.TitleBar.Size = new System.Drawing.Size(600, 30);
             this.TitleBar.TabIndex = 0;
-            this.TitleBar.MouseDown += new System.Windows.Forms.MouseEventHandler(this.TitleBar_MouseDown);
+            this.TitleBar.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Drag);
             // 
             // TitleText
             // 
@@ -79,10 +82,11 @@ namespace OnixLauncher
             this.TitleText.ForeColor = System.Drawing.Color.White;
             this.TitleText.Location = new System.Drawing.Point(30, 8);
             this.TitleText.Name = "TitleText";
-            this.TitleText.Size = new System.Drawing.Size(88, 14);
+            this.TitleText.Size = new System.Drawing.Size(165, 14);
             this.TitleText.TabIndex = 3;
             this.TitleText.Text = "Onix Launcher";
             this.TitleText.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.TitleText.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Drag);
             // 
             // OnixLogo
             // 
@@ -180,7 +184,6 @@ namespace OnixLauncher
             this.BigOnixLogo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.BigOnixLogo.TabIndex = 4;
             this.BigOnixLogo.TabStop = false;
-            this.BigOnixLogo.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.BigOnixLogo_MouseDoubleClick);
             // 
             // OnixTitle
             // 
@@ -197,11 +200,11 @@ namespace OnixLauncher
             // 
             this.ProgressTransition.SetDecoration(this.LaunchProgress, Guna.UI2.AnimatorNS.DecorationType.None);
             this.LaunchProgress.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(12)))), ((int)(((byte)(12)))), ((int)(((byte)(12)))));
-            this.LaunchProgress.Location = new System.Drawing.Point(191, 287);
+            this.LaunchProgress.Location = new System.Drawing.Point(0, 356);
             this.LaunchProgress.Name = "LaunchProgress";
             this.LaunchProgress.ProgressColor = System.Drawing.Color.FromArgb(((int)(((byte)(1)))), ((int)(((byte)(254)))), ((int)(((byte)(218)))));
             this.LaunchProgress.ProgressColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(140)))), ((int)(((byte)(215)))));
-            this.LaunchProgress.Size = new System.Drawing.Size(216, 10);
+            this.LaunchProgress.Size = new System.Drawing.Size(600, 10);
             this.LaunchProgress.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
             this.LaunchProgress.TabIndex = 5;
             this.LaunchProgress.TextRenderingHint = System.Drawing.Text.TextRenderingHint.SystemDefault;
@@ -274,19 +277,59 @@ namespace OnixLauncher
             this.Discord.ForeColor = System.Drawing.Color.White;
             this.Discord.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.ForwardDiagonal;
             this.Discord.Image = ((System.Drawing.Image)(resources.GetObject("Discord.Image")));
-            this.Discord.ImageSize = new System.Drawing.Size(35, 35);
-            this.Discord.Location = new System.Drawing.Point(10, 300);
+            this.Discord.Location = new System.Drawing.Point(12, 313);
             this.Discord.Name = "Discord";
-            this.Discord.Size = new System.Drawing.Size(50, 50);
+            this.Discord.Size = new System.Drawing.Size(35, 35);
             this.Discord.TabIndex = 7;
             this.Discord.TextOffset = new System.Drawing.Point(0, -1);
             this.Discord.Click += new System.EventHandler(this.Discord_Click);
+            // 
+            // SettingsButton
+            // 
+            this.SettingsButton.Animated = true;
+            this.ProgressTransition.SetDecoration(this.SettingsButton, Guna.UI2.AnimatorNS.DecorationType.None);
+            this.SettingsButton.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
+            this.SettingsButton.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
+            this.SettingsButton.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
+            this.SettingsButton.DisabledState.FillColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
+            this.SettingsButton.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(141)))), ((int)(((byte)(141)))));
+            this.SettingsButton.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(1)))), ((int)(((byte)(254)))), ((int)(((byte)(218)))));
+            this.SettingsButton.FillColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(140)))), ((int)(((byte)(215)))));
+            this.SettingsButton.Font = new System.Drawing.Font("Segoe UI Black", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.SettingsButton.ForeColor = System.Drawing.Color.White;
+            this.SettingsButton.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.BackwardDiagonal;
+            this.SettingsButton.Image = ((System.Drawing.Image)(resources.GetObject("SettingsButton.Image")));
+            this.SettingsButton.ImageSize = new System.Drawing.Size(25, 25);
+            this.SettingsButton.Location = new System.Drawing.Point(553, 313);
+            this.SettingsButton.Name = "SettingsButton";
+            this.SettingsButton.Size = new System.Drawing.Size(35, 35);
+            this.SettingsButton.TabIndex = 8;
+            this.SettingsButton.TextOffset = new System.Drawing.Point(0, -1);
+            this.SettingsButton.Click += new System.EventHandler(this.SettingsButton_Click);
             // 
             // FadeTimer
             // 
             this.FadeTimer.Enabled = true;
             this.FadeTimer.Interval = 1;
             this.FadeTimer.Tick += new System.EventHandler(this.FadeTimer_Tick);
+            // 
+            // MagicGradient
+            // 
+            this.MagicGradient.AutoTransition = true;
+            this.MagicGradient.ColorArray = new System.Drawing.Color[] {
+        System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(140)))), ((int)(((byte)(215))))),
+        System.Drawing.Color.FromArgb(((int)(((byte)(1)))), ((int)(((byte)(254)))), ((int)(((byte)(218)))))};
+            this.MagicGradient.EndColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(140)))), ((int)(((byte)(215)))));
+            this.MagicGradient.StartColor = System.Drawing.Color.FromArgb(((int)(((byte)(1)))), ((int)(((byte)(254)))), ((int)(((byte)(218)))));
+            // 
+            // MagicGradient2
+            // 
+            this.MagicGradient2.AutoTransition = true;
+            this.MagicGradient2.ColorArray = new System.Drawing.Color[] {
+        System.Drawing.Color.FromArgb(((int)(((byte)(1)))), ((int)(((byte)(254)))), ((int)(((byte)(218))))),
+        System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(140)))), ((int)(((byte)(215)))))};
+            this.MagicGradient2.EndColor = System.Drawing.Color.FromArgb(((int)(((byte)(1)))), ((int)(((byte)(254)))), ((int)(((byte)(218)))));
+            this.MagicGradient2.StartColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(140)))), ((int)(((byte)(215)))));
             // 
             // MainForm
             // 
@@ -295,6 +338,7 @@ namespace OnixLauncher
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(12)))), ((int)(((byte)(12)))), ((int)(((byte)(12)))));
             this.ClientSize = new System.Drawing.Size(600, 360);
             this.ControlBox = false;
+            this.Controls.Add(this.SettingsButton);
             this.Controls.Add(this.Discord);
             this.Controls.Add(this.LaunchProgress);
             this.Controls.Add(this.OnixTitle);
@@ -315,6 +359,7 @@ namespace OnixLauncher
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Onix Launcher";
+            this.Load += new System.EventHandler(this.MainForm_Load);
             this.TitleBar.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.OnixLogo)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.BigOnixLogo)).EndInit();
@@ -338,8 +383,6 @@ namespace OnixLauncher
 
         private Guna.UI2.WinForms.Guna2GradientButton LaunchButton;
 
-        private System.Windows.Forms.Label TitleText;
-
         private System.Windows.Forms.PictureBox OnixLogo;
 
         private Guna.UI2.WinForms.Guna2Button MinimizeButton;
@@ -353,5 +396,9 @@ namespace OnixLauncher
         private Guna.UI2.WinForms.Guna2GradientButton Discord;
         public Timer FadeTimer;
         public Guna.UI2.WinForms.Guna2ProgressBar LaunchProgress;
+        private Guna.UI2.WinForms.Guna2ColorTransition MagicGradient;
+        private Guna.UI2.WinForms.Guna2ColorTransition MagicGradient2;
+        private Guna.UI2.WinForms.Guna2GradientButton SettingsButton;
+        public Label TitleText;
     }
 }

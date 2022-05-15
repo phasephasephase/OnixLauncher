@@ -14,8 +14,10 @@ namespace OnixLauncher
                 return handleParam;
             }
         }
+
         public static bool DetectedSecondLauncher;
         private static int _bottomPadding = 40;
+
         public MessageForm(string title, string subtitle)
         {
             InitializeComponent();
@@ -38,6 +40,8 @@ namespace OnixLauncher
             this.Height = height + TitleBar.Size.Height + ButtonPanel.Size.Height + _bottomPadding;
 
             Show();
+            Visible = true;
+
             if (DetectedSecondLauncher)
                 MainForm.Instance.Hide();
         }
@@ -54,9 +58,10 @@ namespace OnixLauncher
             if (DetectedSecondLauncher)
                 MainForm.Instance.Close();
             Hide();
+            Visible = false;
         }
 
-        private void TitleBar_MouseDown(object sender, MouseEventArgs e)
+        private void Drag(object sender, MouseEventArgs e)
         {
             Winapi.ReleaseCapture();
             Winapi.SendMessage(Handle, Winapi.WM_NCLBUTTONDOWN, Winapi.HT_CAPTION, 0);
