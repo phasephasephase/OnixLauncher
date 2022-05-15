@@ -55,11 +55,42 @@ namespace OnixLauncher
                         });
 
                     // architecture detection
-                    if (!ArchDetection()) return;
+                    var arch = Utils.GetArchitecture();
+                    LaunchProgress.Value += LaunchProgress.Maximum / 10;
+
+                    if (arch == string.Empty)
+                    {
+                        Log.Write("Launcher couldn't detect the game, either it's not installed or the user has a cracked version");
+                        // wtf the game not installed
+                        Utils.ShowMessage("????????", "You don't even have Minecraft Bedrock installed!");
+                        LaunchButton.Enabled = true;
+                        LaunchProgress.Visible = false;
+                        return;
+                    }
+
+                    if (arch != "X64")
+                    {
+                        Log.Write("This doesn't seem like the correct architecture we want");
+                        Utils.ShowMessage("Architecture Error", "You have a version of Minecraft that isn't 64-bit.");
+                        LaunchButton.Enabled = true;
+                        LaunchProgress.Visible = false;
+                        return;
+                    }
 
                     // version detection
-                    bool supported = VersionCheck(versionClient);
-                    string version = Utils.GetVersion();
+                    var version = Utils.GetVersion();
+                    LaunchProgress.Value += LaunchProgress.Maximum / 10;
+
+                    Log.Write("Downloading list of supported versions");
+
+                    var latestSupported = versionClient.DownloadString(
+                        "https://raw.githubusercontent.com/bernarddesfosse/onixclientautoupdate/main/LatestSupportedVersion");
+
+                    versionClient.Dispose();
+
+                    Log.Write("Downloaded, comparing versions");
+                    List<string> stringTable = latestSupported.Split('\n').ToList();
+                    var supported = stringTable.Contains(version);
 
                     //version = "eaghruyehruger"; // test
 
@@ -139,52 +170,6 @@ namespace OnixLauncher
                 Log.Write("We ran into a problem while launching: " + ex.Message);
                 Utils.ShowMessage("Launch Error", $"Failed to launch Onix Client. Check the logs for info. \n({Log.LogPath})");
             }
-        }
-
-        private static bool ArchDetection()
-        {
-            var arch = Utils.GetArchitecture();
-            LaunchProgress.Value += LaunchProgress.Maximum / 10;
-
-            if (arch == string.Empty)
-            {
-                Log.Write("Launcher couldn't detect the game, either it's not installed or the user has a cracked version");
-                // wtf the game not installed
-                Utils.ShowMessage("????????", "You don't even have Minecraft Bedrock installed!");
-                LaunchButton.Enabled = true;
-                LaunchProgress.Visible = false;
-                return true;
-            }
-
-            if (arch != "X64")
-            {
-                Log.Write("This doesn't seem like the correct architecture we want");
-                Utils.ShowMessage("Architecture Error", "You have a version of Minecraft that isn't 64-bit.");
-                LaunchButton.Enabled = true;
-                LaunchProgress.Visible = false;
-                return false;
-            }
-
-            return false; //gotta do this else msbuild mad
-        }
-
-        private static bool VersionCheck(WebClient versionClient)
-        {
-            var version = Utils.GetVersion();
-            LaunchProgress.Value += LaunchProgress.Maximum / 10;
-
-            Log.Write("Downloading list of supported versions");
-
-            var latestSupported = versionClient.DownloadString(
-                "https://raw.githubusercontent.com/bernarddesfosse/onixclientautoupdate/main/LatestSupportedVersion");
-
-            versionClient.Dispose();
-
-            Log.Write("Downloaded, comparing versions");
-            List<string> stringTable = latestSupported.Split('\n').ToList();
-            var supported = stringTable.Contains(version);
-
-            return supported;
         }
     }
 }
