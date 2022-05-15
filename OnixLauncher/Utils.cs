@@ -99,6 +99,7 @@ namespace OnixLauncher
                     ShowMessage("Preload Error",
                         "We failed to preload everything needed for launch, so things might not work as expected. " +
                         "Try disabling your antivirus.");
+                    return;
                 }
                 Loaded = true;
                 Log.Write("Preload complete");
