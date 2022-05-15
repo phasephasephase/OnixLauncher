@@ -66,11 +66,6 @@ namespace OnixLauncher
             WebClient wb = new WebClient();
             _discordinvite = wb.DownloadString("https://raw.githubusercontent.com/bernarddesfosse/onixclientautoupdate/main/discord.txt");
             wb.Dispose();
-
-            if (_discordinvite == null) //check if it got something
-            {
-                _discordinvite = "";
-            }
         }
 
         // srry for bad code
@@ -135,11 +130,18 @@ namespace OnixLauncher
 
         private void Discord_Click(object sender, EventArgs e)
         {
-            Process.Start(new ProcessStartInfo
+            if (_discordinvite != null)
             {
-                FileName = _discordinvite,
-                UseShellExecute = true
-            });
+                Process.Start(new ProcessStartInfo
+                {
+                    FileName = _discordinvite,
+                    UseShellExecute = true
+                });
+            } 
+            else
+            { //you wont be able to join without internet 🙂 - Onix86
+                Utils.ShowMessage("Error", "Unable to get the Discord Invitation, Check internet connection");
+            }
         }
 
         private void InjectionCompleted(object sender, EventArgs e)
