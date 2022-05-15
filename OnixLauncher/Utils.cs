@@ -95,6 +95,9 @@ namespace OnixLauncher
             {
                 Loaded = true;
                 Log.Write("Preload complete");
+
+                // wtf
+                Log.Write("Version list: " + Launcher.VersionList);
             };
         }
 
