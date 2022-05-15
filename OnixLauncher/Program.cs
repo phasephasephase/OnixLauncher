@@ -11,6 +11,7 @@ namespace OnixLauncher
         [STAThread]
         static void Main(string[] args)
         {
+            Utils.CheckOnline();
             Utils.StartPreload();
 
             Log.CreateLog();

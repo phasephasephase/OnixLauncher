@@ -81,9 +81,6 @@ namespace OnixLauncher
             PreloadWorker = new BackgroundWorker();
             PreloadWorker.DoWork += new DoWorkEventHandler(delegate (object o, DoWorkEventArgs e)
             {
-                // LOL my bad
-                CheckOnline();
-
                 GetVersion();
                 GetArchitecture();
 
