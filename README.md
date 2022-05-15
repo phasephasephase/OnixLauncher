@@ -1,14 +1,7 @@
 # Onix Launcher
-![](https://cdn.discordapp.com/attachments/942087790420717638/963538280694030376/unknown.png?size=4096)
+![image](https://user-images.githubusercontent.com/20384051/167514540-ce650320-cf6d-4285-80d0-eb4030e627e7.png)
 
 **The most recent and modern launcher for Onix Client.**
-
-## What makes it better than the others:
-- Automatic version detection
-- Architecture detection
-- **Always** downloads the latest DLL
-
-and all of this is handled on a separate thread.
 
 ## Contributing
 If there is an issue open with your fix or addition to the launcher, please close it with your pull request. Here are some [good first issues](https://github.com/notcarlton/OnixLauncher/labels/good%20first%20issue) to get you started.
