@@ -308,7 +308,7 @@ namespace OnixLauncher
 
         private void MainForm_Load(object sender, EventArgs e)
         {
-            
+
         }
 
         private void PreloadFinished(object sender, EventArgs e)
