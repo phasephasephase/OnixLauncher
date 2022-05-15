@@ -123,10 +123,16 @@ namespace OnixLauncher
 
         private void Discord_Click(object sender, EventArgs e)
         {
-            string url = "https://discord.com/invite/onixclient";
+            if (Utils.DiscordInvite == "")
+            {
+                Log.Write("No discord invite");
+                Utils.ShowMessage("No Discord invite", "Couldn't get the Discord invite link. Check your internet connection.");
+                return;
+            }
+
             Process.Start(new ProcessStartInfo
             {
-                FileName = url,
+                FileName = Utils.DiscordInvite,
                 UseShellExecute = true
             });
         }

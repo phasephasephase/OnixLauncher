@@ -33,6 +33,7 @@ namespace OnixLauncher
         public static string CachedVersion = "", CachedArchitecture = "";
         public static BackgroundWorker PreloadWorker;
         public static bool Loaded;
+        public static string DiscordInvite = "";
 
         public static void CheckOnline()
         {
@@ -86,8 +87,15 @@ namespace OnixLauncher
                 if (IsOnline)
                 {
                     var client = new WebClient();
+                    DiscordInvite = client.DownloadString(
+                        "https://raw.githubusercontent.com/bernarddesfosse/onixclientautoupdate/main/discord.txt");
+                    Log.Write("Discord invite is " + DiscordInvite);
+
                     Launcher.VersionList = client.DownloadString(
                         "https://raw.githubusercontent.com/bernarddesfosse/onixclientautoupdate/main/LatestSupportedVersion");
+                } else
+                {
+                    Log.Write("User isn't online, not downloading anything for preload");
                 }
             });
             PreloadWorker.RunWorkerAsync();
@@ -106,6 +114,9 @@ namespace OnixLauncher
                 Log.Write("Preload complete");
 
                 // wtf
+                MainForm.Instance.Discord.Enabled = true;
+
+                // wtf 2
                 Log.Write("Version list: " + Launcher.VersionList);
             };
         }
