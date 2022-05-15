@@ -66,6 +66,11 @@ namespace OnixLauncher
             WebClient wb = new WebClient();
             _discordinvite = wb.DownloadString("https://raw.githubusercontent.com/bernarddesfosse/onixclientautoupdate/main/discord.txt");
             wb.Dispose();
+
+            if (_discordinvite == null) //check if it got something
+            {
+                _discordinvite = "";
+            }
         }
 
         // srry for bad code
