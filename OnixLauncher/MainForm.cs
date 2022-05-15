@@ -31,7 +31,6 @@ namespace OnixLauncher
 
             RichPresence.Initialize();
             Utils.UpdateSettings();
-            Utils.CheckOnline();
 
 
             // We want to have the form in the middle to polish everything
