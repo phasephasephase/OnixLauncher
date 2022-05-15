@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Net;
 using System.Timers;
 using System.Windows.Forms;
 
@@ -10,6 +11,7 @@ namespace OnixLauncher
     public partial class MainForm : Form
     {
         public static MainForm Instance;
+        private string _discordinvite;
 
         protected override CreateParams CreateParams
         {
@@ -59,6 +61,11 @@ namespace OnixLauncher
                 Utils.ShowMessage("Welcome to Onix Client!",
                     "Check our Discord's #help-me channel if you're having any problems with the launcher.");
             }
+
+            //download latest discord invite
+            WebClient wb = new WebClient();
+            _discordinvite = wb.DownloadString("https://raw.githubusercontent.com/bernarddesfosse/onixclientautoupdate/main/discord.txt");
+            wb.Dispose();
         }
 
         // srry for bad code
@@ -108,7 +115,7 @@ namespace OnixLauncher
             Log.Write("Minimizing the launcher");
             WindowState = FormWindowState.Minimized;
         }
-
+        
         private void Drag(object sender, MouseEventArgs e)
         {
             Winapi.ReleaseCapture();
@@ -123,10 +130,9 @@ namespace OnixLauncher
 
         private void Discord_Click(object sender, EventArgs e)
         {
-            string url = "https://discord.com/invite/onixclient";
             Process.Start(new ProcessStartInfo
             {
-                FileName = url,
+                FileName = _discordinvite,
                 UseShellExecute = true
             });
         }
