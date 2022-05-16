@@ -298,11 +298,6 @@ namespace OnixLauncher
             Utils.ShowSettings();
         }
 
-        private void MainForm_Load(object sender, EventArgs e)
-        {
-            
-        }
-
         private void PreloadFinished(object sender, EventArgs e)
         {
             LaunchProgress.Visible = false;

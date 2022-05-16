@@ -360,7 +360,6 @@ namespace OnixLauncher
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Onix Launcher";
-            this.Load += new System.EventHandler(this.MainForm_Load);
             this.TitleBar.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.OnixLogo)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.BigOnixLogo)).EndInit();
