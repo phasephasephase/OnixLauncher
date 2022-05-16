@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Net.Http;
 using System.Threading;
 using Guna.UI2.WinForms;
 
@@ -49,22 +50,11 @@ namespace OnixLauncher
 
                     bw.DoWork += new DoWorkEventHandler(delegate (object o, DoWorkEventArgs workerE)
                     {
-                        var dllClient = new WebClient();
                         var dllPath = Utils.DLLPath;
 
                         while (!Utils.Loaded) Thread.Sleep(1);
                         LaunchProgress.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
 
-                        dllClient.DownloadProgressChanged +=
-                            new DownloadProgressChangedEventHandler((object s, DownloadProgressChangedEventArgs ez) =>
-                            {
-                                long bytesIn = ez.BytesReceived;
-                                long totalBytes = ez.TotalBytesToReceive;
-
-                                double value = ((double)bytesIn / (double)totalBytes) * (LaunchProgress.Maximum / 70);
-
-                                LaunchProgress.Value += (int)value;
-                            });
 
                         // architecture detection
                         var arch = Utils.CachedArchitecture;
@@ -155,23 +145,17 @@ namespace OnixLauncher
                                 RichPresence.ChangePresence("In the menus", Utils.GetVersion(), Utils.GetXboxGamertag());
                                 PresenceTimer.Start();
 
-                                dllClient.Dispose();
                             });
-
-                            dllClient.DownloadFileCompleted +=
-                                new AsyncCompletedEventHandler((object dls, AsyncCompletedEventArgs dla) =>
-                                {
-                                    injector.RunWorkerAsync();
-                                });
-
                             if (Utils.IsGameOpen())
                             {
                                 LaunchProgress.Maximum /= 3;
                                 injector.RunWorkerAsync();
                             }
                             else if (!File.Exists(dllPath))
-                                dllClient.DownloadFileAsync(
-                                    new Uri("https://github.com/bernarddesfosse/onixclientautoupdate/raw/main/OnixClient.dll"), dllPath);
+                            {
+                                Downloader.DownloadFile("https://github.com/bernarddesfosse/onixclientautoupdate/raw/main/OnixClient.dll", dllPath).Wait();
+                                injector.RunWorkerAsync();
+                            }
                         }
                     });
                     bw.RunWorkerAsync();

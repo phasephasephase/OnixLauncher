@@ -8,6 +8,13 @@ If there is an issue open with your fix or addition to the launcher, please clos
 
 Make sure you follow the [naming convention](https://github.com/notcarlton/OnixLauncher/blob/main/NAMING.md) I've set for the project.
 
+## Packages 
+All of these can be found on NuGet under the project tab in Visual Studio.
+ - [Guna.UI2.WinForms](https://www.nuget.org/packages/Guna.UI2.WinForms/2.0.3.2?_src=template) - WinForms UI library (what makes the interface look really nice)
+ - [Microsoft.PowerShell.5.ReferenceAssemblies](https://www.nuget.org/packages/Microsoft.PowerShell.5.ReferenceAssemblies/1.1.0?_src=template) - Runs PowerShell commands (used to check Minecraft's architecture and version)
+ - [Costura.Fody](https://www.nuget.org/packages/Costura.Fody/5.7.0?_src=template) - Packs all of these libraries into one .exe file
+ - [DiscordRichPresence](https://www.nuget.org/packages/DiscordRichPresence/1.0.175?_src=template) - A .NET implementation of Discord's Rich Presence functionality (shows that you are using Onix Client on your Discord profile)
+
 ## Open source
 What you CAN do:
 - Modify the launcher for personal use
