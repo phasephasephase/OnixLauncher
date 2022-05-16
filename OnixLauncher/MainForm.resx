@@ -12137,13 +12137,13 @@
   <data name="SettingsButton.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAJcEhZcwAACxIAAAsSAdLdfvwAAAFoSURBVGhD1Y/RDgIxCMD8/58+b5dlgVEnMGNYkz5cFxBf
-        13UdLcaTxHiSGE8S44ZeaDYlxg290GxKjBt6odmUGJNGoR1hMSaNQjvCYpxsUJ+NQjtmG9SHGCcl9N7M
-        QruaEnofYhSu+PYewfNbKEZhFei2R4zdatCNH/9AVcytJnSrYm414bY66l710a2Ould9dH/FX/aqD+EO
-        tE+6g9lnwmQU2kFGoR2PGCcj0DwZgeaHGEEPNLfSA80pMYIeaG6lB5pTYgQ90NxKDzSnxAh6oLmVHmhO
-        iXEyAs2TEWh+iFEYhXaQUWjHI8bbHWifdAezz4TbX/GXveqjWx11r/roVkfdqz6EVTG3mtCtirnVBGE1
-        6MblH2hWgW57xChc8e09gue3UIyTEnpvZqFdTQm9DzFONqjPRqEdsw3qQ4xJo9COsBiTRqEdYTFu6IVm
-        U2Lc0AvNpsS4oReaTYnxJDGeJMaTxHiO1+sNruS+5z6KHWAAAAAASUVORK5CYII=
+        YQUAAAAJcEhZcwAACxIAAAsSAdLdfvwAAAFoSURBVGhD1Y/RCsMwDAP3/z/dkcCK41w9a8nAObiHKVhT
+        X9d1HS2GJ4nhSWJ4khhuMAvdSmK4wSx0K4nhBrPQrSSGi6pQR1oMF1WhjrQYPtig3KtCHd4G5fIHfKD3
+        5q9QV9NC7+kPiPj2rpD5r8EpeLAK07YpAKsx7Bt+gFW5N9qxZFXujXastzp9px9trU7f6Udbd/HXXl/u
+        XYH6rCvcPbYwUoU6SJWpYwoCFeieVKB76QOaGeguMgPddTEMzEB3kRnorothYAa6i8xAd10MAzPQXWQG
+        uuti+KAC3ZMKdJ/+ABXqIFWmjilwrkB91hXuHlvo3cVfe325tTp9px9trU7f6Ud7q3JvtGPJqtwb7dgn
+        qzHsG34EVmHaNgUPRnx7V8j81+AUBFrovfkr1NW00Lv8AZR7VajD26Bc+oCsKtSRFsNFVagjLYYbzEK3
+        khhuMAvdSmK4wSx0K4nhSWJ4khieJIbneL3e6/O+57RM6BEAAAAASUVORK5CYII=
 </value>
   </data>
   <data name="Discord.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">

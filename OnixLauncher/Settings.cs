@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Drawing;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 
@@ -9,6 +8,7 @@ namespace OnixLauncher
     public struct Settings
     {
         public bool InsiderMode;
+        // ReSharper disable once InconsistentNaming
         public string DLLPath;
         public bool MagicGradient;
 

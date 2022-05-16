@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Timers;
 using System.Windows.Forms;
+// ReSharper disable StringLiteralTypo
 
 namespace OnixLauncher
 {
@@ -296,11 +297,6 @@ namespace OnixLauncher
         private void SettingsButton_Click(object sender, EventArgs e)
         {
             Utils.ShowSettings();
-        }
-
-        private void PreloadFinished(object sender, EventArgs e)
-        {
-            LaunchProgress.Visible = false;
         }
     }
 }

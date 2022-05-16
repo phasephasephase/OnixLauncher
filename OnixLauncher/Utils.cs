@@ -7,31 +7,32 @@ using System.Text;
 using System.Net;
 using System.Threading;
 using System.Windows.Forms;
+// ReSharper disable InconsistentNaming
 
 namespace OnixLauncher
 {
     public static class Utils
     {
-        public static string OnixPath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) +
-                                        @"\Onix Launcher";
+        public static readonly string OnixPath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) +
+                                                 @"\Onix Launcher";
 
-        public static string RPCServerPath = 
+        public static readonly string RPCServerPath = 
             Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)
              + @"\Packages\Microsoft.MinecraftUWP_8wekyb3d8bbwe\RoamingState\OnixClient\Launcher\server.txt";
 
-        public static string DLLPath = OnixPath + @"\OnixClient.dll";
+        public static readonly string DLLPath = OnixPath + @"\OnixClient.dll";
 
         private static OpenFileDialog _fileDialog;
         private static bool _init;
         public static string SelectedPath = "no file";
-        public static MessageForm MessageF = new MessageForm("you shouldn't see this", "how are you reading this");
-        public static SettingsForm SettingsF = new SettingsForm();
+        public static readonly MessageForm MessageF = new MessageForm("you shouldn't see this", "how are you reading this");
+        public static readonly SettingsForm SettingsF = new SettingsForm();
         public static Settings CurrentSettings = Settings.Load();
         public static bool IsOnline;
 
         // cache stuff
         public static string CachedVersion = "", CachedArchitecture = "";
-        public static BackgroundWorker PreloadWorker;
+        private static BackgroundWorker _preloadWorker;
         public static bool Loaded;
         public static string DiscordInvite = "";
 
@@ -78,33 +79,32 @@ namespace OnixLauncher
 
         public static void StartPreload()
         {
-            PreloadWorker = new BackgroundWorker();
-            PreloadWorker.DoWork += new DoWorkEventHandler(delegate (object o, DoWorkEventArgs e)
+            _preloadWorker = new BackgroundWorker();
+            _preloadWorker.DoWork += delegate
             {
                 GetVersion();
                 GetArchitecture();
 
                 if (IsOnline)
                 {
-                    var client = new WebClient();
-                    DiscordInvite = client.DownloadString(
-                        "https://raw.githubusercontent.com/bernarddesfosse/onixclientautoupdate/main/discord.txt");
+                    DiscordInvite = Downloader.DownloadString(
+                        "https://raw.githubusercontent.com/bernarddesfosse/onixclientautoupdate/main/discord.txt").Result;
                     Log.Write("Discord invite is " + DiscordInvite);
 
-                    Launcher.VersionList = client.DownloadString(
-                        "https://raw.githubusercontent.com/bernarddesfosse/onixclientautoupdate/main/LatestSupportedVersion");
+                    Launcher.VersionList = Downloader.DownloadString(
+                        "https://raw.githubusercontent.com/bernarddesfosse/onixclientautoupdate/main/LatestSupportedVersion").Result;
                 } else
                 {
                     Log.Write("User isn't online, not downloading anything for preload");
                 }
-            });
-            PreloadWorker.RunWorkerAsync();
-            PreloadWorker.RunWorkerCompleted += (s, v) =>
+            };
+            _preloadWorker.RunWorkerAsync();
+            _preloadWorker.RunWorkerCompleted += (s, v) =>
             {
                 if (v.Error != null)
                 {
                     Loaded = true;
-                    Log.Write("Preload failed. Exception: " + v.Error.ToString());
+                    Log.Write("Preload failed. Exception: " + v.Error);
                     ShowMessage("Preload Error",
                         "We failed to preload everything needed for launch, so things might not work as expected. " +
                         "Try disabling your antivirus.");
@@ -159,9 +159,9 @@ namespace OnixLauncher
             {
                 _fileDialog = new OpenFileDialog
                 {
-                    Title = "Select DLL",
+                    Title = @"Select DLL",
                     Multiselect = false,
-                    Filter = "DLL files (*.dll)|*.dll" // NOT localizable, thanks rider
+                    Filter = @"DLL files (*.dll)|*.dll" // NOT localizable, thanks rider
                 };
 
                 _init = true;

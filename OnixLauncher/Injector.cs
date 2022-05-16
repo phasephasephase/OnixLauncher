@@ -53,7 +53,7 @@ namespace OnixLauncher
             }
             catch (Exception e)
             {
-                Log.Write("Injection failed. Exception: " + e.ToString());
+                Log.Write("Injection failed. Exception: " + e);
                 Utils.ShowMessage("Injection Error", 
                     "Failed to inject. Try disabling your antivirus, or closing the game if it's open.");
                 InjectionCompleted.Invoke(null, EventArgs.Empty);
