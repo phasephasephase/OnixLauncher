@@ -1,3 +1,5 @@
+# This repository has been archived due to ongoing progress in Onix's new launcher
+
 # Onix Launcher
 ![image](https://user-images.githubusercontent.com/20384051/167514540-ce650320-cf6d-4285-80d0-eb4030e627e7.png)
 
